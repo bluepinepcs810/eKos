@@ -1,0 +1,54 @@
+.bg-main-gradient {
+  background: linear-gradient(93.4deg, #5E25D9 0%, #A447FF 100%);
+}
+
+.content-container {
+  @apply w-full max-w-[1175px]
+}
+
+// Home page
+// Slick
+.slick {
+  &-next, &-prev {
+    width: 40px !important;
+    &::before {
+      content: none !important;
+    }
+  }
+  &-next {
+    right: -40px !important;
+  }
+  &-prev {
+    left: -54px !important;
+  }
+
+  &-dots {
+    li {
+      button:before {
+        font-size: 10px !important;
+        color: #EFDBFF !important;
+        opacity: 1 !important;
+      }
+      &.slick-active {
+        button:before {
+          font-size: 14px !important;
+          color: #5E25D9 !important;
+          opacity: 1 !important;
+          transition: all 0.2s;
+        }
+      }
+    }
+
+  }
+}
+
+.header {
+  border-bottom: 1px solid rgba(0,0,0, 0.15);
+}
+.product-filter {
+  border-bottom: 1px solid rgba(0,0,0, 0.15);
+}
+.filter-menu-button {
+  @apply bg-main-light rounded-full;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15);
+}
