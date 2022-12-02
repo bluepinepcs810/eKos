@@ -12,7 +12,8 @@ module.exports = {
         "main-weighted": "#C883FF",
         "main-strong": "#D2B6F7",
         "main-dark": "#5E25D9",
-        "main-thick": "#4703A6"
+        "main-thick": "#4703A6",
+        "second-main": '#B79ADD'
       },
     },
   },
