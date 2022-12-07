@@ -41,7 +41,9 @@ const Header = () => {
               <ConnectWalletButton />
             </div>
             <div className="header__list-product-btn">
-              <ListProductButton />
+              <Link href={'/products/create'}>
+                <ListProductButton />
+              </Link>
             </div>
           </div>
         </div>

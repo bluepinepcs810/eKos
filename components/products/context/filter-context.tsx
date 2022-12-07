@@ -1,5 +1,6 @@
-import React, { createContext, Dispatch, PropsWithChildren, useReducer } from "react"
+import React, { Dispatch, PropsWithChildren, useReducer } from "react"
 import { CATEGORY_KEYS } from "../../../libraries/constants/categories"
+import { ProductCodition } from "../../../libraries/constants/products"
 import { productFilterReducer } from "./fitler-reducer"
 
 export type ProductPriceFilterType = {
@@ -9,7 +10,7 @@ export type ProductPriceFilterType = {
 export type ProductFilterType = {
   category: CATEGORY_KEYS,
   price: ProductPriceFilterType,
-  condition: ProductFilterItemCodition[],
+  condition: ProductCodition[],
   location?: string
 }
 
@@ -21,13 +22,7 @@ export enum ProductFilterSections {
   ITEM_CONDITION = 'ITEM_CONDITION',
   LOCATION = 'LOCATION',
 }
-export enum ProductFilterItemCodition {
-  NEW,
-  AS_GOOD_AS_NEW,
-  GOOD,
-  FAIR,
-  HAS_GIVEN_ALL
-}
+
 export type ProductFilterContextType = {
   filter: ProductFilterType,
   activeFilterSection: ProductFilterSections,

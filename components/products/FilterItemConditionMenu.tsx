@@ -1,7 +1,8 @@
 import { useCallback, useContext, useState } from 'react';
 import ArrowDownIcon from '../../assets/icon/arrow-down.svg';
+import { ProductCodition, PRODUCT_CONDITIONS } from '../../libraries/constants/products';
 import CheckBox from '../snippet/CheckBox';
-import { ProductFilterContext, ProductFilterItemCodition, ProductFilterSections } from './context/filter-context';
+import { ProductFilterContext, ProductFilterSections } from './context/filter-context';
 import { ProductFilterActionTypes } from './context/fitler-reducer';
 
 const FilterItemConditionMenu = () => {
@@ -17,7 +18,7 @@ const FilterItemConditionMenu = () => {
     dispatch({ type: ProductFilterActionTypes.SET_SECTION, payload: ProductFilterSections.NONE});
   }, [dispatch, filter.condition]);
 
-  const handleChange = useCallback((condition: ProductFilterItemCodition, value: boolean) => {
+  const handleChange = useCallback((condition: ProductCodition, value: boolean) => {
     const index = conditions.findIndex(item => item === condition);
     const existing = index !== -1;
     if (value && existing) {
@@ -56,51 +57,17 @@ const FilterItemConditionMenu = () => {
       <div className='filter-menu__panel hidden group-[.active]:block absolute transition bg-main-light pt-2 z-50 w-screen max-w-[370px] rounded-lg'>
         <div className='text-main-weighted text-lg font-semibold mt-2 mb-3 px-6'>Item condition</div>
         <div className='border-t border-[#E3C0FF]'>
-          <div className='flex justify-between py-2.5 px-6 border-b border-[#E3C0FF]'>
-            <div className=' text-main-weighted'>New</div>
-            <div>
-              <CheckBox id={"filter_condition__" + ProductFilterItemCodition.NEW}
-                checked={conditions.includes(ProductFilterItemCodition.NEW)}
-                onChange={(e) => handleChange(ProductFilterItemCodition.NEW, e.target.checked)}
-              />
+          {PRODUCT_CONDITIONS.map(item => (
+            <div className='flex justify-between py-2.5 px-6 border-b border-[#E3C0FF]' key={item.key}>
+              <div className=' text-main-weighted'>{item.text}</div>
+              <div>
+                <CheckBox id={"filter_condition__" + item.key}
+                  checked={conditions.includes(item.key)}
+                  onChange={(e) => handleChange(item.key, e.target.checked)}
+                />
+              </div>
             </div>
-          </div>
-          <div className='flex justify-between py-2.5 px-6 border-b border-[#E3C0FF]'>
-            <div className=' text-main-weighted'>As good as new</div>
-            <div>
-              <CheckBox id={"filter_condition__" + ProductFilterItemCodition.AS_GOOD_AS_NEW}
-                checked={conditions.includes(ProductFilterItemCodition.AS_GOOD_AS_NEW)}
-                onChange={(e) => handleChange(ProductFilterItemCodition.AS_GOOD_AS_NEW, e.target.checked)}
-              />
-            </div>
-          </div>
-          <div className='flex justify-between py-2.5 px-6 border-b border-[#E3C0FF]'>
-            <div className=' text-main-weighted'>Good condition</div>
-            <div>
-              <CheckBox id={"filter_condition__" + ProductFilterItemCodition.GOOD}
-                checked={conditions.includes(ProductFilterItemCodition.GOOD)}
-                onChange={(e) => handleChange(ProductFilterItemCodition.GOOD, e.target.checked)}
-              />
-            </div>
-          </div>
-          <div className='flex justify-between py-2.5 px-6 border-b border-[#E3C0FF]'>
-            <div className=' text-main-weighted'>Fair</div>
-            <div>
-              <CheckBox id={"filter_condition__" + ProductFilterItemCodition.FAIR}
-                checked={conditions.includes(ProductFilterItemCodition.FAIR)}
-                onChange={(e) => handleChange(ProductFilterItemCodition.FAIR, e.target.checked)}
-              />
-            </div>
-          </div>
-          <div className='flex justify-between py-2.5 px-6 border-b border-[#E3C0FF]'>
-            <div className=' text-main-weighted'>Has given it all</div>
-            <div>
-              <CheckBox id={"filter_condition__" + ProductFilterItemCodition.HAS_GIVEN_ALL}
-                checked={conditions.includes(ProductFilterItemCodition.HAS_GIVEN_ALL)}
-                onChange={(e) => handleChange(ProductFilterItemCodition.HAS_GIVEN_ALL, e.target.checked)}
-              />
-            </div>
-          </div>
+          ))}
         </div>
         <div className='mt-4 mb-4 flex justify-end gap-x-2 px-6'>
           <button className='text-main-dark hover:bg-main-strong px-5 py-2 rounded-full transition'

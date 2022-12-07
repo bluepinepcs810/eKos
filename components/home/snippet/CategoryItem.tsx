@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { HTMLAttributes, useState } from 'react';
+import { CategoryItemType } from '../../../libraries/constants/categories';
 import { CategoryItemProps } from '../../../libraries/types/category-item';
 
-const CategoryItem: React.FC<CategoryItemProps> = ({category}) => {
+type CategoryItemReactProps = HTMLAttributes<HTMLDivElement> & CategoryItemProps
+const CategoryItem: React.FC<CategoryItemReactProps> = ({category, className, ...rest}) => {
   const [hover, setHover] = useState(false);
   return (
-    <div className={"rounded-md w-[130px] h-[130px] flex flex-col justify-center items-center gap-3 text-main-weighted transition " + (hover ? 'bg-main-gradient cursor-pointer' : 'bg-main')}
+    <div className={`rounded-md w-[130px] h-[130px] flex flex-col justify-center items-center gap-3 text-main-weighted transition ${className} `
+      + (hover ? 'bg-main-gradient cursor-pointer' : 'bg-main')}
+      {...rest}
       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
     >
       <div className='min-h-[40px] flex justify-center items-center'>

@@ -93,3 +93,10 @@
 .overlay {
   background-color: rgba($color: #fff, $alpha: 0.8);
 }
+
+.select-box {
+  appearance:none;
+  background-image: url("/assets/select-arrow.svg");
+  background-repeat: no-repeat;
+  background-position: 95% center;
+}
