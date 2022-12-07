@@ -1,4 +1,4 @@
-import { UserType } from "../../models/user";
+import { UserType } from "../../libraries/models/user";
 import Avatar from "./Avatar";
 import StarRating from "./StarRating";
 

@@ -9,7 +9,7 @@ const HeartButton = () => {
   }, []);
 
   return (
-    <div onClick={handleClick}>
+    <div onClick={handleClick} className="cursor-pointer">
       <svg
         width="28"
         height="24"

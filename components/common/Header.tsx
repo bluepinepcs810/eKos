@@ -3,6 +3,7 @@ import Logo from "../../assets/eKos.png";
 import ConnectWalletButton from "../snippet/ConnectWalletButton";
 import ListProductButton from "../snippet/ListProductButton";
 import MagnifierIcon from '../../assets/icon/magnifier-gray.svg';
+import Link from "next/link";
 
 const Header = () => {
   return (
@@ -10,12 +11,14 @@ const Header = () => {
       <div className="content-container flex justify-between">
         <div className="header__logo flex items-center">
           <div>
-            <Image
-              src={Logo}
-              width={100}
-              height={50}
-              alt="logo"
-            />
+            <Link href="/">
+              <Image
+                src={Logo}
+                width={100}
+                height={50}
+                alt="logo"
+              />
+            </Link>
           </div>
         </div>
         <div className="header__left-pane flex items-center">

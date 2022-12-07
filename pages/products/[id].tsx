@@ -13,8 +13,8 @@ import CategoryFashionHoverIcon from '../../assets/icon/category-fashion-hover.s
 
 const ProductDetail = () => {
   return (
-    <div className="product-detail-page bg-main py-4 flex justify-center">
-      <div className="max-w-[828px] p-2">
+    <div className="product-detail-page bg-main pt-4 flex flex-col items-center justify-center">
+      <div className="w-full max-w-[828px] mb-5">
         <div className="product-detail__card w-full bg-main-light p-5">
           <div className="product-detail__card__header flex justify-between gap-x-5 mb-5">
             <div className="product-detail__card__header--info flex justify-between flex-grow">
@@ -31,25 +31,24 @@ const ProductDetail = () => {
               </div>
             </div>
             <div className="product-detail__card__header--chat-btn flex justify-center items-center">
-              <button className="rounded-full border border-main-dark py-1.5 px-6 text-main-dark">Chat</button>
+              <button className="rounded-full border border-main-dark py-1.5 px-6 text-main-dark outlined-button">Chat</button>
             </div>
           </div>
           <div className="product-detail__card__body px-14">
-            <div className="product-detail__card__images">
+            <div className="product-detail__card__images relative">
               <Slider dots infinite speed={500} slidesToShow={1} slidesToScroll={1} accessibility nextArrow={<NextArrow style={{ right: '-51px' }}/>} prevArrow={<PrevArrow />} centerPadding="10px">
                 <div>
                   <div className="h-[350px] overflow-hidden relative">
-                    <ShareButton className="absolute bottom-2.5 right-2.5" />
                     <Image className="rounded-md w-full object-cover" src="/assets/product.jpg" alt="product" width={275} height={187}/>
                   </div>
                 </div>
                 <div>
                   <div className="h-[350px] overflow-hidden relative">
-                    <ShareButton className="absolute bottom-2.5 right-2.5" />
                     <Image className="rounded-md w-full object-cover" src="/assets/product.jpg" alt="product" width={275} height={187}/>
                   </div>
                 </div>
               </Slider>
+              <ShareButton className="absolute bottom-4 right-2.5" />
             </div>
             <div className="product-detail__card__info mt-10">
               <div className="product-detail__card__info--price mb-2">
@@ -109,7 +108,7 @@ const ProductDetail = () => {
                   </div>
                   <div className="view-count flex gap-x-2 items-center">
                     <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.0889 3.80587L10.9996 5.81721L11.9107 3.80601C12.6613 2.14906 14.324 1 16.2438 1C18.8625 1 21 3.13939 21 5.7726C21 6.34129 20.9005 6.88564 20.7191 7.39002C20.4796 8.05315 20.0973 8.64892 19.608 9.14041L19.388 9.36139L11.0146 17.7028L2.74341 9.46526L2.71517 9.43715L2.68479 9.41136C2.49463 9.24998 2.3179 9.07355 2.15395 8.88233L2.15309 8.88133C1.77017 8.43591 1.46868 7.92008 1.26983 7.35571L1.26963 7.35512C1.09501 6.8605 1 6.32907 1 5.7726C1 3.13939 3.13676 1 5.75694 1C7.67558 1 9.33861 2.14904 10.0889 3.80587ZM11.5264 18.2125L11.524 18.2101C11.5248 18.2109 11.5256 18.2117 11.5264 18.2125Z" stroke="#B79ADD" stroke-width="2"/>
+                      <path d="M10.0889 3.80587L10.9996 5.81721L11.9107 3.80601C12.6613 2.14906 14.324 1 16.2438 1C18.8625 1 21 3.13939 21 5.7726C21 6.34129 20.9005 6.88564 20.7191 7.39002C20.4796 8.05315 20.0973 8.64892 19.608 9.14041L19.388 9.36139L11.0146 17.7028L2.74341 9.46526L2.71517 9.43715L2.68479 9.41136C2.49463 9.24998 2.3179 9.07355 2.15395 8.88233L2.15309 8.88133C1.77017 8.43591 1.46868 7.92008 1.26983 7.35571L1.26963 7.35512C1.09501 6.8605 1 6.32907 1 5.7726C1 3.13939 3.13676 1 5.75694 1C7.67558 1 9.33861 2.14904 10.0889 3.80587ZM11.5264 18.2125L11.524 18.2101C11.5248 18.2109 11.5256 18.2117 11.5264 18.2125Z" stroke="#B79ADD" strokeWidth="2"/>
                     </svg>
                     <span className="text-second-main">12</span>
                   </div>
@@ -136,6 +135,24 @@ const ProductDetail = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="product-buy-actionbar bg-main-light w-full flex justify-center py-2 items-center">
+        <div className="w-full max-w-[828px] flex justify-between">
+          <div className="flex flex-col justify-center items-start">
+            <div className="text-main-dark">Your product name</div>
+            <div className="flex items-center gap-x-1">
+              <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.02864 0.215223C2.12204 0.0804241 2.27561 0 2.43961 0H13.0452C13.4486 0 13.6859 0.453179 13.4562 0.784777L11.9713 2.92763C11.8779 3.06243 11.7243 3.14286 11.5603 3.14286H0.95477C0.551344 3.14286 0.31402 2.68968 0.543793 2.35808L2.02864 0.215223Z" fill="#4703A6"/>
+                <path d="M11.9714 4.14381C11.878 4.00901 11.7244 3.92859 11.5604 3.92859H0.954823C0.551397 3.92859 0.314073 4.38177 0.543846 4.71337L2.02869 6.85622C2.1221 6.99102 2.27567 7.07145 2.43967 7.07145H13.0452C13.4487 7.07145 13.686 6.61827 13.4562 6.28667L11.9714 4.14381Z" fill="#4703A6"/>
+                <path d="M2.02864 8.07243C2.12204 7.93763 2.27561 7.85721 2.43961 7.85721H13.0452C13.4486 7.85721 13.6859 8.31039 13.4562 8.64198L11.9713 10.7848C11.8779 10.9196 11.7243 11.0001 11.5603 11.0001H0.95477C0.551344 11.0001 0.31402 10.5469 0.543793 10.2153L2.02864 8.07243Z" fill="#4703A6"/>
+              </svg>
+              <div className="text-main-thick font-semibold text-lg">0.15</div>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <button className="rounded-full bg-main-gradient px-7 py-2 text-main-light border border-main-dark filled-button">Buy</button>
           </div>
         </div>
       </div>
