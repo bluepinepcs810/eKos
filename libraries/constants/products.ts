@@ -1,4 +1,4 @@
-export enum ProductCodition {
+export enum ProductCondition {
   NEW,
   AS_GOOD_AS_NEW,
   GOOD,
@@ -6,28 +6,28 @@ export enum ProductCodition {
   HAS_GIVEN_ALL
 }
 export type ProductConditionItemType = {
-  key: ProductCodition,
+  key: ProductCondition,
   text: string
 }
 export const PRODUCT_CONDITIONS: ProductConditionItemType[] = [
   {
-    key: ProductCodition.NEW,
+    key: ProductCondition.NEW,
     text: 'New'
   },
   {
-    key: ProductCodition.AS_GOOD_AS_NEW,
+    key: ProductCondition.AS_GOOD_AS_NEW,
     text: 'As good as new'
   },
   {
-    key: ProductCodition.GOOD,
+    key: ProductCondition.GOOD,
     text: 'Good condition'
   },
   {
-    key: ProductCodition.FAIR,
+    key: ProductCondition.FAIR,
     text: 'Fair condition'
   },
   {
-    key: ProductCodition.HAS_GIVEN_ALL,
+    key: ProductCondition.HAS_GIVEN_ALL,
     text: 'Has given it all'
   }
 ]

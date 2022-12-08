@@ -1,5 +1,5 @@
 import { CATEGORY_KEYS } from "../../../libraries/constants/categories";
-import { ProductCodition } from "../../../libraries/constants/products";
+import { ProductCondition } from "../../../libraries/constants/products";
 import { ProductFilterContextType, ProductFilterSections, ProductPriceFilterType } from "./filter-context"
 
 export enum ProductFilterActionTypes {
@@ -37,7 +37,7 @@ export const productFilterReducer = (state: ProductFilterContextType, action: { 
         ...state,
         filter: {
           ...state.filter,
-          condition: [...action.payload as ProductCodition[]]
+          condition: [...action.payload as ProductCondition[]]
         }
       }
     case ProductFilterActionTypes.SET_FILTER_LOCATION:

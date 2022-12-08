@@ -1,6 +1,6 @@
 import React, { Dispatch, PropsWithChildren, useReducer } from "react"
 import { CATEGORY_KEYS } from "../../../libraries/constants/categories"
-import { ProductCodition } from "../../../libraries/constants/products"
+import { ProductCondition } from "../../../libraries/constants/products"
 import { productFilterReducer } from "./fitler-reducer"
 
 export type ProductPriceFilterType = {
@@ -10,7 +10,7 @@ export type ProductPriceFilterType = {
 export type ProductFilterType = {
   category: CATEGORY_KEYS,
   price: ProductPriceFilterType,
-  condition: ProductCodition[],
+  condition: ProductCondition[],
   location?: string
 }
 

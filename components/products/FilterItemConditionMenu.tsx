@@ -1,6 +1,6 @@
 import { useCallback, useContext, useState } from 'react';
 import ArrowDownIcon from '../../assets/icon/arrow-down.svg';
-import { ProductCodition, PRODUCT_CONDITIONS } from '../../libraries/constants/products';
+import { ProductCondition, PRODUCT_CONDITIONS } from '../../libraries/constants/products';
 import CheckBox from '../snippet/CheckBox';
 import { ProductFilterContext, ProductFilterSections } from './context/filter-context';
 import { ProductFilterActionTypes } from './context/fitler-reducer';
@@ -18,7 +18,7 @@ const FilterItemConditionMenu = () => {
     dispatch({ type: ProductFilterActionTypes.SET_SECTION, payload: ProductFilterSections.NONE});
   }, [dispatch, filter.condition]);
 
-  const handleChange = useCallback((condition: ProductCodition, value: boolean) => {
+  const handleChange = useCallback((condition: ProductCondition, value: boolean) => {
     const index = conditions.findIndex(item => item === condition);
     const existing = index !== -1;
     if (value && existing) {
