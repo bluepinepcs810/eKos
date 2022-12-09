@@ -1,8 +1,8 @@
-import FilterCategoryMenu from "./FilterCategoryMenu";
-import FilterItemConditionMenu from "./FilterItemConditionMenu";
-import FilterLocationMenu from "./FilterLocationMenu";
-import FiltersMenu from "./FilterMenu";
-import FilterPriceMenu from "./FilterPriceMenu";
+import FilterCategoryMenu from './FilterCategoryMenu';
+import FilterItemConditionMenu from './FilterItemConditionMenu';
+import FilterLocationMenu from './FilterLocationMenu';
+import FiltersMenu from './FilterMenu';
+import FilterPriceMenu from './FilterPriceMenu';
 
 const ProductFilter = () => {
   return (
@@ -15,11 +15,9 @@ const ProductFilter = () => {
           <FilterItemConditionMenu />
           <FilterLocationMenu />
         </div>
-        <div className="product-filter__sorter">
-          Sorter
-        </div>
+        <div className="product-filter__sorter">Sorter</div>
       </div>
     </div>
-  )
-}
+  );
+};
 export default ProductFilter;

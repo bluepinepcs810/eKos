@@ -1,18 +1,18 @@
-import React, { Dispatch, PropsWithChildren, useReducer } from "react"
-import { CATEGORY_KEYS } from "../../../libraries/constants/categories"
-import { ProductCondition } from "../../../libraries/constants/products"
-import { productFilterReducer } from "./fitler-reducer"
+import React, { Dispatch, PropsWithChildren, useReducer } from 'react';
+import { CATEGORY_KEYS } from '../../../libraries/constants/categories';
+import { ProductCondition } from '../../../libraries/constants/products';
+import { productFilterReducer } from './fitler-reducer';
 
 export type ProductPriceFilterType = {
-  from?: number,
-  to?: number
-}
+  from?: number;
+  to?: number;
+};
 export type ProductFilterType = {
-  category: CATEGORY_KEYS,
-  price: ProductPriceFilterType,
-  condition: ProductCondition[],
-  location?: string
-}
+  category: CATEGORY_KEYS;
+  price: ProductPriceFilterType;
+  condition: ProductCondition[];
+  location?: string;
+};
 
 export enum ProductFilterSections {
   NONE = 'NONE',
@@ -24,31 +24,35 @@ export enum ProductFilterSections {
 }
 
 export type ProductFilterContextType = {
-  filter: ProductFilterType,
-  activeFilterSection: ProductFilterSections,
-}
+  filter: ProductFilterType;
+  activeFilterSection: ProductFilterSections;
+};
 
 const initialState: ProductFilterContextType = {
   filter: {
     category: CATEGORY_KEYS.ALL,
     price: {},
-    condition: []
+    condition: [],
   },
-  activeFilterSection: ProductFilterSections.NONE
-}
+  activeFilterSection: ProductFilterSections.NONE,
+};
 
-export const ProductFilterContext = React.createContext<{state: ProductFilterContextType, dispatch: Dispatch<any>}>({
+export const ProductFilterContext = React.createContext<{
+  state: ProductFilterContextType;
+  dispatch: Dispatch<any>;
+}>({
   state: initialState,
-  dispatch: () => null
+  dispatch: () => null,
 });
 
-
-export const ProductFilterContextProvider: React.FC<PropsWithChildren> = ({children}) => {
+export const ProductFilterContextProvider: React.FC<PropsWithChildren> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(productFilterReducer, initialState);
 
   return (
-    <ProductFilterContext.Provider value={{ state, dispatch}}>
+    <ProductFilterContext.Provider value={{ state, dispatch }}>
       {children}
     </ProductFilterContext.Provider>
-  )
-}
+  );
+};

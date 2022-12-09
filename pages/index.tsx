@@ -1,9 +1,9 @@
-import Head from "next/head";
-import Banner from "../components/home/Banner";
-import BuyPremium from "../components/home/BuyPremium";
-import FindProduct from "../components/home/FindProduct";
-import PremiumOfferings from "../components/home/PremiumOfferings";
-import styles from "../styles/Home.module.css";
+import Head from 'next/head';
+import Banner from '../components/home/Banner';
+import BuyPremium from '../components/home/BuyPremium';
+import FindProduct from '../components/home/FindProduct';
+import PremiumOfferings from '../components/home/PremiumOfferings';
+import styles from '../styles/Home.module.css';
 
 export default function Home() {
   return (

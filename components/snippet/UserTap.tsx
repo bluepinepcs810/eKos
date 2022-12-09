@@ -1,15 +1,18 @@
-import { UserType } from "../../libraries/models/user";
-import Avatar from "./Avatar";
-import StarRating from "./StarRating";
+import { UserType } from '../../libraries/models/user';
+import Avatar from './Avatar';
+import StarRating from './StarRating';
 
 type UserTapProps = {
-  data: UserType
-}
+  data: UserType;
+};
 
 const UserTap: React.FC<UserTapProps> = ({ data }) => {
   return (
     <div className="flex gap-x-3">
-      <Avatar src={data.avatar || "/assets/profile-img-default.svg"} alt={data.name || "unknown user"} />
+      <Avatar
+        src={data.avatar || '/assets/profile-img-default.svg'}
+        alt={data.name || 'unknown user'}
+      />
       <div className="flex flex-col justify-center gap-y-0.5">
         <div className="user-name text-main-dark font-semibold">
           {data.name}
@@ -19,7 +22,7 @@ const UserTap: React.FC<UserTapProps> = ({ data }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default UserTap;

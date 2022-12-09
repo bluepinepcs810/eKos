@@ -1,3 +1,1 @@
-export type ProductModel = {
-
-}
+export type ProductModel = {};

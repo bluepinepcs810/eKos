@@ -5,6 +5,6 @@ const FiltersMenu = () => {
         Filters
       </button>
     </div>
-  )
-}
+  );
+};
 export default FiltersMenu;

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import Slider, { CustomArrowProps } from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, { useState } from 'react';
+import Slider, { CustomArrowProps } from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import AgricultureIndustrialCategoryIcon from '../../assets/icon/category-agriculture-industrial.svg';
 import AllCategoryIcon from '../../assets/icon/category-all.svg';
 import AppliancesCategoryIcon from '../../assets/icon/category-appliances.svg';
@@ -22,7 +22,6 @@ import ServicesCategoryIcon from '../../assets/icon/category-services.svg';
 import SportsCategoryIcon from '../../assets/icon/category-sports.svg';
 import TvAudioCategoryIcon from '../../assets/icon/category-tv-audio.svg';
 
-
 import AgricultureIndustrialCategoryHoverIcon from '../../assets/icon/category-agriculture-industrial-hover.svg';
 import AllCategoryHoverIcon from '../../assets/icon/category-all-hover.svg';
 import AppliancesCategoryHoverIcon from '../../assets/icon/category-appliances-hover.svg';
@@ -42,21 +41,31 @@ import PhoneAccessoryCategoryHoverIcon from '../../assets/icon/category-phone-ac
 import ServicesCategoryHoverIcon from '../../assets/icon/category-services-hover.svg';
 import SportsCategoryHoverIcon from '../../assets/icon/category-sports-hover.svg';
 import TvAudioCategoryHoverIcon from '../../assets/icon/category-tv-audio-hover.svg';
-import NextArrow from "../snippet/slick/NextArrow";
-import PrevArrow from "../snippet/slick/PrevArrow";
-import CategoryItem from "./snippet/CategoryItem";
-import categories from "../../libraries/constants/categories";
-
-
+import NextArrow from '../snippet/slick/NextArrow';
+import PrevArrow from '../snippet/slick/PrevArrow';
+import CategoryItem from './snippet/CategoryItem';
+import categories from '../../libraries/constants/categories';
 
 const Banner = () => {
   return (
     <section className="banner bg-main-light min-h-[418px] flex items-center justify-center">
       <div className="content-container flex flex-col items-center justify-center">
-        <h1 className="text-[28px] text-main-thick font-semibold mb-7">What are you looking for?</h1>
+        <h1 className="text-[28px] text-main-thick font-semibold mb-7">
+          What are you looking for?
+        </h1>
         <div className="content-container">
-          <Slider dots infinite speed={500} slidesToShow={8} slidesToScroll={1} accessibility nextArrow={<NextArrow />} prevArrow={<PrevArrow />} centerPadding="10px">
-            {categories.map(category => (
+          <Slider
+            dots
+            infinite
+            speed={500}
+            slidesToShow={8}
+            slidesToScroll={1}
+            accessibility
+            nextArrow={<NextArrow />}
+            prevArrow={<PrevArrow />}
+            centerPadding="10px"
+          >
+            {categories.map((category) => (
               <div key={category.key}>
                 <CategoryItem category={category} />
               </div>
