@@ -34,7 +34,3 @@ export const getAbsoluteApiUrl = (url: string, baseUrl = '') => {
   }
   return `${baseUrl}${url}`;
 };
-
-export const getAbsoluteAppUrl = (url: string) => {
-  return process.env.NEXT_APP_BASE_URL + url;
-};

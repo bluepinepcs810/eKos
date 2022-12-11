@@ -21,6 +21,7 @@ import {
   ConnectionProvider,
   WalletProvider,
 } from '@solana/wallet-adapter-react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const PageLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const { network: currentNetwork } = useAppSelector<WalletStatusState>(
@@ -47,13 +48,17 @@ const PageLayout: React.FC<PropsWithChildren> = ({ children }) => {
     [network]
   );
 
+  const queryClient = new QueryClient();
+
   return (
     <div className="page-layout">
       <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <QueryClientProvider client={queryClient}>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </QueryClientProvider>
         </WalletProvider>
       </ConnectionProvider>
     </div>

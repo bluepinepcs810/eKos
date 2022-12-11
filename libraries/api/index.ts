@@ -5,7 +5,7 @@ import { getAbsoluteApiUrl, getUrlWithParam } from '../utils/helpers/url';
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-const baseUrl = process.env.NEXT_APP_API_URL;
+const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const precessHeaders = (headers: Record<string, any> | null) => {
   if (!headers) headers = {};

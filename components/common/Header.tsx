@@ -6,26 +6,35 @@ import ListProductButton from '../snippet/ListProductButton';
 import MagnifierIcon from '../../assets/icon/magnifier-gray.svg';
 import Link from 'next/link';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { useGetNonce } from '../../hooks/api.hooks';
+import { useGetNonce, useSignIn } from '../../hooks/api.hooks';
+import LocalStorage from '../../libraries/utils/helpers/local-storage';
+import { showError } from '../../libraries/utils/toast';
 
 const Header = () => {
   const {connected: walletConnected, publicKey, signMessage } = useWallet();
   const nonceResult = useGetNonce(publicKey);
 
+  const signInMutate = useSignIn(publicKey);
+
   const signIn = useCallback(async () => {
     const encodedMessage = new TextEncoder().encode(
       "Authorize your wallet to login " + nonceResult.data?.nonce
     );
-    if (!signMessage) return;
+    if (!signMessage || !walletConnected) return;
     const signedMessage = await signMessage(encodedMessage);
-
-  }, [nonceResult.data?.nonce, signMessage])
+    signInMutate.mutateAsync(signedMessage)
+      .then(response => {
+        LocalStorage.saveToken(response.accessToken);
+    })
+  }, [nonceResult.data?.nonce, signInMutate, signMessage, walletConnected])
 
   useEffect(() => {
-    if (nonceResult.isFetched) {
+    if (nonceResult.isSuccess) {
       signIn();
+    } else if (nonceResult.isError) {
+      showError((nonceResult.error as any).message);
     }
-  }, [nonceResult.isFetched, signIn])
+  }, [nonceResult.error, nonceResult.isError, nonceResult.isFetched, nonceResult.isSuccess, signIn])
 
 
   return (

@@ -1,4 +1,4 @@
-const APP_TOKEN_KEY = process.env.NEXT_APP_TOKEN_KEY || 'ekos_session';
+const APP_TOKEN_KEY = process.env.NEXT_PUBLIC_TOKEN_KEY || 'ekos_session';
 
 export const saveToken = (token: string | object) => {
   if (token instanceof Object) {
