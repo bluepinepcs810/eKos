@@ -1,6 +1,7 @@
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 
-export const getAdapterNetwork = (net: string) => {
+export const getAdapterNetwork = () => {
+  const net = process.env.NEXT_PUBLIC_CLUSTER ?? WalletAdapterNetwork.Devnet;
   switch (net) {
     case WalletAdapterNetwork.Testnet:
       return WalletAdapterNetwork.Testnet;

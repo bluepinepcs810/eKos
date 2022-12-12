@@ -11,31 +11,7 @@ import LocalStorage from '../../libraries/utils/helpers/local-storage';
 import { showError } from '../../libraries/utils/toast';
 
 const Header = () => {
-  const {connected: walletConnected, publicKey, signMessage } = useWallet();
-  const nonceResult = useGetNonce(publicKey);
-
-  const signInMutate = useSignIn(publicKey);
-
-  const signIn = useCallback(async () => {
-    const encodedMessage = new TextEncoder().encode(
-      "Authorize your wallet to login " + nonceResult.data?.nonce
-    );
-    if (!signMessage || !walletConnected) return;
-    const signedMessage = await signMessage(encodedMessage);
-    signInMutate.mutateAsync(signedMessage)
-      .then(response => {
-        LocalStorage.saveToken(response.accessToken);
-    })
-  }, [nonceResult.data?.nonce, signInMutate, signMessage, walletConnected])
-
-  useEffect(() => {
-    if (nonceResult.isSuccess) {
-      signIn();
-    } else if (nonceResult.isError) {
-      showError((nonceResult.error as any).message);
-    }
-  }, [nonceResult.error, nonceResult.isError, nonceResult.isFetched, nonceResult.isSuccess, signIn])
-
+  const { connected: walletConnected } = useWallet();
 
   return (
     <div className="header bg-main flex justify-center h-[70px]">

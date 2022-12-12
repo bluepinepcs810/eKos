@@ -2,16 +2,16 @@ import '../styles/globals.css';
 import '../styles/common.scss';
 import type { AppProps } from 'next/app';
 import PageLayout from '../components/layout/layout';
-import { Provider } from 'react-redux';
 import store from '../store';
-import 'toastr/build/toastr.min.css'
+import 'toastr/build/toastr.min.css';
+import { StoreProvider } from 'easy-peasy';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Provider store={store}>
+    <StoreProvider store={store}>
       <PageLayout>
         <Component {...pageProps} />
       </PageLayout>
-    </Provider>
+    </StoreProvider>
   );
 }
