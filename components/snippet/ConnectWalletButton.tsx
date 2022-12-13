@@ -16,7 +16,7 @@ const ConnectWalletButton: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
   const [active, setActive] = useState(false);
   const [showMore, setShowMore] = useState(false);
 
-  const { wallets } = useWallet();
+  const { wallets, connected } = useWallet();
 
   useEffect(() => {
     if (!active) {
@@ -33,9 +33,10 @@ const ConnectWalletButton: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
         }
         {...props}
         onClick={() => setActive((old) => !old)}
+        disabled={connected}
       >
         <ConnectWalletIcon />
-        Connect Wallet
+        {connected ? 'Signing ...' : 'Connect Wallet'}
       </button>
       <AnimatePresence>
         {active && (

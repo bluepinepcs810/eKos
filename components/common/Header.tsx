@@ -5,14 +5,11 @@ import ConnectWalletButton from '../snippet/ConnectWalletButton';
 import ListProductButton from '../snippet/ListProductButton';
 import MagnifierIcon from '../../assets/icon/magnifier-gray.svg';
 import Link from 'next/link';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { useGetNonce, useSignIn } from '../../hooks/api.hooks';
-import LocalStorage from '../../libraries/utils/helpers/local-storage';
-import { showError } from '../../libraries/utils/toast';
+import { useStoreState } from '../../store/types';
 
 const Header = () => {
-  const { connected: walletConnected } = useWallet();
-
+  const { signedIn } = useStoreState(state => state.session);
+  console.log({ signedIn });
   return (
     <div className="header bg-main flex justify-center h-[70px]">
       <div className="content-container flex justify-between">
@@ -43,7 +40,7 @@ const Header = () => {
             {/* ----- E Search box ------*/}
           </div>
           <div className="header__action-group flex items-center gap-4">
-            {walletConnected ? (
+            {signedIn ? (
               <>
                 <div className="flex gap-x-2 text-main-dark hover:text-main-weighted group">
                   <svg

@@ -8,14 +8,14 @@ import bs58 from 'bs58';
 import nacl from 'tweetnacl';
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const { connected, publicKey, signMessage, disconnect } = useWallet();
+  const { connected, publicKey, signMessage, disconnect, disconnecting } = useWallet();
   const nonceResult = useGetNonce(publicKey);
   const signInMutate = useSignIn(publicKey);
-  const { signedIn } = useStoreState((state) => state.session);
+  const { signedIn, initial } = useStoreState((state) => state.session);
   const setSessionInitial = useStoreActions((actions) => actions.setSessionInitial);
+  const unsetSessionInitial = useStoreActions((actions) => actions.unsetSessionInitial);
   const unsetSignedIn = useStoreActions((actions) => actions.unsetSignedIn);
-
-  const [initial, setInitial] = useState(true);
+  const setSignedIn = useStoreActions((actions) => actions.setSignedIn);
 
   const signIn = useCallback(async () => {
     try {
@@ -23,37 +23,40 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       const encodedMessage = new TextEncoder().encode(msg);
       if (!signMessage) return;
       const signedMessage = await signMessage(encodedMessage);
-      console.log({ msg, publicKey: publicKey?.toBase58() });
-
       const {accessToken} = await signInMutate.mutateAsync(signedMessage)
       LocalStorage.saveToken(accessToken);
-
+      setSignedIn();
     } catch (e) {
       console.error(e);
       disconnect();
       showError("Sign in failed");
     }
-  }, [disconnect, nonceResult.data?.nonce, publicKey, signInMutate, signMessage]);
+  }, [disconnect, nonceResult.data?.nonce, setSignedIn, signInMutate, signMessage]);
 
   useEffect(() => {
     if (nonceResult.isSuccess && connected) {
       if (signedIn) return;
       if (initial) {
-        setInitial(false);
-        signIn();
+        unsetSessionInitial();
+        const token = LocalStorage.getToken();
+        if (!token) {
+          signIn();
+        } else {
+          setSignedIn();
+        }
       }
     } else if (nonceResult.isError) {
       showError((nonceResult.error as any).message);
     }
-  }, [connected, initial, nonceResult.error, nonceResult.isError, nonceResult.isSuccess, signIn, signedIn]);
+  }, [connected, initial, nonceResult.error, nonceResult.isError, nonceResult.isSuccess, setSignedIn, signIn, signedIn, unsetSessionInitial]);
 
   useEffect(() => {
-    if (!connected) {
+    if (disconnecting) {
       unsetSignedIn();
       setSessionInitial();
       LocalStorage.removeToken();
     }
-  }, [connected, setSessionInitial, unsetSignedIn])
+  }, [disconnecting, setSessionInitial, unsetSignedIn])
 
   return (
     <>

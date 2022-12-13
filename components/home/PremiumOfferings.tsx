@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import MagnifierIcon from '../../assets/icon/magnifier-gray.svg';
 import ProductCard from '../common/ProductCard';
 
@@ -35,9 +36,9 @@ const PremiumOfferings = () => {
           <ProductCard />
         </div>
         <div className="premium-offerings__footer flex justify-center mt-12 mb-14">
-          <button className="px-10 py-2.5 rounded-full border border-main-dark bg-main text-main-dark outlined-button">
+          <Link href="/products" className="px-10 py-2.5 rounded-full border border-main-dark bg-main text-main-dark outlined-button">
             View more
-          </button>
+          </Link>
         </div>
       </div>
     </div>
