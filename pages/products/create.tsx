@@ -8,6 +8,7 @@ import RDropzone, { RDropzoneData } from '../../components/common/RDropzone';
 import { useProductCreate } from '../../hooks/api.hooks';
 import { showError, showSuccess } from '../../libraries/utils/toast';
 import { useRouter } from 'next/router';
+import PageLoader from '../../components/common/PageLoader';
 
 const ProductCreatePage = () => {
   const router = useRouter();
@@ -35,10 +36,10 @@ const ProductCreatePage = () => {
     }
   }, [setError, setValue]);
 
-  const { mutateAsync: createProduct } = useProductCreate();
+  const { mutateAsync: createProduct, isLoading } = useProductCreate();
 
   const onSubmit = useCallback((data: ProductModel) => {
-    clearErrors("photos");
+    clearErrors();
     if (!data.photos.length) {
       setError("photos", { message: "Please upload image" });
       return;
@@ -56,6 +57,8 @@ const ProductCreatePage = () => {
 
   return (
     <div className="product-detail-page bg-main pt-4 flex flex-col items-center justify-center">
+      <PageLoader loading={isLoading} />
+
       <div className="w-full max-w-[828px] mb-5">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="product-detail__card w-full bg-main-light p-5 mb-3">
