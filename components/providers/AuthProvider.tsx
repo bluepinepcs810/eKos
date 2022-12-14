@@ -3,7 +3,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useGetNonce, useSignIn } from '../../hooks/api.hooks';
 import LocalStorage from '../../libraries/utils/helpers/local-storage';
 import { useStoreActions, useStoreState } from '../../store/types';
-import { showError } from '../../libraries/utils/toast';
+import { showError, showSuccess } from '../../libraries/utils/toast';
 import bs58 from 'bs58';
 import nacl from 'tweetnacl';
 
@@ -23,9 +23,10 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       const encodedMessage = new TextEncoder().encode(msg);
       if (!signMessage) return;
       const signedMessage = await signMessage(encodedMessage);
-      const {accessToken} = await signInMutate.mutateAsync(signedMessage)
+      const { accessToken } = await signInMutate.mutateAsync(signedMessage);
       LocalStorage.saveToken(accessToken);
       setSignedIn();
+      showSuccess("Successfully signed")
     } catch (e) {
       console.error(e);
       disconnect();

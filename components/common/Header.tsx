@@ -9,7 +9,6 @@ import { useStoreState } from '../../store/types';
 
 const Header = () => {
   const { signedIn } = useStoreState(state => state.session);
-  console.log({ signedIn });
   return (
     <div className="header bg-main flex justify-center h-[70px]">
       <div className="content-container flex justify-between">

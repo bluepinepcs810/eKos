@@ -27,7 +27,7 @@ export type ApiMethodType = 'GET' | 'POST' | 'DELETE' | 'PUT';
 export const requestErrorHandler = (e: any, cb: Function) => {
   if (e.response && e.response.status === 401) {
     removeToken();
-    window.location.href = '/';
+    window.location.reload();
     return;
   }
   if (
@@ -86,7 +86,7 @@ const apiWrapper = (
       if (response.data.status === 'success') {
         resolve(response.data.data);
       } else {
-        reject(response.data.message);
+        reject({ message: response.data.message });
       }
     } catch (e) {
       requestErrorHandler(e, reject);
