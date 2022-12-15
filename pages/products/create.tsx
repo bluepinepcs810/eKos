@@ -1,5 +1,10 @@
-import CATEGORIES, { CATEGORY_KEYS } from '../../libraries/constants/categories';
-import { ProductCondition, PRODUCT_CONDITIONS } from '../../libraries/constants/products';
+import CATEGORIES, {
+  CATEGORY_KEYS,
+} from '../../libraries/constants/categories';
+import {
+  ProductCondition,
+  PRODUCT_CONDITIONS,
+} from '../../libraries/constants/products';
 import { useForm } from 'react-hook-form';
 import { CoinTypeEnum, ProductModel } from '../../libraries/models/product';
 import TagsInput from 'react-tagsinput';
@@ -12,7 +17,15 @@ import PageLoader from '../../components/common/PageLoader';
 
 const ProductCreatePage = () => {
   const router = useRouter();
-  const { register, formState: { errors }, handleSubmit, setValue, setError, watch, clearErrors } = useForm<ProductModel>({
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+    setError,
+    watch,
+    clearErrors,
+  } = useForm<ProductModel>({
     defaultValues: {
       name: '',
       category: CATEGORY_KEYS.OTHER,
@@ -20,40 +33,49 @@ const ProductCreatePage = () => {
       condition: ProductCondition.NEW,
       description: '',
       hashTags: [],
-      photos: []
-    }
+      photos: [],
+    },
   });
 
-  const categories = useMemo(() => CATEGORIES.filter(item => item.key !== CATEGORY_KEYS.ALL), []);
+  const categories = useMemo(
+    () => CATEGORIES.filter((item) => item.key !== CATEGORY_KEYS.ALL),
+    []
+  );
 
-  const photos = watch("photos", []);
-  const hashTags = watch("hashTags", []);
+  const photos = watch('photos', []);
+  const hashTags = watch('hashTags', []);
 
-  const handlePhotoChange = useCallback(({files}: RDropzoneData) => {
-    setValue("photos", [...files]);
-    if (!files.length) {
-      setError("photos", { message: "Please upload image"})
-    }
-  }, [setError, setValue]);
+  const handlePhotoChange = useCallback(
+    ({ files }: RDropzoneData) => {
+      setValue('photos', [...files]);
+      if (!files.length) {
+        setError('photos', { message: 'Please upload image' });
+      }
+    },
+    [setError, setValue]
+  );
 
   const { mutateAsync: createProduct, isLoading } = useProductCreate();
 
-  const onSubmit = useCallback((data: ProductModel) => {
-    clearErrors();
-    if (!data.photos.length) {
-      setError("photos", { message: "Please upload image" });
-      return;
-    }
-    createProduct({...data, coinType: CoinTypeEnum.SOL})
-    .then(response => {
-      console.log(response)
-      showSuccess('Successfully listed');
-      router.push(`/products/${response.product.id}`);
-    })
-    .catch(e => {
-      showError(e.message);
-    })
-  }, [clearErrors, createProduct, router, setError])
+  const onSubmit = useCallback(
+    (data: ProductModel) => {
+      clearErrors();
+      if (!data.photos.length) {
+        setError('photos', { message: 'Please upload image' });
+        return;
+      }
+      createProduct({ ...data, coinType: CoinTypeEnum.SOL })
+        .then((response) => {
+          console.log(response);
+          showSuccess('Successfully listed');
+          router.push(`/products/${response.product.id}`);
+        })
+        .catch((e) => {
+          showError(e.message);
+        });
+    },
+    [clearErrors, createProduct, router, setError]
+  );
 
   return (
     <div className="product-detail-page bg-main pt-4 flex flex-col items-center justify-center">
@@ -73,9 +95,19 @@ const ProductCreatePage = () => {
                 <input
                   className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light"
                   placeholder="In some words..."
-                  {...register("name", { required: "Product name is required", maxLength: {message: 'Name should less than 10', value: 10}})}
+                  {...register('name', {
+                    required: 'Product name is required',
+                    maxLength: {
+                      message: 'Name should less than 10',
+                      value: 10,
+                    },
+                  })}
                 />
-                {errors.name && <p className='mt-2 text-sm text-red-600'>{errors.name.message}</p>}
+                {errors.name && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {errors.name.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className="mb-4 flex">
@@ -84,8 +116,9 @@ const ProductCreatePage = () => {
                   Category
                 </div>
                 <div>
-                  <select className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box"
-                    {...register("category")}
+                  <select
+                    className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box"
+                    {...register('category')}
                   >
                     {categories.map((category) => (
                       <option key={category.key} value={category.key}>
@@ -106,7 +139,13 @@ const ProductCreatePage = () => {
                       placeholder="Your offer"
                       type="number"
                       min={0}
-                      {...register("price", { required: "Please input price", min: { value: 0, message: "Price should be a positive value"} })}
+                      {...register('price', {
+                        required: 'Please input price',
+                        min: {
+                          value: 0,
+                          message: 'Price should be a positive value',
+                        },
+                      })}
                     />
                     <div>
                       <svg
@@ -135,7 +174,11 @@ const ProductCreatePage = () => {
                     <div>=??$</div>
                   </div>
                 </div>
-                {errors.price && <p className='mt-2 text-sm text-red-600'>{errors.price.message}</p>}
+                {errors.price && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {errors.price.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className="mb-4 flex">
@@ -144,8 +187,11 @@ const ProductCreatePage = () => {
                   Product condition
                 </div>
                 <div>
-                  <select className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box"
-                    {...register("condition", { required: "Please select condition" })}
+                  <select
+                    className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box"
+                    {...register('condition', {
+                      required: 'Please select condition',
+                    })}
                   >
                     {PRODUCT_CONDITIONS.map((item) => (
                       <option key={item.key} value={item.key}>
@@ -153,7 +199,11 @@ const ProductCreatePage = () => {
                       </option>
                     ))}
                   </select>
-                  {errors.condition && <p className='mt-2 text-sm text-red-600'>{errors.condition.message}</p>}
+                  {errors.condition && (
+                    <p className="mt-2 text-sm text-red-600">
+                      {errors.condition.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -166,9 +216,16 @@ const ProductCreatePage = () => {
                   <textarea
                     className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light"
                     placeholder="In some words..."
-                    {...register("description", { required: "Please input description", maxLength: {value: 500, message: "Max length is 500"}})}
+                    {...register('description', {
+                      required: 'Please input description',
+                      maxLength: { value: 500, message: 'Max length is 500' },
+                    })}
                   />
-                  {errors.description && <p className='mt-2 text-sm text-red-600'>{errors.description.message}</p>}
+                  {errors.description && (
+                    <p className="mt-2 text-sm text-red-600">
+                      {errors.description.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -177,9 +234,11 @@ const ProductCreatePage = () => {
                 Hashtags
               </div>
               <div>
-                <TagsInput value={hashTags} onChange={(tags) => setValue("hashTags", tags)}
+                <TagsInput
+                  value={hashTags}
+                  onChange={(tags) => setValue('hashTags', tags)}
                   className="w-full py-2.5 px-6 border border-main-weighted rounded-md bg-main-light"
-                  inputProps={{ placeholder: 'Your hashtags'}}
+                  inputProps={{ placeholder: 'Your hashtags' }}
                 />
               </div>
             </div>
@@ -210,7 +269,11 @@ const ProductCreatePage = () => {
               remove={[]}
               onChange={handlePhotoChange}
             />
-            {errors.photos && <p className='mt-2 text-sm text-red-600'>{errors.photos.message}</p>}
+            {errors.photos && (
+              <p className="mt-2 text-sm text-red-600">
+                {errors.photos.message}
+              </p>
+            )}
           </div>
 
           <div className="product-detail__card w-full bg-main-light p-5 mb-3 flex justify-between">

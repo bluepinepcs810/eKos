@@ -31,3 +31,9 @@ export const PRODUCT_CONDITIONS: ProductConditionItemType[] = [
     text: 'Has given it all',
   },
 ];
+
+export const getConditionLabel = (key: ProductCondition) => {
+  const item = PRODUCT_CONDITIONS.find((cond) => cond.key === key);
+  if (!item) return 'Unknown';
+  return item.text;
+};

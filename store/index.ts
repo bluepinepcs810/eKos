@@ -3,7 +3,7 @@ import sessionStore from './session';
 import { StoreModel } from './types';
 
 const store = createStore<StoreModel>({
-  ...sessionStore
+  ...sessionStore,
 });
 
 export default store;

@@ -1,4 +1,3 @@
-
 import {
   ConnectionProvider,
   WalletProvider,
@@ -16,7 +15,7 @@ import {
 import { clusterApiUrl } from '@solana/web3.js';
 import { getAdapterNetwork } from '../../libraries/utils/helpers/wallet';
 
-import { PropsWithChildren, useMemo } from "react";
+import { PropsWithChildren, useMemo } from 'react';
 
 const Web3Provider: React.FC<PropsWithChildren> = ({ children }) => {
   const network = useMemo(() => getAdapterNetwork(), []);
@@ -36,13 +35,12 @@ const Web3Provider: React.FC<PropsWithChildren> = ({ children }) => {
     [network]
   );
 
-
   return (
     <ConnectionProvider endpoint={endpoint}>
-        <WalletProvider wallets={wallets} autoConnect>
+      <WalletProvider wallets={wallets} autoConnect>
         {children}
       </WalletProvider>
     </ConnectionProvider>
-  )
-}
+  );
+};
 export default Web3Provider;

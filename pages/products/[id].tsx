@@ -8,17 +8,46 @@ import NextArrow from '../../components/snippet/slick/NextArrow';
 import PrevArrow from '../../components/snippet/slick/PrevArrow';
 import Image from 'next/image';
 import ShareButton from '../../components/snippet/ShareButton';
-import GoogleMapReact from 'google-map-react';
-import CategoryFashionHoverIcon from '../../assets/icon/category-fashion-hover.svg';
+import { useRouter } from 'next/router';
+import { useProductRetrieve } from '../../hooks/api.hooks';
+import { ID } from '../../libraries/types/common';
+import PageLoader from '../../components/common/PageLoader';
+import { useCallback, useEffect } from 'react';
+import { showError } from '../../libraries/utils/toast';
+import { getConditionLabel } from '../../libraries/constants/products';
+import CategoryBadge from '../../components/products/id/CategoryBadge';
+import { CATEGORY_KEYS } from '../../libraries/constants/categories';
+import moment from 'moment';
 
 const ProductDetail = () => {
+  const router = useRouter();
+  const { id } = router.query;
+  const { data, isLoading, isError, error } = useProductRetrieve(id as ID);
+
+  const formatDate = useCallback((date: string) => {
+    return moment(date).format('D-MMM-YYYY');
+  }, []);
+  useEffect(() => {
+    if (isError) {
+      showError(error as any);
+    }
+  }, [error, isError]);
+
+  if (!data) {
+    return (
+      <div className="min-h-[800px] product-detail-page bg-main pt-4">
+        <PageLoader loading={isLoading} />
+      </div>
+    );
+  }
   return (
     <div className="product-detail-page bg-main pt-4 flex flex-col items-center justify-center">
+      <PageLoader loading={isLoading} />
       <div className="w-full max-w-[828px] mb-5">
         <div className="product-detail__card w-full bg-main-light p-5">
           <div className="product-detail__card__header flex justify-between gap-x-5 mb-5">
             <div className="product-detail__card__header--info flex justify-between flex-grow">
-              <UserTap data={{ name: 'Bob S.', rate: 3 }} />
+              <UserTap data={{ name: 'Bob S.', rate: 3, id: 1 }} />
               <div className="product-detail__card__header--review flex flex-col justify-center gap-y-3">
                 <StarRating rate={2} size={20} spacing={2} />
                 <div className="text-center text-main-dark">
@@ -49,28 +78,19 @@ const ProductDetail = () => {
                 prevArrow={<PrevArrow />}
                 centerPadding="10px"
               >
-                <div>
-                  <div className="h-[350px] overflow-hidden relative">
-                    <Image
-                      className="rounded-md w-full object-cover"
-                      src="/assets/product.jpg"
-                      alt="product"
-                      width={275}
-                      height={187}
-                    />
+                {data.product.photos.map((item) => (
+                  <div key={item} className="rounded-lg">
+                    <div className="h-[350px] overflow-hidden relative">
+                      <Image
+                        className="rounded-md w-full object-cover"
+                        src="/assets/product.jpg"
+                        alt="product"
+                        width={275}
+                        height={187}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <div className="h-[350px] overflow-hidden relative">
-                    <Image
-                      className="rounded-md w-full object-cover"
-                      src="/assets/product.jpg"
-                      alt="product"
-                      width={275}
-                      height={187}
-                    />
-                  </div>
-                </div>
+                ))}
               </Slider>
               <ShareButton className="absolute bottom-4 right-2.5" />
             </div>
@@ -98,50 +118,45 @@ const ProductDetail = () => {
                     />
                   </svg>
                   <div className="text-[36px] text-main-thick font-bold">
-                    0.15
+                    {data.product.price}
                   </div>
                 </div>
               </div>
               <div className="product-detail__card__info--name mb-12">
                 <h1 className="text-3xl font-semibold text-main-dark">
-                  Your product name
+                  {data.product.name}
                 </h1>
               </div>
               <div className="text-sm text-main-dark mb-4">
-                Men-M/35-40/48-50/As good as new
+                {getConditionLabel(data.product.condition)}
               </div>
               <div className="product-detail__card__info--category flex mb-4">
                 {/* B category tag */}
-                <div className="category-tag bg-main-dark rounded-full flex justify-center  px-4 py-1 gap-x-2">
-                  <CategoryFashionHoverIcon
-                    width="15"
-                    height="14"
-                    viewBox="0 0 45 42"
-                    className="mt-1"
-                  />
-                  <div className="text-main-light">Fashion & Accessories</div>
-                </div>
+                <CategoryBadge category={CATEGORY_KEYS.OTHER} />
                 {/* E category tag */}
               </div>
               <div className="border-t-2" style={{ borderColor: '#E3C0FF' }} />
               <div className="product-detail__card__info--description mt-4 mb-4">
                 <p className="text-main-dark text-2xl">
-                  A description of your product that reveals its history and
-                  adds information about the product. Basic information we need
-                  to know
+                  {data.product.description}
                 </p>
               </div>
               <div className="product-detail__card__info--description mt-4 mb-4 flex gap-x-3.5">
-                <div className="hash-tag uppercase text-main-weighted">
-                  #Stuff
-                </div>
-                <div className="hash-tag uppercase text-main-weighted">
-                  #Clothing
-                </div>
+                {!!data.product.hashTags &&
+                  data.product.hashTags.map((item, index) => (
+                    <div
+                      className="hash-tag uppercase text-main-weighted"
+                      key={index}
+                    >
+                      #{item}
+                    </div>
+                  ))}
               </div>
               <div className="border-t-2" style={{ borderColor: '#E3C0FF' }} />
               <div className="product-detail__card__info--date mt-4 mb-4 flex justify-between items-center">
-                <div className="text-second-main">12-SEP-2022</div>
+                <div className="text-second-main uppercase">
+                  {formatDate('2022-09-13')}
+                </div>
                 <div className="flex gap-x-3">
                   <div className="view-count flex gap-x-2 items-center">
                     <svg
@@ -195,15 +210,13 @@ const ProductDetail = () => {
                   </svg>
                   <div className="text-main-dark font-semibold">UK, London</div>
                 </div>
-                <div style={{ width: '100%', height: '180px' }}>
-                  <GoogleMapReact
+                {/* <GoogleMapReact
                     bootstrapURLKeys={{ key: '' }}
                     defaultCenter={{ lat: 10.99835602, lng: 77.01502627 }}
                     defaultZoom={11}
                   >
                     <div>My Component</div>
-                  </GoogleMapReact>
-                </div>
+                  </GoogleMapReact> */}
               </div>
             </div>
           </div>

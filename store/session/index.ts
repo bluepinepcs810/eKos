@@ -1,11 +1,11 @@
-import { SessionModel } from "./types";
+import { SessionModel } from './types';
 import { action } from 'easy-peasy';
 
 const sessionStore: SessionModel = {
   session: {
     initial: true,
     signedIn: false,
-  } ,
+  },
   setSignedIn: action((state) => {
     state.session.signedIn = true;
   }),
@@ -18,6 +18,6 @@ const sessionStore: SessionModel = {
   unsetSessionInitial: action((state) => {
     state.session.initial = false;
   }),
-}
+};
 
 export default sessionStore;

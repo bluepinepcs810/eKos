@@ -68,6 +68,7 @@ export type CategoryItemType = {
     type1Hover: any;
     type2: any;
     type3: any;
+    type4?: any;
   };
 };
 
@@ -105,6 +106,9 @@ const CATEGORIES: CategoryItemType[] = [
             fill="#5E25D9"
           />
         </svg>
+      ),
+      type4: (
+        <AllCategoryHoverIcon width="20" height="15" viewBox="0 0 55 38" />
       ),
     },
   },
@@ -158,6 +162,9 @@ const CATEGORIES: CategoryItemType[] = [
           />
         </svg>
       ),
+      type4: (
+        <CarsCategoryHoverIcon width="20" height="15" viewBox="0 0 50 37" />
+      ),
     },
   },
   {
@@ -194,6 +201,13 @@ const CATEGORIES: CategoryItemType[] = [
           />
         </svg>
       ),
+      type4: (
+        <PhoneAccessoryCategoryHoverIcon
+          width="13"
+          height="18"
+          viewBox="0 0 32 47"
+        />
+      ),
     },
   },
   {
@@ -229,6 +243,13 @@ const CATEGORIES: CategoryItemType[] = [
             fill="#5E25D9"
           />
         </svg>
+      ),
+      type4: (
+        <ComputerElectronicCategoryHoverIcon
+          width="17"
+          height="15"
+          viewBox="0 0 48 43"
+        />
       ),
     },
   },
@@ -282,6 +303,13 @@ const CATEGORIES: CategoryItemType[] = [
           />
         </svg>
       ),
+      type4: (
+        <GamesConsolesCategoryHoverIcon
+          width="24"
+          height="13"
+          viewBox="0 0 60 34"
+        />
+      ),
     },
   },
   {
@@ -322,6 +350,9 @@ const CATEGORIES: CategoryItemType[] = [
           />
         </svg>
       ),
+      type4: (
+        <FashionCategoryHoverIcon width="18" height="17" viewBox="0 0 44 42" />
+      ),
     },
   },
   {
@@ -357,6 +388,9 @@ const CATEGORIES: CategoryItemType[] = [
             fill="#5E25D9"
           />
         </svg>
+      ),
+      type4: (
+        <TvAudioCategoryHoverIcon width="19" height="18" viewBox="0 0 50 44" />
       ),
     },
   },
@@ -446,6 +480,9 @@ const CATEGORIES: CategoryItemType[] = [
           />
         </svg>
       ),
+      type4: (
+        <SportsCategoryHoverIcon width="19" height="18" viewBox="0 0 49 48" />
+      ),
     },
   },
   {
@@ -481,6 +518,9 @@ const CATEGORIES: CategoryItemType[] = [
             fill="#5E25D9"
           />
         </svg>
+      ),
+      type4: (
+        <BikesCategoryHoverIcon width="24" height="17" viewBox="0 0 65 42" />
       ),
     },
   },
@@ -522,6 +562,13 @@ const CATEGORIES: CategoryItemType[] = [
           />
         </svg>
       ),
+      type4: (
+        <AppliancesCategoryHoverIcon
+          width="14"
+          height="17"
+          viewBox="0 0 36 41"
+        />
+      ),
     },
   },
   {
@@ -557,6 +604,13 @@ const CATEGORIES: CategoryItemType[] = [
             fill="#5E25D9"
           />
         </svg>
+      ),
+      type4: (
+        <BabyChildCategoryHoverIcon
+          width="15"
+          height="16"
+          viewBox="0 0 40 42"
+        />
       ),
     },
   },
@@ -646,6 +700,13 @@ const CATEGORIES: CategoryItemType[] = [
           />
         </svg>
       ),
+      type4: (
+        <HomeGardenCategoryHoverIcon
+          width="22"
+          height="13"
+          viewBox="0 0 46 34"
+        />
+      ),
     },
   },
   {
@@ -686,6 +747,13 @@ const CATEGORIES: CategoryItemType[] = [
           />
         </svg>
       ),
+      type4: (
+        <MovieBookMusicCategoryHoverIcon
+          width="19"
+          height="16"
+          viewBox="0 0 48 41"
+        />
+      ),
     },
   },
   {
@@ -721,6 +789,13 @@ const CATEGORIES: CategoryItemType[] = [
             fill="#5E25D9"
           />
         </svg>
+      ),
+      type4: (
+        <CollectableArtCategoryHoverIcon
+          width="19"
+          height="16"
+          viewBox="0 0 51 41"
+        />
       ),
     },
   },
@@ -761,6 +836,13 @@ const CATEGORIES: CategoryItemType[] = [
             fill="#5E25D9"
           />
         </svg>
+      ),
+      type4: (
+        <ConstructionsCategoryHoverIcon
+          width="19"
+          height="16"
+          viewBox="0 0 49 42"
+        />
       ),
     },
   },
@@ -805,6 +887,13 @@ const CATEGORIES: CategoryItemType[] = [
             fill="#5E25D9"
           />
         </svg>
+      ),
+      type4: (
+        <AgricultureIndustrialCategoryHoverIcon
+          width="22"
+          height="18"
+          viewBox="0 0 58 48"
+        />
       ),
     },
   },
@@ -894,6 +983,9 @@ const CATEGORIES: CategoryItemType[] = [
           />
         </svg>
       ),
+      type4: (
+        <JobsCategoryHoverIcon width="19" height="15" viewBox="0 0 52 40" />
+      ),
     },
   },
   {
@@ -929,6 +1021,9 @@ const CATEGORIES: CategoryItemType[] = [
             fill="#5E25D9"
           />
         </svg>
+      ),
+      type4: (
+        <ServicesCategoryHoverIcon width="17" height="17" viewBox="0 0 45 45" />
       ),
     },
   },
@@ -999,6 +1094,9 @@ const CATEGORIES: CategoryItemType[] = [
             fill="#5E25D9"
           />
         </svg>
+      ),
+      type4: (
+        <OtherCategoryHoverIcon width="14" height="4" viewBox="0 0 37 9" />
       ),
     },
   },

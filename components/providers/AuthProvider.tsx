@@ -8,12 +8,17 @@ import bs58 from 'bs58';
 import nacl from 'tweetnacl';
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const { connected, publicKey, signMessage, disconnect, disconnecting } = useWallet();
+  const { connected, publicKey, signMessage, disconnect, disconnecting } =
+    useWallet();
   const nonceResult = useGetNonce(publicKey);
   const signInMutate = useSignIn(publicKey);
   const { signedIn, initial } = useStoreState((state) => state.session);
-  const setSessionInitial = useStoreActions((actions) => actions.setSessionInitial);
-  const unsetSessionInitial = useStoreActions((actions) => actions.unsetSessionInitial);
+  const setSessionInitial = useStoreActions(
+    (actions) => actions.setSessionInitial
+  );
+  const unsetSessionInitial = useStoreActions(
+    (actions) => actions.unsetSessionInitial
+  );
   const unsetSignedIn = useStoreActions((actions) => actions.unsetSignedIn);
   const setSignedIn = useStoreActions((actions) => actions.setSignedIn);
 
@@ -26,13 +31,19 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       const { accessToken } = await signInMutate.mutateAsync(signedMessage);
       LocalStorage.saveToken(accessToken);
       setSignedIn();
-      showSuccess("Successfully signed")
+      showSuccess('Successfully signed');
     } catch (e) {
       console.error(e);
       disconnect();
-      showError("Sign in failed");
+      showError('Sign in failed');
     }
-  }, [disconnect, nonceResult.data?.nonce, setSignedIn, signInMutate, signMessage]);
+  }, [
+    disconnect,
+    nonceResult.data?.nonce,
+    setSignedIn,
+    signInMutate,
+    signMessage,
+  ]);
 
   useEffect(() => {
     if (nonceResult.isSuccess && connected) {
@@ -49,7 +60,17 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     } else if (nonceResult.isError) {
       showError((nonceResult.error as any).message);
     }
-  }, [connected, initial, nonceResult.error, nonceResult.isError, nonceResult.isSuccess, setSignedIn, signIn, signedIn, unsetSessionInitial]);
+  }, [
+    connected,
+    initial,
+    nonceResult.error,
+    nonceResult.isError,
+    nonceResult.isSuccess,
+    setSignedIn,
+    signIn,
+    signedIn,
+    unsetSessionInitial,
+  ]);
 
   useEffect(() => {
     if (disconnecting) {
@@ -57,13 +78,9 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       setSessionInitial();
       LocalStorage.removeToken();
     }
-  }, [disconnecting, setSessionInitial, unsetSignedIn])
+  }, [disconnecting, setSessionInitial, unsetSignedIn]);
 
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };
 
 export default AuthProvider;

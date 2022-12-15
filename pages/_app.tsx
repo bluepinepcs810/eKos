@@ -4,7 +4,7 @@ import store from '../store';
 import 'toastr/build/toastr.min.css';
 import { StoreProvider } from 'easy-peasy';
 
-import 'react-tagsinput/react-tagsinput.css'
+import 'react-tagsinput/react-tagsinput.css';
 import '../styles/globals.css';
 import '../styles/common.scss';
 

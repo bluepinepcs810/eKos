@@ -106,7 +106,7 @@
 
 .react-tagsinput {
   &--focused {
-    @apply border-main-weighted
+    @apply border-main-weighted;
   }
   &-input {
     font-size: 100%;
@@ -114,6 +114,6 @@
     width: auto;
   }
   &-tag {
-    @apply bg-main-strong border-main-strong text-main-dark
+    @apply bg-main-strong border-main-strong text-main-dark;
   }
 }

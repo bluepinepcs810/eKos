@@ -26,17 +26,21 @@ const PremiumOfferings = () => {
         </div>
 
         <div className="premium-offerings__body flex flex-wrap gap-x-6 gap-y-9">
+          {/*  TODO get featured products */}
+          {/* <ProductCard />
           <ProductCard />
           <ProductCard />
           <ProductCard />
           <ProductCard />
           <ProductCard />
           <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <ProductCard /> */}
         </div>
         <div className="premium-offerings__footer flex justify-center mt-12 mb-14">
-          <Link href="/products" className="px-10 py-2.5 rounded-full border border-main-dark bg-main text-main-dark outlined-button">
+          <Link
+            href="/products"
+            className="px-10 py-2.5 rounded-full border border-main-dark bg-main text-main-dark outlined-button"
+          >
             View more
           </Link>
         </div>

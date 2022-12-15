@@ -1,6 +1,10 @@
 import toastr from 'toastr';
 
-export const showError = (message: string) => {
+export const showError = (message: string | Object) => {
+  if (typeof message === 'object') {
+    showError((message as any).message);
+    return;
+  }
   toastr.options = {
     positionClass: 'toast-top-full-width',
     hideDuration: 300,
@@ -10,7 +14,11 @@ export const showError = (message: string) => {
   toastr.error(message);
 };
 
-export const showSuccess = (message: string) => {
+export const showSuccess = (message: string | Object) => {
+  if (typeof message === 'object') {
+    showSuccess((message as any).message);
+    return;
+  }
   toastr.options = {
     positionClass: 'toast-top-full-width',
     hideDuration: 300,

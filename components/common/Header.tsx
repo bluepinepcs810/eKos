@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { useStoreState } from '../../store/types';
 
 const Header = () => {
-  const { signedIn } = useStoreState(state => state.session);
+  const { signedIn } = useStoreState((state) => state.session);
   return (
     <div className="header bg-main flex justify-center h-[70px]">
       <div className="content-container flex justify-between">
