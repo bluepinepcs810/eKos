@@ -2,16 +2,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import SolanaIcon from '../../assets/icon/solana.svg';
-import { ProductDetailModel, ProductShortModel } from '../../libraries/models/product';
+import {
+  ProductDetailModel,
+  ProductShortModel,
+} from '../../libraries/models/product';
 import HeartButton from '../snippet/HeartButton';
 
 type ProductCardProps = {
-  data: ProductShortModel
-}
+  data: ProductShortModel;
+};
 const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
-
   return (
-    <Link href={"/products/" + data.id}>
+    <Link href={'/products/' + data.id}>
       <div className="product-card max-w-[275px] bg-main-light p-[5px] rounded-lg cursor-pointer hover:drop-shadow-lg transition">
         <div className="product-card__image">
           <Image

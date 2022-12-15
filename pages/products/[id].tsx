@@ -135,7 +135,7 @@ const ProductDetail = () => {
                 <CategoryBadge category={CATEGORY_KEYS.OTHER} />
                 {/* E category tag */}
               </div>
-              <div className="border-t-2" style={{ borderColor: '#E3C0FF' }} />
+              <div className="border-t-2 border-third-main" />
               <div className="product-detail__card__info--description mt-4 mb-4">
                 <p className="text-main-dark text-2xl">
                   {data.product.description}
@@ -152,7 +152,7 @@ const ProductDetail = () => {
                     </div>
                   ))}
               </div>
-              <div className="border-t-2" style={{ borderColor: '#E3C0FF' }} />
+              <div className="border-t-2 border-third-main" />
               <div className="product-detail__card__info--date mt-4 mb-4 flex justify-between items-center">
                 <div className="text-second-main uppercase">
                   {formatDate('2022-09-13')}
@@ -191,7 +191,7 @@ const ProductDetail = () => {
                   </div>
                 </div>
               </div>
-              <div className="border-t-2" style={{ borderColor: '#E3C0FF' }} />
+              <div className="border-t-2 border-third-main" />
               <div className="product-detail__card__info--location mt-4 mb-4">
                 <div className="flex gap-x-2 mb-8">
                   <svg

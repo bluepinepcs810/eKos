@@ -57,7 +57,7 @@ const Header = () => {
                   </svg>
                   <div>Favorites</div>
                 </div>
-                <div className="flex gap-x-2 text-main-dark hover:text-main-weighted">
+                <div className="flex gap-x-2 group text-main-dark hover:text-main-weighted">
                   <svg
                     width="25"
                     height="24"

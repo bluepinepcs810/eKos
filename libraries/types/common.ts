@@ -7,8 +7,8 @@ export type FileType = {
 };
 
 export type Pager<T> = T & {
-  page?: number,
-  size?: number,
-  sort?: string,
-  dir?: 'asc' | 'desc'
-}
+  page?: number;
+  size?: number;
+  sort?: string;
+  dir?: 'asc' | 'desc';
+};

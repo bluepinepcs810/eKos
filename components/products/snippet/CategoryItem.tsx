@@ -5,29 +5,27 @@ import {
   ProductFilterSections,
 } from '../context/filter-context';
 import { ProductFilterActionTypes } from '../context/fitler-reducer';
+import useProductFilter from '../hooks/useProductFilter';
 
 const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => {
   const {
-    state: { filter },
     dispatch,
   } = useContext(ProductFilterContext);
 
+  const { query, handleApply } = useProductFilter();
   const handleClick = useCallback(() => {
-    if (filter.category === category.key) return;
-    dispatch({
-      type: ProductFilterActionTypes.SET_FILTER_CATEGORY,
-      payload: category.key,
-    });
+    if (query.category === category.key) return;
     dispatch({
       type: ProductFilterActionTypes.SET_SECTION,
       payload: ProductFilterSections.NONE,
     });
-  }, [category.key, dispatch, filter.category]);
+    handleApply({ category: category.key});
+  }, [category.key, dispatch, handleApply, query.category]);
   return (
     <div
       className={
         'w-1/5 h-[90px] flex items-center justify-center flex-col gap-y-2 hover:bg-main hover:opacity-80 transition cursor-pointer ' +
-        (filter.category === category.key ? 'bg-main' : '')
+        (query.category === category.key ? 'bg-main' : '')
       }
       onClick={handleClick}
     >

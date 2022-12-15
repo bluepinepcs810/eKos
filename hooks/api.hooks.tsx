@@ -1,6 +1,11 @@
 import { PublicKey } from '@solana/web3.js';
-import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from 'react-query';
-import { ProductFilterType, ProductSorterType } from '../components/products/context/filter-context';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from 'react-query';
+import useProductFilter, { ProductFilterType } from '../components/products/hooks/useProductFilter';
 import AuthApi from '../libraries/api/auth';
 import { ProductApi } from '../libraries/api/product';
 import { ProductModel } from '../libraries/models/product';
@@ -33,17 +38,22 @@ export const useProductRetrieve = (id: ID) =>
 
 const PRODUCT_PAGE_SIZE = 10;
 
-export const useProductList = (filter: ProductFilterType, sorter: ProductSorterType) => {
+export const useProductList = (query: ProductFilterType) => {
   return useInfiniteQuery(
-    ['listProduct'],
+    ['listProduct', query],
     async ({ pageParam = 1 }) => {
-      return ProductApi.listProduct({...filter, page: pageParam, size: PRODUCT_PAGE_SIZE})
+      return ProductApi.listProduct({
+        ...query,
+        page: pageParam,
+        size: PRODUCT_PAGE_SIZE,
+      });
     },
     {
       getNextPageParam: (lastPage, allPages) => {
         if (!lastPage.products.length) return undefined;
-        return allPages.length + 1
-      }
+        return allPages.length + 1;
+      },
+      retry: 1
     }
-  )
-}
+  );
+};

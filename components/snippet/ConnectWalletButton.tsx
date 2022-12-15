@@ -46,7 +46,7 @@ const ConnectWalletButton: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="connect-wallet-panel__header border-b-2 px-6 border-[#E3C0FF]">
+            <div className="connect-wallet-panel__header border-b-2 px-6 border-third-main">
               <div className="flex justify-between items-center mb-3">
                 <div className="text-main-dark font-semibold text-xl">
                   Connect a wallet to continue

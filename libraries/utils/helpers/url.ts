@@ -5,14 +5,14 @@ export const serializeToQuery = (
   const str = [];
   for (const p in obj) {
     if (obj.hasOwnProperty(p)) {
-      var k = prefix ? prefix + '[' + p + ']' : p,
-      v = obj[p];
+      const k = prefix ? prefix + '[' + p + ']' : p,
+        v = obj[p];
       if (v === undefined) continue;
-      str.push(
-        v !== null && typeof v === 'object'
-          ? serializeToQuery(v, k)
-          : encodeURIComponent(k) + '=' + encodeURIComponent(v)
-      );
+      const value = v !== null && typeof v === 'object'
+        ? serializeToQuery(v, k)
+        : encodeURIComponent(k) + '=' + encodeURIComponent(v);
+      if (!value) continue;
+      str.push(value);
     }
   }
   return str.join('&');

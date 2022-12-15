@@ -1,25 +1,20 @@
 import { useCallback, useContext, useMemo, useState } from 'react';
 import ArrowDownIcon from '../../assets/icon/arrow-down.svg';
 import CATEGORIES, {
-  CATEGORY_KEYS,
   findCategoryItem,
 } from '../../libraries/constants/categories';
-import {
-  ProductFilterContext,
-  ProductFilterSections,
-} from './context/filter-context';
+import { ProductFilterContext, ProductFilterSections } from './context/filter-context';
 import { ProductFilterActionTypes } from './context/fitler-reducer';
+import useProductFilter from './hooks/useProductFilter';
 import CategoryItem from './snippet/CategoryItem';
 
 const FilterCategoryMenu = () => {
   const {
-    state: { filter, activeFilterSection },
+    state: { activeFilterSection },
     dispatch,
   } = useContext(ProductFilterContext);
-  const category = useMemo(
-    () => findCategoryItem(filter.category),
-    [filter.category]
-  );
+  const { query } = useProductFilter();
+  const category = findCategoryItem(query.category);
 
   const handleClick = useCallback(() => {
     dispatch({

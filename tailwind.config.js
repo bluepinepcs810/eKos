@@ -14,6 +14,7 @@ module.exports = {
         'main-dark': '#5E25D9',
         'main-thick': '#4703A6',
         'second-main': '#B79ADD',
+        'third-main': '#E3C0FF',
       },
     },
   },

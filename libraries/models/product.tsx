@@ -21,21 +21,21 @@ export type ProductModel = ProductBaseModel & {
 };
 
 export type ProductShortModel = {
-  id: ID,
-  name: string,
-  coinType: CoinTypeEnum,
-  price: number,
-  category: CATEGORY_KEYS,
-  isLiked: boolean
-}
+  id: ID;
+  name: string;
+  coinType: CoinTypeEnum;
+  price: number;
+  category: CATEGORY_KEYS;
+  isLiked: boolean;
+};
 export type ProductDetailModel = ProductBaseModel & {
   id: ID;
   photos: string[];
 
-  seller: UserShortType,
-  rate: number,
-  rateCount: number,
-  isLiked: boolean,
-  viewCount: number,
-  likeCount: number
+  seller: UserShortType;
+  rate: number;
+  rateCount: number;
+  isLiked: boolean;
+  viewCount: number;
+  likeCount: number;
 };

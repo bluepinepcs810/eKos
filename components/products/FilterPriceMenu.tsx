@@ -6,13 +6,14 @@ import {
   ProductPriceFilterType,
 } from './context/filter-context';
 import { ProductFilterActionTypes } from './context/fitler-reducer';
+import useProductFilter from './hooks/useProductFilter';
 
 const FilterPriceMenu = () => {
   const {
-    state: { activeFilterSection, filter },
+    state: { activeFilterSection },
     dispatch,
   } = useContext(ProductFilterContext);
-  const [range, setRange] = useState<ProductPriceFilterType>(filter.price);
+  const { query, handleApply: queryApply, setFrom, setTo, refresh } = useProductFilter();
 
   const handleClick = useCallback(() => {
     dispatch({
@@ -22,23 +23,20 @@ const FilterPriceMenu = () => {
   }, [dispatch]);
 
   const handleCancel = useCallback(() => {
-    setRange({ ...filter.price });
     dispatch({
       type: ProductFilterActionTypes.SET_SECTION,
       payload: ProductFilterSections.NONE,
     });
-  }, [dispatch, filter.price]);
+    refresh();
+  }, [dispatch, refresh]);
 
   const handleApply = useCallback(() => {
     dispatch({
-      type: ProductFilterActionTypes.SET_FILTER_PRICE_RANGE,
-      payload: range,
-    });
-    dispatch({
       type: ProductFilterActionTypes.SET_SECTION,
       payload: ProductFilterSections.NONE,
     });
-  }, [dispatch, range]);
+    queryApply();
+  }, [dispatch, queryApply]);
 
   return (
     <div
@@ -85,17 +83,11 @@ const FilterPriceMenu = () => {
             </div>
             <div>
               <input
-                id="price_range_from"
-                className="w-full border border-[#E3C0FF] py-2 px-2.5"
+                className="w-full border border-third-main py-2 px-2.5"
                 placeholder="0"
                 type="number"
-                value={range.from}
-                onChange={(e) =>
-                  setRange((old) => ({
-                    ...old,
-                    from: parseInt(e.target.value),
-                  }))
-                }
+                value={query.priceFrom}
+                onChange={(e) => setFrom(e.target.value ? parseInt(e.target.value): undefined)}
               />
             </div>
           </div>
@@ -105,13 +97,12 @@ const FilterPriceMenu = () => {
             </div>
             <div>
               <input
-                id="price_range_to"
-                className="w-full border border-[#E3C0FF] py-2 px-2.5"
+                className="w-full border border-third-main py-2 px-2.5"
                 placeholder="No limit"
                 type="number"
-                value={range.to}
+                value={query.priceTo}
                 onChange={(e) =>
-                  setRange((old) => ({ ...old, to: parseInt(e.target.value) }))
+                  setTo(e.target.value ? parseInt(e.target.value): undefined)
                 }
               />
             </div>

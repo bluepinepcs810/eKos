@@ -10,13 +10,14 @@ import {
   ProductFilterSections,
 } from './context/filter-context';
 import { ProductFilterActionTypes } from './context/fitler-reducer';
+import useProductFilter from './hooks/useProductFilter';
 
 const FilterItemConditionMenu = () => {
   const {
-    state: { filter, activeFilterSection },
+    state: { activeFilterSection },
     dispatch,
   } = useContext(ProductFilterContext);
-  const [conditions, setConditions] = useState(filter.condition);
+  const { query, refresh, setCondition, handleApply: queryApply } = useProductFilter();
 
   const handleClick = useCallback(() => {
     dispatch({
@@ -26,15 +27,16 @@ const FilterItemConditionMenu = () => {
   }, [dispatch]);
 
   const handleCancel = useCallback(() => {
-    setConditions([...filter.condition]);
     dispatch({
       type: ProductFilterActionTypes.SET_SECTION,
       payload: ProductFilterSections.NONE,
     });
-  }, [dispatch, filter.condition]);
+    refresh();
+  }, [dispatch, refresh]);
 
   const handleChange = useCallback(
     (condition: ProductCondition, value: boolean) => {
+      const conditions = [...query.condition];
       const index = conditions.findIndex((item) => item === condition);
       const existing = index !== -1;
       if (value && existing) {
@@ -46,21 +48,18 @@ const FilterItemConditionMenu = () => {
       } else {
         return;
       }
-      setConditions([...conditions]);
+      setCondition(conditions);
     },
-    [conditions]
+    [query.condition, setCondition]
   );
 
   const handleApply = useCallback(() => {
     dispatch({
-      type: ProductFilterActionTypes.SET_FILTER_ITEM_CONDITION,
-      payload: conditions,
-    });
-    dispatch({
       type: ProductFilterActionTypes.SET_SECTION,
       payload: ProductFilterSections.NONE,
     });
-  }, [conditions, dispatch]);
+    queryApply();
+  }, [dispatch, queryApply]);
 
   return (
     <div
@@ -97,17 +96,17 @@ const FilterItemConditionMenu = () => {
         <div className="text-main-weighted text-lg font-semibold mt-2 mb-3 px-6">
           Item condition
         </div>
-        <div className="border-t border-[#E3C0FF]">
+        <div className="border-t border-third-main">
           {PRODUCT_CONDITIONS.map((item) => (
             <div
-              className="flex justify-between py-2.5 px-6 border-b border-[#E3C0FF]"
+              className="flex justify-between py-2.5 px-6 border-b border-third-main"
               key={item.key}
             >
               <div className=" text-main-weighted">{item.text}</div>
               <div>
                 <CheckBox
                   id={'filter_condition__' + item.key}
-                  checked={conditions.includes(item.key)}
+                  checked={query.condition.includes(item.key)}
                   onChange={(e) => handleChange(item.key, e.target.checked)}
                 />
               </div>
