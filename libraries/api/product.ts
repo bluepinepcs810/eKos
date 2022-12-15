@@ -1,5 +1,5 @@
 import Api from '.';
-import { ProductFilterType } from '../../components/products/context/filter-context';
+import { ProductFilterType, ProductSorterType } from '../../components/products/context/filter-context';
 import { ProductDetailModel, ProductModel, ProductShortModel } from '../models/product';
 import { ID, Pager } from '../types/common';
 
@@ -32,17 +32,17 @@ const retrieveProduct = async (
   return Api.get(`/product/${id}`);
 };
 
-const listProduct = async (filter: Pager<ProductFilterType>): Promise<{ products: ProductShortModel[]}> => {
+const listProduct = async (filter: Pager<ProductFilterType & ProductSorterType>): Promise<{ products: ProductShortModel[]}> => {
   const query = {
     page: filter.page,
     size: filter.size,
-    sort: filter.sort,
-    dir: filter.dir,
+    sort: filter.sort || undefined,
+    dir: filter.dir || undefined,
     category: filter.category,
-    priceFrom: filter.price.from,
-    priceTo: filter.price.to,
+    priceFrom: filter.price.from || undefined,
+    priceTo: filter.price.to || undefined,
     condition: filter.condition.join(','),
-    q: filter.q
+    q: filter.q,
   };
   return Api.get(`/product`, query);
 }

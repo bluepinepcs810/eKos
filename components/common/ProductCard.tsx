@@ -11,7 +11,7 @@ type ProductCardProps = {
 const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
 
   return (
-    <Link href="/products/1">
+    <Link href={"/products/" + data.id}>
       <div className="product-card max-w-[275px] bg-main-light p-[5px] rounded-lg cursor-pointer hover:drop-shadow-lg transition">
         <div className="product-card__image">
           <Image

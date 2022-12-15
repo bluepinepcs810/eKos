@@ -1,6 +1,6 @@
 import { PublicKey } from '@solana/web3.js';
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from 'react-query';
-import { ProductFilterType } from '../components/products/context/filter-context';
+import { ProductFilterType, ProductSorterType } from '../components/products/context/filter-context';
 import AuthApi from '../libraries/api/auth';
 import { ProductApi } from '../libraries/api/product';
 import { ProductModel } from '../libraries/models/product';
@@ -10,7 +10,7 @@ export const useGetNonce = (publicKey: PublicKey | null) =>
   useQuery(
     ['getNonce', publicKey],
     () => AuthApi.getNonce(publicKey?.toBase58()),
-    { enabled: !!publicKey }
+    { enabled: !!publicKey, retry: 2 }
   );
 export const useSignIn = (publicKey: PublicKey | null) =>
   useMutation((signature: Uint8Array) =>
@@ -33,7 +33,7 @@ export const useProductRetrieve = (id: ID) =>
 
 const PRODUCT_PAGE_SIZE = 10;
 
-export const useProductList = (filter: ProductFilterType) => {
+export const useProductList = (filter: ProductFilterType, sorter: ProductSorterType) => {
   return useInfiniteQuery(
     ['listProduct'],
     async ({ pageParam = 1 }) => {

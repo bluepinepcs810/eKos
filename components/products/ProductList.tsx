@@ -11,16 +11,16 @@ import {
 
 const ProductList = () => {
   const {
-    state: { activeFilterSection, filter },
+    state: { activeFilterSection, filter, sorter },
   } = useContext(ProductFilterContext);
   const queryClient = useQueryClient();
 
-  const { data, isSuccess, hasNextPage, fetchNextPage, refetch } = useProductList(filter);
+  const { data, isSuccess, hasNextPage, fetchNextPage, refetch } = useProductList(filter, sorter);
 
   useEffect(() => {
-    queryClient.resetQueries({ queryKey: ['listProduct']})
+    queryClient.resetQueries({ queryKey: ['listProduct']});
     refetch({ refetchPage: (_, index) => index === 0});
-  }, [filter, queryClient, refetch])
+  }, [filter, queryClient, refetch, sorter])
 
   return (
     <div className="product-list bg-main pt-8 flex justify-center relative">

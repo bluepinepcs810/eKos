@@ -4,6 +4,7 @@ import {
   ProductFilterContextType,
   ProductFilterSections,
   ProductPriceFilterType,
+  ProductSorterEnum,
 } from './filter-context';
 
 export enum ProductFilterActionTypes {
@@ -12,6 +13,9 @@ export enum ProductFilterActionTypes {
   SET_FILTER_PRICE_RANGE = 'SET_FILTER_PRICE_RANGE',
   SET_FILTER_ITEM_CONDITION = 'SET_FILTER_ITEM_CONDITION',
   SET_FILTER_LOCATION = 'SET_FILTER_LOCATION',
+
+  SET_SORTER_SORT = 'SET_SORTER_SORT',
+  SET_SORTER_DIR = 'SET_SORTER_DIR'
 }
 export const productFilterReducer = (
   state: ProductFilterContextType,
@@ -55,6 +59,22 @@ export const productFilterReducer = (
           location: action.payload as string,
         },
       };
+    case ProductFilterActionTypes.SET_SORTER_SORT:
+      return {
+        ...state,
+        sorter: {
+          ...state.sorter,
+          sort: action.payload as ProductSorterEnum
+        }
+      }
+    case ProductFilterActionTypes.SET_SORTER_DIR:
+      return {
+        ...state,
+        sorter: {
+          ...state.sorter,
+          dir: action.payload
+        }
+      }
     default:
       return state;
   }

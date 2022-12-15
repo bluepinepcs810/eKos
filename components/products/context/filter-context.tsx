@@ -16,6 +16,19 @@ export type ProductFilterType = {
   q?: string
 };
 
+export enum ProductSorterEnum {
+  PRICE  = 'price',
+  CONDITION = 'condition',
+  CATEGORY  = 'category',
+  NAME = 'name',
+  CREATED_AT = 'createdAt'
+}
+
+export type ProductSorterType = {
+  sort?: ProductSorterEnum,
+  dir?: 'asc' | 'desc'
+}
+
 export enum ProductFilterSections {
   NONE = 'NONE',
   COMPREHENSIVE = 'COMPREHENSIVE',
@@ -27,6 +40,7 @@ export enum ProductFilterSections {
 
 export type ProductFilterContextType = {
   filter: ProductFilterType;
+  sorter: ProductSorterType;
   activeFilterSection: ProductFilterSections;
 };
 
@@ -35,6 +49,10 @@ const initialState: ProductFilterContextType = {
     category: CATEGORY_KEYS.ALL,
     price: {},
     condition: [],
+  },
+  sorter: {
+    sort: ProductSorterEnum.CREATED_AT,
+    dir: 'desc'
   },
   activeFilterSection: ProductFilterSections.NONE,
 };
