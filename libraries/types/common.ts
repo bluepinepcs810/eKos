@@ -5,3 +5,10 @@ export type FileType = {
   file?: File;
   url: string;
 };
+
+export type Pager<T> = T & {
+  page?: number,
+  size?: number,
+  sort?: string,
+  dir?: 'asc' | 'desc'
+}

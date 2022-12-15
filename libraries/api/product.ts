@@ -1,6 +1,7 @@
 import Api from '.';
-import { ProductDetailModel, ProductModel } from '../models/product';
-import { ID } from '../types/common';
+import { ProductFilterType } from '../../components/products/context/filter-context';
+import { ProductDetailModel, ProductModel, ProductShortModel } from '../models/product';
+import { ID, Pager } from '../types/common';
 
 const createProduct = async (
   data: ProductModel
@@ -30,7 +31,23 @@ const retrieveProduct = async (
 ): Promise<{ product: ProductDetailModel }> => {
   return Api.get(`/product/${id}`);
 };
+
+const listProduct = async (filter: Pager<ProductFilterType>): Promise<{ products: ProductShortModel[]}> => {
+  const query = {
+    page: filter.page,
+    size: filter.size,
+    sort: filter.sort,
+    dir: filter.dir,
+    category: filter.category,
+    priceFrom: filter.price.from,
+    priceTo: filter.price.to,
+    condition: filter.condition.join(','),
+    q: filter.q
+  };
+  return Api.get(`/product`, query);
+}
 export const ProductApi = {
   createProduct,
   retrieveProduct,
+  listProduct
 };

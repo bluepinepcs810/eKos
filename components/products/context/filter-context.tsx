@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { Dispatch, PropsWithChildren, useReducer } from 'react';
 import { CATEGORY_KEYS } from '../../../libraries/constants/categories';
 import { ProductCondition } from '../../../libraries/constants/products';
@@ -12,6 +13,7 @@ export type ProductFilterType = {
   price: ProductPriceFilterType;
   condition: ProductCondition[];
   location?: string;
+  q?: string
 };
 
 export enum ProductFilterSections {
@@ -48,7 +50,9 @@ export const ProductFilterContext = React.createContext<{
 export const ProductFilterContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const [state, dispatch] = useReducer(productFilterReducer, initialState);
+  const router = useRouter();
+  const { q } = router.query;
+  const [state, dispatch] = useReducer(productFilterReducer, {...initialState, filter: { ...initialState.filter, q: q as string} });
 
   return (
     <ProductFilterContext.Provider value={{ state, dispatch }}>

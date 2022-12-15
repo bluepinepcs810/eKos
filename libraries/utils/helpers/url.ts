@@ -6,7 +6,8 @@ export const serializeToQuery = (
   for (const p in obj) {
     if (obj.hasOwnProperty(p)) {
       var k = prefix ? prefix + '[' + p + ']' : p,
-        v = obj[p];
+      v = obj[p];
+      if (v === undefined) continue;
       str.push(
         v !== null && typeof v === 'object'
           ? serializeToQuery(v, k)

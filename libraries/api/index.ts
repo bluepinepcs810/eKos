@@ -64,7 +64,7 @@ const apiWrapper = (
       data = omit(data, 'errors');
     }
     let absUrl = getAbsoluteApiUrl(url, baseUrl);
-    if (method === 'DELETE' || method === 'PUT') {
+    if (method === 'DELETE' || method === 'GET') {
       absUrl = getUrlWithParam(absUrl, data);
     }
 

@@ -1,9 +1,9 @@
 export enum ProductCondition {
-  NEW,
-  AS_GOOD_AS_NEW,
-  GOOD,
-  FAIR,
-  HAS_GIVEN_ALL,
+  NEW = 1,
+  AS_GOOD_AS_NEW = 2,
+  GOOD = 3,
+  FAIR = 4,
+  HAS_GIVEN_ALL = 5,
 }
 export type ProductConditionItemType = {
   key: ProductCondition;
