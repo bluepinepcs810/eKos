@@ -102,6 +102,7 @@
 
 .connect-wallet-panel {
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
+  max-height: 38px;
 }
 
 .react-tagsinput {
@@ -115,5 +116,34 @@
   }
   &-tag {
     @apply bg-main-strong border-main-strong text-main-dark;
+  }
+}
+
+.main-shadow {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+}
+
+.main-shadow-hover:hover {
+  @apply transition;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+}
+
+.message-truncated {
+  display: inline;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;/* Important for long words! */
+  max-height: 38px;
+}
+
+.message {
+  &-me {
+    background: #C883FF;
+  }
+  &-other {
+    background: #8A5FE8;
   }
 }
