@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ProductFilterDrawer from './drawer/ProductFilterDrawer';
 import Drawer from 'react-modern-drawer';
 import 'react-modern-drawer/dist/index.css';
+import ProductCategoryPane from './drawer/ProductCategoryPane';
 
 const FiltersMenu = () => {
   const [open, setOpen] = useState(false);
@@ -21,6 +22,7 @@ const FiltersMenu = () => {
         className="!w-full !max-w-[524px]"
       >
         <ProductFilterDrawer onClose={() => setOpen(false)} />
+        {/* <ProductCategoryPane /> */}
       </Drawer>
     </div>
   );

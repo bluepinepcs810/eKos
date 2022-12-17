@@ -8,7 +8,6 @@ import WalletButton from './WalletButton';
 import ArrowDownIcon from '../../assets/icon/arrow-down-1.svg';
 import ArrowUpIcon from '../../assets/icon/arrow-up-1.svg';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { useGetNonce } from '../../hooks/api.hooks';
 
 const ConnectWalletButton: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
   props
