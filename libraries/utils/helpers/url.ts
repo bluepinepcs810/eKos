@@ -7,10 +7,11 @@ export const serializeToQuery = (
     if (obj.hasOwnProperty(p)) {
       const k = prefix ? prefix + '[' + p + ']' : p,
         v = obj[p];
-      if (v === undefined) continue;
-      const value = v !== null && typeof v === 'object'
-        ? serializeToQuery(v, k)
-        : encodeURIComponent(k) + '=' + encodeURIComponent(v);
+      if (v === undefined || v === '') continue;
+      const value =
+        v !== null && typeof v === 'object'
+          ? serializeToQuery(v, k)
+          : encodeURIComponent(k) + '=' + encodeURIComponent(v);
       if (!value) continue;
       str.push(value);
     }

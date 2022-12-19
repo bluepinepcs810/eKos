@@ -135,15 +135,15 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  word-wrap: break-word;/* Important for long words! */
+  word-wrap: break-word; /* Important for long words! */
   max-height: 38px;
 }
 
 .message {
   &-me {
-    background: #C883FF;
+    background: #c883ff;
   }
   &-other {
-    background: #8A5FE8;
+    background: #8a5fe8;
   }
 }

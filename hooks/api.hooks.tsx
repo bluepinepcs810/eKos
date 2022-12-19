@@ -5,7 +5,9 @@ import {
   useQueryClient,
   useInfiniteQuery,
 } from 'react-query';
-import useProductFilter, { ProductFilterType } from '../components/products/hooks/useProductFilter';
+import useProductFilter, {
+  ProductFilterType,
+} from '../components/products/hooks/useProductFilter';
 import AuthApi from '../libraries/api/auth';
 import { ProductApi } from '../libraries/api/product';
 import { ProductModel } from '../libraries/models/product';
@@ -50,10 +52,10 @@ export const useProductList = (query: ProductFilterType) => {
     },
     {
       getNextPageParam: (lastPage, allPages) => {
-        if (!lastPage.products.length) return undefined;
+        if (!lastPage.productList.length) return undefined;
         return allPages.length + 1;
       },
-      retry: 1
+      retry: 1,
     }
   );
 };

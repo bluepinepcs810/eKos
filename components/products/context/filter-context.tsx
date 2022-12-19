@@ -18,7 +18,6 @@ export type ProductPriceFilterType = {
   to?: number;
 };
 
-
 export enum ProductSorterEnum {
   PRICE = 'price',
   CONDITION = 'condition',
@@ -60,7 +59,6 @@ export const ProductFilterContext = React.createContext<{
 export const ProductFilterContextProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-
   const [state, dispatch] = useReducer(productFilterReducer, initialState);
   return (
     <ProductFilterContext.Provider value={{ state, dispatch }}>

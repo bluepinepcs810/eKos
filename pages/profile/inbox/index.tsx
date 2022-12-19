@@ -1,7 +1,7 @@
-import InboxPane from "../../../components/profile/inbox/InboxPane";
-import ProfileLeftPane from "../../../components/profile/ProfileLeftPane";
-import UserTap from "../../../components/snippet/UserTap";
-import { ProfilePane } from "../../../libraries/types/pages/profile";
+import InboxPane from '../../../components/profile/inbox/InboxPane';
+import ProfileLeftPane from '../../../components/profile/ProfileLeftPane';
+import UserTap from '../../../components/snippet/UserTap';
+import { ProfilePane } from '../../../libraries/types/pages/profile';
 
 const Inbox = () => {
   return (
@@ -13,6 +13,6 @@ const Inbox = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 export default Inbox;

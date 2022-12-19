@@ -1,5 +1,5 @@
-import { MessageItemType } from "../../../libraries/types/chat";
-import MessageItem from "./MessageItem";
+import { MessageItemType } from '../../../libraries/types/chat';
+import MessageItem from './MessageItem';
 
 const messages: MessageItemType[] = [
   {
@@ -107,14 +107,14 @@ const messages: MessageItemType[] = [
     senderId: 'me',
     receiverId: 'you',
   },
-]
+];
 const MessageList = () => {
   return (
     <div className="flex flex-col-reverse overflow-y-scroll gap-y-2 p-2.5">
-      {messages.map(message => (
+      {messages.map((message) => (
         <MessageItem data={message} key={message.id} />
       ))}
     </div>
-  )
-}
+  );
+};
 export default MessageList;

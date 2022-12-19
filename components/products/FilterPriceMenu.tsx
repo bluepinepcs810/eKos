@@ -13,7 +13,13 @@ const FilterPriceMenu = () => {
     state: { activeFilterSection },
     dispatch,
   } = useContext(ProductFilterContext);
-  const { query, handleApply: queryApply, setFrom, setTo, refresh } = useProductFilter();
+  const {
+    query,
+    handleApply: queryApply,
+    setFrom,
+    setTo,
+    refresh,
+  } = useProductFilter();
 
   const handleClick = useCallback(() => {
     dispatch({
@@ -87,7 +93,9 @@ const FilterPriceMenu = () => {
                 placeholder="0"
                 type="number"
                 value={query.priceFrom}
-                onChange={(e) => setFrom(e.target.value ? parseInt(e.target.value): undefined)}
+                onChange={(e) =>
+                  setFrom(e.target.value ? parseInt(e.target.value) : undefined)
+                }
               />
             </div>
           </div>
@@ -102,7 +110,7 @@ const FilterPriceMenu = () => {
                 type="number"
                 value={query.priceTo}
                 onChange={(e) =>
-                  setTo(e.target.value ? parseInt(e.target.value): undefined)
+                  setTo(e.target.value ? parseInt(e.target.value) : undefined)
                 }
               />
             </div>

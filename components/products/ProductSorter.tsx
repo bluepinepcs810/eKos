@@ -1,23 +1,21 @@
 import { useCallback } from 'react';
-import {
-  ProductSorterEnum,
-} from './context/filter-context';
+import { ProductSorterEnum } from './context/filter-context';
 import useProductFilter from './hooks/useProductFilter';
 
 const ProductSorter = () => {
   const { query, handleApply } = useProductFilter();
 
   const handleAscClick = useCallback(() => {
-    handleApply({ dir: 'asc'})
+    handleApply({ dir: 'asc' });
   }, [handleApply]);
 
   const handleDescClick = useCallback(() => {
-    handleApply({ dir: 'desc'})
+    handleApply({ dir: 'desc' });
   }, [handleApply]);
 
   const handleSortChange = useCallback(
     (value: ProductSorterEnum) => {
-      handleApply({ sort: value});
+      handleApply({ sort: value });
     },
     [handleApply]
   );

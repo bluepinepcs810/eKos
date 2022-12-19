@@ -68,7 +68,7 @@ const ProductCreatePage = () => {
         .then((response) => {
           console.log(response);
           showSuccess('Successfully listed');
-          router.push(`/products/${response.product.id}`);
+          router.push(`/products/${response.productId}`);
         })
         .catch((e) => {
           showError(e.message);

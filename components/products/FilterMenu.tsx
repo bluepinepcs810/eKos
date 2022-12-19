@@ -22,7 +22,6 @@ const FiltersMenu = () => {
         className="!w-full !max-w-[524px]"
       >
         <ProductFilterDrawer onClose={() => setOpen(false)} />
-        {/* <ProductCategoryPane /> */}
       </Drawer>
     </div>
   );

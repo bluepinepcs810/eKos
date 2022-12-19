@@ -1,4 +1,4 @@
-import InboxItem from "./InboxItem";
+import InboxItem from './InboxItem';
 
 const ReadsBox = () => {
   return (
@@ -13,6 +13,6 @@ const ReadsBox = () => {
       <InboxItem />
       <InboxItem />
     </>
-  )
-}
+  );
+};
 export default ReadsBox;

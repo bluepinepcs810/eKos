@@ -1,4 +1,4 @@
-import InboxItem from "./InboxItem";
+import InboxItem from './InboxItem';
 
 const UnreadsBox = () => {
   return (
@@ -13,6 +13,6 @@ const UnreadsBox = () => {
       <InboxItem />
       <InboxItem />
     </>
-  )
-}
+  );
+};
 export default UnreadsBox;

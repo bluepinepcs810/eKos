@@ -9,7 +9,7 @@ import { ID, Pager } from '../types/common';
 
 const createProduct = async (
   data: ProductModel
-): Promise<{ product: ProductDetailModel }> => {
+): Promise<{ productId: ID }> => {
   const formData = new FormData();
   for (const key in data) {
     if (key === 'photos') {
@@ -33,13 +33,16 @@ const createProduct = async (
 const retrieveProduct = async (
   id: ID
 ): Promise<{ product: ProductDetailModel }> => {
-  return Api.get(`/product/${id}`);
+  return Api.get(`/product/`, { id });
 };
 
 const listProduct = async (
   filter: Pager<ProductFilterType>
-): Promise<{ products: ProductShortModel[] }> => {
-  return Api.get(`/product`, filter);
+): Promise<{ productList: ProductDetailModel[] }> => {
+  return Api.get(`/product`, {
+    ...filter,
+    condition: filter.condition?.join(','),
+  });
 };
 export const ProductApi = {
   createProduct,

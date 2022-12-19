@@ -18,7 +18,6 @@ export type ProductSorterType = {
   dir?: 'asc' | 'desc';
 };
 
-
 export type ProductFilterType = {
   q?: string;
   sort?: ProductSorterEnum;
@@ -92,24 +91,27 @@ const useProductFilter = () => {
     queryClient.resetQueries({ queryKey: ['listProduct'] });
   }, [queryClient]);
 
-  const handleApply = useCallback((data?: ProductFilterType) => {
-    let queryData: any = {
-      q,
-      sort,
-      dir,
-      category,
-      priceFrom,
-      priceTo,
-      condition,
-    };
-    if (data) {
-      queryData = {...queryData, ...data};
-    }
-    queryData.condition = queryData.condition.join(',');
-    const url = '/products?' + serializeToQuery(queryData);
-    router.push(url)
-    // queryClient.resetQueries({ queryKey: ['listProduct'] });
-  }, [category, condition, dir, priceFrom, priceTo, q, router, sort])
+  const handleApply = useCallback(
+    (data?: ProductFilterType) => {
+      let queryData: any = {
+        q,
+        sort,
+        dir,
+        category,
+        priceFrom,
+        priceTo,
+        condition,
+      };
+      if (data) {
+        queryData = { ...queryData, ...data };
+      }
+      queryData.condition = queryData.condition.join(',');
+      const url = '/products?' + serializeToQuery(queryData);
+      router.push(url);
+      // queryClient.resetQueries({ queryKey: ['listProduct'] });
+    },
+    [category, condition, dir, priceFrom, priceTo, q, router, sort]
+  );
 
   useEffect(() => {
     refresh();
@@ -133,7 +135,7 @@ const useProductFilter = () => {
     setCondition,
     refetchProducts,
     refresh,
-    handleApply
+    handleApply,
   };
 };
 export default useProductFilter;

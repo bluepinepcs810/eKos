@@ -3,5 +3,5 @@ export enum ProfilePane {
   INBOX,
   PRODUCTS,
   FAVORITES,
-  WALLET
+  WALLET,
 }

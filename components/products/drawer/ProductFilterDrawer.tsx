@@ -1,7 +1,10 @@
-'use client'
+'use client';
 
-import { FC, useCallback, useState } from 'react';
-import { findCategoryItem } from '../../../libraries/constants/categories';
+import { FC, useCallback, useState, useEffect } from 'react';
+import {
+  CategoryItemType,
+  findCategoryItem,
+} from '../../../libraries/constants/categories';
 import ArrowRight from '../../../assets/icon/menu-arrow-right.svg';
 import useProductFilter from '../hooks/useProductFilter';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -15,32 +18,41 @@ export type ProductFilterPaneType = 'category' | 'price' | 'main';
 
 const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
   const [currentPane, setCurrentPane] = useState<ProductFilterPaneType>('main');
-  const { query, setFrom, setTo, refresh, handleApply } =
+  const { query, setCategory, setFrom, setTo, refresh, handleApply } =
     useProductFilter();
 
   const category = findCategoryItem(query.category);
+
   const handleCancel = useCallback(() => {
     refresh();
     onClose();
   }, [onClose, refresh]);
 
+  const handleSelectCategory = useCallback(
+    (category: CategoryItemType) => {
+      setCategory(category.key);
+      setCurrentPane('main');
+    },
+    [setCategory]
+  );
 
   return (
-    <div className='overflow-hidden'>
+    <div className="overflow-hidden">
       <AnimatePresence>
-        {currentPane === 'main' &&
+        {currentPane === 'main' && (
           <motion.div
-            className='bg-main-light h-full overflow-y-auto'
-            initial={{ x: '-100%', opacity: 0}}
-            animate={{ x: 0, opacity: 1}}
-            exit={{ x: '-100%'}}
-            transition={{ x: { duration: 0 }}}
+            className="bg-main-light h-full overflow-y-auto"
+            initial={{ x: '-100%', opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: '-100%' }}
+            transition={{ x: { duration: 0 } }}
           >
             <div className="bg-main-light h-full overflow-y-auto">
               <div className="pr-14 pt-20 pl-32 pb-8">
                 {/* B Category selector */}
                 <div className="text-main-weighted pt-5">Category</div>
-                <button className="flex py-5 items-center justify-between border-b border-third-main w-full"
+                <button
+                  className="flex py-5 items-center justify-between border-b border-third-main w-full"
                   onClick={() => setCurrentPane('category')}
                 >
                   <div className="flex items-center gap-x-3.5">
@@ -66,7 +78,13 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
                         placeholder="0"
                         type="number"
                         value={query.priceFrom}
-                        onChange={(e) => setFrom(e.target.value ? parseInt(e.target.value): undefined)}
+                        onChange={(e) =>
+                          setFrom(
+                            e.target.value
+                              ? parseInt(e.target.value)
+                              : undefined
+                          )
+                        }
                       />
                     </div>
                   </div>
@@ -81,7 +99,11 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
                         type="number"
                         value={query.priceTo}
                         onChange={(e) =>
-                          setTo(e.target.value ? parseInt(e.target.value): undefined)
+                          setTo(
+                            e.target.value
+                              ? parseInt(e.target.value)
+                              : undefined
+                          )
                         }
                       />
                     </div>
@@ -100,7 +122,9 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
                 {/* E Condition selector */}
 
                 {/* Footer */}
-                <div className="text-main-weighted pt-5 mb-5">Time of listing</div>
+                <div className="text-main-weighted pt-5 mb-5">
+                  Time of listing
+                </div>
                 <div className="flex justify-around text-main-weighted pb-5 border-b border-third-main">
                   <div className="flex flex-col items-center">
                     <div className="text-2xl">24</div>
@@ -126,27 +150,33 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
                 </button>
                 <button
                   className="rounded-full text-main-light border border-main-dark px-5 py-2 filled-button"
-                  onClick={() => { onClose(); handleApply(); }}
+                  onClick={() => {
+                    onClose();
+                    handleApply();
+                  }}
                 >
                   Apply
                 </button>
               </div>
             </div>
           </motion.div>
-        }
+        )}
       </AnimatePresence>
       <AnimatePresence>
-        {currentPane === 'category' &&
+        {currentPane === 'category' && (
           <motion.div
-            className='h-full'
+            className="h-full"
             initial={{ x: '100%', opacity: 0 }}
-            animate={{ x: 0, opacity: 1}}
-            exit={{ x: '100%', opacity: 0}}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: '100%', opacity: 0 }}
             // transition={{ x: { duration: 0 }}}
           >
-            <ProductCategoryPane setPane={setCurrentPane} />
+            <ProductCategoryPane
+              setPane={setCurrentPane}
+              setCategory={handleSelectCategory}
+            />
           </motion.div>
-        }
+        )}
       </AnimatePresence>
     </div>
   );

@@ -9,16 +9,16 @@ import {
 import HeartButton from '../snippet/HeartButton';
 
 type ProductCardProps = {
-  data: ProductShortModel;
+  data: ProductDetailModel;
 };
 const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
   return (
     <Link href={'/products/' + data.id}>
       <div className="product-card max-w-[275px] bg-main-light p-[5px] rounded-lg cursor-pointer hover:drop-shadow-lg transition">
-        <div className="product-card__image">
+        <div className="product-card__image max-w-[275px] max-h-[187px] object-cover overflow-hidden rounded-md">
           <Image
             className="rounded-md"
-            src="/assets/product.jpg"
+            src={data.photos.length ? data.photos[0] : '/assets/product.jpg'}
             alt="product"
             width={275}
             height={187}

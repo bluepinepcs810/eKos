@@ -2,7 +2,11 @@ import { useCallback, useState } from 'react';
 
 const HeartButton = () => {
   const [active, setActive] = useState(false);
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback((e: any) => {
+    console.log({ e });
+    e.stopPropagation();
+    e.nativeEvent.preventDefault();
+    e.nativeEvent.stopImmediatePropagation();
     setActive((old) => !old);
   }, []);
 

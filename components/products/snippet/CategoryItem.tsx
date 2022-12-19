@@ -8,9 +8,7 @@ import { ProductFilterActionTypes } from '../context/fitler-reducer';
 import useProductFilter from '../hooks/useProductFilter';
 
 const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => {
-  const {
-    dispatch,
-  } = useContext(ProductFilterContext);
+  const { dispatch } = useContext(ProductFilterContext);
 
   const { query, handleApply } = useProductFilter();
   const handleClick = useCallback(() => {
@@ -19,7 +17,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => {
       type: ProductFilterActionTypes.SET_SECTION,
       payload: ProductFilterSections.NONE,
     });
-    handleApply({ category: category.key});
+    handleApply({ category: category.key });
   }, [category.key, dispatch, handleApply, query.category]);
   return (
     <div

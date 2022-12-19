@@ -59,7 +59,7 @@ const Header = () => {
                 </div>
                 <Link
                   className="flex gap-x-2 group text-main-dark hover:text-main-weighted"
-                  href={"/profile/inbox"}
+                  href={'/profile/inbox'}
                 >
                   <svg
                     width="25"

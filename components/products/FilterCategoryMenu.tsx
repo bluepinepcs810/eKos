@@ -3,7 +3,10 @@ import ArrowDownIcon from '../../assets/icon/arrow-down.svg';
 import CATEGORIES, {
   findCategoryItem,
 } from '../../libraries/constants/categories';
-import { ProductFilterContext, ProductFilterSections } from './context/filter-context';
+import {
+  ProductFilterContext,
+  ProductFilterSections,
+} from './context/filter-context';
 import { ProductFilterActionTypes } from './context/fitler-reducer';
 import useProductFilter from './hooks/useProductFilter';
 import CategoryItem from './snippet/CategoryItem';

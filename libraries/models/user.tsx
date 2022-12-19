@@ -2,9 +2,10 @@ import { ID } from '../types/common';
 
 export type UserType = {
   id: ID;
-  name: string;
+  userName: string;
+  walletAddress: string;
   avatar?: string;
-  rate?: number;
+  rating?: number;
 };
 
 export type UserShortType = {

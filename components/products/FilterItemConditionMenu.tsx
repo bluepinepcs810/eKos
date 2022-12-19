@@ -17,7 +17,12 @@ const FilterItemConditionMenu = () => {
     state: { activeFilterSection },
     dispatch,
   } = useContext(ProductFilterContext);
-  const { query, refresh, setCondition, handleApply: queryApply } = useProductFilter();
+  const {
+    query,
+    refresh,
+    setCondition,
+    handleApply: queryApply,
+  } = useProductFilter();
 
   const handleClick = useCallback(() => {
     dispatch({

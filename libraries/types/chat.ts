@@ -1,9 +1,9 @@
-import { ID } from "./common";
+import { ID } from './common';
 
 export type MessageItemType = {
-  id: ID,
+  id: ID;
   text: string;
-  createdAt: string,
-  senderId: string,
-  receiverId: string,
-}
+  createdAt: string;
+  senderId: string;
+  receiverId: string;
+};

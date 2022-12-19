@@ -47,7 +47,7 @@ const ProductDetail = () => {
         <div className="product-detail__card w-full bg-main-light p-5">
           <div className="product-detail__card__header flex justify-between gap-x-5 mb-5">
             <div className="product-detail__card__header--info flex justify-between flex-grow">
-              <UserTap data={{ name: 'Bob S.', rate: 3, id: 1 }} />
+              <UserTap data={data.product.listedUser} />
               <div className="product-detail__card__header--review flex flex-col justify-center gap-y-3">
                 <StarRating rate={2} size={20} spacing={2} />
                 <div className="text-center text-main-dark">
@@ -83,7 +83,7 @@ const ProductDetail = () => {
                     <div className="h-[350px] overflow-hidden relative">
                       <Image
                         className="rounded-md w-full object-cover"
-                        src="/assets/product.jpg"
+                        src={item}
                         alt="product"
                         width={275}
                         height={187}
@@ -171,7 +171,9 @@ const ProductDetail = () => {
                         fill="#B79ADD"
                       />
                     </svg>
-                    <span className="text-second-main">12</span>
+                    <span className="text-second-main">
+                      {data.product.viewed}
+                    </span>
                   </div>
                   <div className="view-count flex gap-x-2 items-center">
                     <svg
@@ -187,7 +189,9 @@ const ProductDetail = () => {
                         strokeWidth="2"
                       />
                     </svg>
-                    <span className="text-second-main">12</span>
+                    <span className="text-second-main">
+                      {data.product.liked}
+                    </span>
                   </div>
                 </div>
               </div>

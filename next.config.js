@@ -9,6 +9,9 @@ const nextConfig = {
     });
     return config;
   },
+  images: {
+    domains: ['res.cloudinary.com', 'i.picsum.photos'],
+  },
 };
 
 module.exports = nextConfig;

@@ -1,7 +1,7 @@
 import { CATEGORY_KEYS } from '../constants/categories';
 import { ProductCondition } from '../constants/products';
 import { FileType, ID } from '../types/common';
-import { UserShortType } from './user';
+import { UserShortType, UserType } from './user';
 
 export enum CoinTypeEnum {
   SOL = 1,
@@ -32,10 +32,10 @@ export type ProductDetailModel = ProductBaseModel & {
   id: ID;
   photos: string[];
 
-  seller: UserShortType;
+  listedUser: UserType;
   rate: number;
   rateCount: number;
   isLiked: boolean;
-  viewCount: number;
-  likeCount: number;
+  viewed: number;
+  liked: number;
 };

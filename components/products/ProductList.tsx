@@ -17,8 +17,15 @@ const ProductList = () => {
   } = useContext(ProductFilterContext);
   const queryClient = useQueryClient();
   const { query } = useProductFilter();
-  const { data, isSuccess, hasNextPage, fetchNextPage, refetch, isError, error } =
-    useProductList(query);
+  const {
+    data,
+    isSuccess,
+    hasNextPage,
+    fetchNextPage,
+    refetch,
+    isError,
+    error,
+  } = useProductList(query);
 
   useEffect(() => {
     queryClient.resetQueries({ queryKey: ['listProduct'] });
@@ -29,7 +36,7 @@ const ProductList = () => {
     if (isError) {
       showError((error as any).message);
     }
-  }, [error, isError])
+  }, [error, isError]);
 
   return (
     <div className="product-list bg-main pt-8 flex justify-center relative">
@@ -45,7 +52,7 @@ const ProductList = () => {
         <div className="product-list__body flex flex-wrap gap-x-6 gap-y-9">
           {isSuccess &&
             data.pages.map((page) =>
-              page.products.map((item) => (
+              page.productList.map((item) => (
                 <ProductCard data={item} key={item.id} />
               ))
             )}
