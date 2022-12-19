@@ -51,7 +51,7 @@ const ProductDetail = () => {
               <div className="product-detail__card__header--review flex flex-col justify-center gap-y-3">
                 <StarRating rate={2} size={20} spacing={2} />
                 <div className="text-center text-main-dark">
-                  <span className="font-semibold mr-1">0</span>
+                  <span className="font-semibold mr-1">{data.product.reviewed}</span>
                   <span className="text-sm">Reviews</span>
                 </div>
               </div>

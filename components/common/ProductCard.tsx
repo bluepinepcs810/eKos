@@ -1,17 +1,19 @@
+import { useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import SolanaIcon from '../../assets/icon/solana.svg';
 import {
   ProductDetailModel,
-  ProductShortModel,
 } from '../../libraries/models/product';
 import HeartButton from '../snippet/HeartButton';
+import { CoinGeckoContext } from '../providers/CoingeckoProvider';
 
 type ProductCardProps = {
   data: ProductDetailModel;
 };
 const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
+  const { solanaPrice } = useContext(CoinGeckoContext);
   return (
     <Link href={'/products/' + data.id}>
       <div className="product-card max-w-[275px] bg-main-light p-[5px] rounded-lg cursor-pointer hover:drop-shadow-lg transition">
@@ -38,7 +40,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
               </div>
               <div className="product-card__meta__info__price-dollar text-sm flex items-center text-main-thick">
                 {/* TODO integrate solana price api */}
-                <span>(4.77$)</span>
+                {!!solanaPrice && (
+                  <span>({solanaPrice * data.price}$)</span>
+                )}
               </div>
             </div>
           </div>

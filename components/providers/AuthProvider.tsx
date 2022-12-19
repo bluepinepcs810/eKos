@@ -4,8 +4,6 @@ import { useGetNonce, useSignIn } from '../../hooks/api.hooks';
 import LocalStorage from '../../libraries/utils/helpers/local-storage';
 import { useStoreActions, useStoreState } from '../../store/types';
 import { showError, showSuccess } from '../../libraries/utils/toast';
-import bs58 from 'bs58';
-import nacl from 'tweetnacl';
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { connected, publicKey, signMessage, disconnect, disconnecting } =

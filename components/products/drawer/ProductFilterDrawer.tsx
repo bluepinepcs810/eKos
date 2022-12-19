@@ -37,7 +37,7 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
   );
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden h-full">
       <AnimatePresence>
         {currentPane === 'main' && (
           <motion.div

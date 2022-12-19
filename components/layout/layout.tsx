@@ -4,6 +4,7 @@ import Header from '../common/Header';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AuthProvider from '../providers/AuthProvider';
 import Web3Provider from '../providers/Web3Provider';
+import CoingeckoProvider from '../providers/CoingeckoProvider';
 
 const PageLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const queryClient = new QueryClient();
@@ -12,9 +13,11 @@ const PageLayout: React.FC<PropsWithChildren> = ({ children }) => {
       <Web3Provider>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
-            <Header />
-            <main>{children}</main>
-            <Footer />
+            <CoingeckoProvider>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+            </CoingeckoProvider>
           </AuthProvider>
         </QueryClientProvider>
       </Web3Provider>

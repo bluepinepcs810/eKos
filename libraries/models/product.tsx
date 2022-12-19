@@ -38,4 +38,5 @@ export type ProductDetailModel = ProductBaseModel & {
   isLiked: boolean;
   viewed: number;
   liked: number;
+  reviewed: number;
 };

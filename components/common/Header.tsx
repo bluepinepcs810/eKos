@@ -6,9 +6,16 @@ import ListProductButton from '../snippet/ListProductButton';
 import MagnifierIcon from '../../assets/icon/magnifier-gray.svg';
 import Link from 'next/link';
 import { useStoreState } from '../../store/types';
+import useProductFilter from '../products/hooks/useProductFilter';
+import { useRouter } from 'next/router';
 
 const Header = () => {
   const { signedIn } = useStoreState((state) => state.session);
+  const { query: { q }, setQ, handleApply } = useProductFilter();
+  const handleSubmit = useCallback((e: any) => {
+    e.preventDefault();
+    handleApply();
+  }, [handleApply])
   return (
     <div className="header bg-main flex justify-center h-[70px]">
       <div className="content-container flex justify-between">
@@ -23,18 +30,22 @@ const Header = () => {
           <div className="header__search mr-6">
             {/* ----- B Search box ------*/}
             <div className="search-box">
-              <div className="flex gap-x-2 bg-white justify-start items-center rounded-full px-3 py-2">
-                <div className="icon">
-                  <MagnifierIcon />
+              <form onSubmit={handleSubmit}>
+                <div className="flex gap-x-2 bg-white justify-start items-center rounded-full px-3 py-2">
+                  <div className="icon">
+                    <MagnifierIcon />
+                  </div>
+                  <div className="search-input rounded-full">
+                    <input
+                      className="mr-5 w-56"
+                      type="text"
+                      placeholder="Search"
+                      value={q}
+                      onChange={e => setQ(e.target.value)}
+                    />
+                  </div>
                 </div>
-                <div className="search-input rounded-full">
-                  <input
-                    className="mr-5 w-56"
-                    type="text"
-                    placeholder="Search"
-                  />
-                </div>
-              </div>
+              </form>
             </div>
             {/* ----- E Search box ------*/}
           </div>
