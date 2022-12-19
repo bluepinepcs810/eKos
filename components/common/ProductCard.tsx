@@ -8,6 +8,7 @@ import {
 } from '../../libraries/models/product';
 import HeartButton from '../snippet/HeartButton';
 import { CoinGeckoContext } from '../providers/CoingeckoProvider';
+import { roundNumber } from '../../libraries/utils/helpers/string';
 
 type ProductCardProps = {
   data: ProductDetailModel;
@@ -41,7 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
               <div className="product-card__meta__info__price-dollar text-sm flex items-center text-main-thick">
                 {/* TODO integrate solana price api */}
                 {!!solanaPrice && (
-                  <span>({solanaPrice * data.price}$)</span>
+                  <span>({roundNumber(solanaPrice * data.price)}$)</span>
                 )}
               </div>
             </div>

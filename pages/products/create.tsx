@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import CATEGORIES, {
   CATEGORY_KEYS,
 } from '../../libraries/constants/categories';
@@ -14,6 +15,8 @@ import { useProductCreate } from '../../hooks/api.hooks';
 import { showError, showSuccess } from '../../libraries/utils/toast';
 import { useRouter } from 'next/router';
 import PageLoader from '../../components/common/PageLoader';
+import { CoinGeckoContext } from '../../components/providers/CoingeckoProvider';
+import { roundNumber } from '../../libraries/utils/helpers/string';
 
 const ProductCreatePage = () => {
   const router = useRouter();
@@ -36,7 +39,7 @@ const ProductCreatePage = () => {
       photos: [],
     },
   });
-
+  const { solanaPrice } = useContext(CoinGeckoContext);
   const categories = useMemo(
     () => CATEGORIES.filter((item) => item.key !== CATEGORY_KEYS.ALL),
     []
@@ -44,6 +47,7 @@ const ProductCreatePage = () => {
 
   const photos = watch('photos', []);
   const hashTags = watch('hashTags', []);
+  const price = watch('price', 1);
 
   const handlePhotoChange = useCallback(
     ({ files }: RDropzoneData) => {
@@ -171,7 +175,7 @@ const ProductCreatePage = () => {
                     </div>
                   </div>
                   <div className="text-main-weighted flex justify-start items-center ml-4 w-32">
-                    <div>=??$</div>
+                    <div>={!!solanaPrice ? roundNumber(solanaPrice * price): '??'}$</div>
                   </div>
                 </div>
                 {errors.price && (
