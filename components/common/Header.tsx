@@ -11,11 +11,18 @@ import { useRouter } from 'next/router';
 
 const Header = () => {
   const { signedIn } = useStoreState((state) => state.session);
-  const { query: { q }, setQ, handleApply } = useProductFilter();
-  const handleSubmit = useCallback((e: any) => {
-    e.preventDefault();
-    handleApply();
-  }, [handleApply])
+  const {
+    query: { q },
+    setQ,
+    handleApply,
+  } = useProductFilter();
+  const handleSubmit = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      handleApply();
+    },
+    [handleApply]
+  );
   return (
     <div className="header bg-main flex justify-center h-[70px]">
       <div className="content-container flex justify-between">
@@ -41,7 +48,7 @@ const Header = () => {
                       type="text"
                       placeholder="Search"
                       value={q}
-                      onChange={e => setQ(e.target.value)}
+                      onChange={(e) => setQ(e.target.value)}
                     />
                   </div>
                 </div>

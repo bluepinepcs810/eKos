@@ -175,7 +175,10 @@ const ProductCreatePage = () => {
                     </div>
                   </div>
                   <div className="text-main-weighted flex justify-start items-center ml-4 w-32">
-                    <div>={!!solanaPrice ? roundNumber(solanaPrice * price): '??'}$</div>
+                    <div>
+                      ={!!solanaPrice ? roundNumber(solanaPrice * price) : '??'}
+                      $
+                    </div>
                   </div>
                 </div>
                 {errors.price && (

@@ -9,7 +9,7 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
   return (
     <div className="left-pane w-full max-w-[200px] h-full border-r-4 px-1 pt-5">
       <div className="py-2 px-3 mb-4">
-        <UserTap data={{ name: 'Bob S', rate: 3, id: 1 }} />
+        <UserTap data={{ userName: 'Bob S', rating: 3, id: 1, walletAddress: 'test' }} />
       </div>
       <div className="flex flex-col gap-y-1.5">
         <div

@@ -1,6 +1,5 @@
 import FilterCategoryMenu from './FilterCategoryMenu';
 import FilterItemConditionMenu from './FilterItemConditionMenu';
-import FilterLocationMenu from './FilterLocationMenu';
 import FiltersMenu from './FilterMenu';
 import FilterPriceMenu from './FilterPriceMenu';
 import ProductSorter from './ProductSorter';

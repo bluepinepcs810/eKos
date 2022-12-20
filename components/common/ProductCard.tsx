@@ -3,9 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import SolanaIcon from '../../assets/icon/solana.svg';
-import {
-  ProductDetailModel,
-} from '../../libraries/models/product';
+import { ProductDetailModel } from '../../libraries/models/product';
 import HeartButton from '../snippet/HeartButton';
 import { CoinGeckoContext } from '../providers/CoingeckoProvider';
 import { roundNumber } from '../../libraries/utils/helpers/string';
