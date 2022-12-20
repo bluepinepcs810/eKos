@@ -26,6 +26,9 @@ export type ProductFilterType = {
   priceFrom?: number;
   priceTo?: number;
   condition?: ProductCondition[];
+
+  // special purposes
+  featured?: boolean;
 };
 
 const useProductFilter = () => {

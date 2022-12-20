@@ -18,6 +18,9 @@ const sessionStore: SessionModel = {
   unsetSessionInitial: action((state) => {
     state.session.initial = false;
   }),
+  setSessionMe: action((state, payload )=> {
+    state.session.me = payload;
+  })
 };
 
 export default sessionStore;

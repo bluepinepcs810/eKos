@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -23,12 +24,14 @@ const Footer = () => {
             <div className="mt-2 mb-6 text-main-light text-lg font-semibold">
               Home Page
             </div>
-            <div className="text-main-light mb-1">
-              What are you looking for?
-            </div>
-            <div className="text-main-light mb-1">Buy Premium</div>
-            <div className="text-main-light mb-1">Find a product near me</div>
-            <div className="text-main-light mb-1">Premium offerings</div>
+            <Link className="text-main-light mb-1" href="/#home-banner">
+              <div>
+                What are you looking for?
+              </div>
+            </Link>
+            <Link className="text-main-light mb-1" href="/#buy-premium"><div>Buy Premium</div></Link>
+            <Link className="text-main-light mb-1" href="/#find-product"><div>Find a product near me</div></Link>
+            <Link className="text-main-light mb-1" href="/#premium-offerings"><div>Premium offerings</div></Link>
           </div>
 
           <div className="footer__section w-1/4 flex flex-col justify-center">

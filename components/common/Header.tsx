@@ -10,7 +10,7 @@ import useProductFilter from '../products/hooks/useProductFilter';
 import { useRouter } from 'next/router';
 
 const Header = () => {
-  const { signedIn } = useStoreState((state) => state.session);
+  const { signedIn, me } = useStoreState((state) => state.session);
   const {
     query: { q },
     setQ,
@@ -94,27 +94,36 @@ const Header = () => {
                   <div>Inbox</div>
                 </Link>
                 <div className="flex group">
-                  <svg
-                    width="40"
-                    height="40"
-                    viewBox="0 0 40 40"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="20"
-                      cy="20"
-                      r="20"
-                      fill="#FCF5FF"
-                      className="fill-[#FCF5FF] group-hover:fill-[#D2B6F7]"
-                    />
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M4.60937 32.773C6.94518 25.6064 15.425 22 20 22C24.575 22 33.0548 25.6064 35.3906 32.773C31.722 37.1885 26.1893 40 20 40C13.8107 40 8.27797 37.1885 4.60937 32.773ZM20 18C23.866 18 27 14.866 27 11C27 7.13401 23.866 4 20 4C16.134 4 13 7.13401 13 11C13 14.866 16.134 18 20 18Z"
-                      fill="#5E25D9"
-                    />
-                  </svg>
+                  {me && me.avatar ?
+                    <Image src={me.avatar} width={40} height={40} alt={me.userName} className="rounded-full"/>
+                    :
+                    <svg
+                      width="40"
+                      height="40"
+                      viewBox="0 0 40 40"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="20"
+                        cy="20"
+                        r="20"
+                        fill="#FCF5FF"
+                        className="fill-[#FCF5FF] group-hover:fill-[#D2B6F7]"
+                      />
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M4.60937 32.773C6.94518 25.6064 15.425 22 20 22C24.575 22 33.0548 25.6064 35.3906 32.773C31.722 37.1885 26.1893 40 20 40C13.8107 40 8.27797 37.1885 4.60937 32.773ZM20 18C23.866 18 27 14.866 27 11C27 7.13401 23.866 4 20 4C16.134 4 13 7.13401 13 11C13 14.866 16.134 18 20 18Z"
+                        fill="#5E25D9"
+                      />
+                    </svg>
+                  }
+                </div>
+                <div className="header__list-product-btn">
+                  <Link href={'/products/create'}>
+                    <ListProductButton />
+                  </Link>
                 </div>
               </>
             ) : (
@@ -122,11 +131,6 @@ const Header = () => {
                 <ConnectWalletButton />
               </div>
             )}
-            <div className="header__list-product-btn">
-              <Link href={'/products/create'}>
-                <ListProductButton />
-              </Link>
-            </div>
           </div>
         </div>
       </div>

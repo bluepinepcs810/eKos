@@ -4,13 +4,21 @@ import { useGetNonce, useSignIn } from '../../hooks/api.hooks';
 import LocalStorage from '../../libraries/utils/helpers/local-storage';
 import { useStoreActions, useStoreState } from '../../store/types';
 import { showError, showSuccess } from '../../libraries/utils/toast';
+import AuthApi from '../../libraries/api/auth';
+import { useRouter } from 'next/router';
+
+const GUARDED = [
+  '/products/create',
+  '/profile/'
+]
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const router = useRouter();
   const { connected, publicKey, signMessage, disconnect, disconnecting } =
     useWallet();
   const nonceResult = useGetNonce(publicKey);
   const signInMutate = useSignIn(publicKey);
-  const { signedIn, initial } = useStoreState((state) => state.session);
+  const { signedIn, initial, me } = useStoreState((state) => state.session);
   const setSessionInitial = useStoreActions(
     (actions) => actions.setSessionInitial
   );
@@ -19,6 +27,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   );
   const unsetSignedIn = useStoreActions((actions) => actions.unsetSignedIn);
   const setSignedIn = useStoreActions((actions) => actions.setSignedIn);
+  const setSessionMe = useStoreActions(actions => actions.setSessionMe);
 
   const signIn = useCallback(async () => {
     try {
@@ -26,25 +35,43 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       const encodedMessage = new TextEncoder().encode(msg);
       if (!signMessage) return;
       const signedMessage = await signMessage(encodedMessage);
-      const { accessToken } = await signInMutate.mutateAsync(signedMessage);
+      const { accessToken, user } = await signInMutate.mutateAsync(signedMessage);
       LocalStorage.saveToken(accessToken);
       setSignedIn();
+      setSessionMe(user);
       showSuccess('Successfully signed');
     } catch (e) {
       console.error(e);
       disconnect();
       showError('Sign in failed');
     }
-  }, [
-    disconnect,
-    nonceResult.data?.nonce,
-    setSignedIn,
-    signInMutate,
-    signMessage,
-  ]);
+  }, [disconnect, nonceResult.data?.nonce, setSessionMe, setSignedIn, signInMutate, signMessage]);
+
+  const getMe = useCallback(() => {
+    AuthApi.getMe()
+    .then(response => {
+      setSessionMe(response.user);
+    })
+    .catch(e => {
+      if (e.status === 401) {
+        setSessionMe(undefined);
+        unsetSignedIn();
+        window.location.reload();
+      }
+    });
+  }, [setSessionMe, unsetSignedIn])
 
   useEffect(() => {
-    if (nonceResult.isSuccess && connected) {
+    const path = router.pathname;
+    if(GUARDED.some(item => path.startsWith(item))) {
+      if (!signedIn || !me) {
+        router.push('/');
+      }
+    }
+  }, [me, router, signedIn])
+
+  useEffect(() => {
+    if (nonceResult.isSuccess && connected && !disconnecting) {
       if (signedIn) return;
       if (initial) {
         unsetSessionInitial();
@@ -53,22 +80,13 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
           signIn();
         } else {
           setSignedIn();
+          getMe();
         }
       }
     } else if (nonceResult.isError) {
       showError((nonceResult.error as any).message);
     }
-  }, [
-    connected,
-    initial,
-    nonceResult.error,
-    nonceResult.isError,
-    nonceResult.isSuccess,
-    setSignedIn,
-    signIn,
-    signedIn,
-    unsetSessionInitial,
-  ]);
+  }, [connected, disconnecting, getMe, initial, nonceResult.error, nonceResult.isError, nonceResult.isSuccess, setSignedIn, signIn, signedIn, unsetSessionInitial]);
 
   useEffect(() => {
     if (disconnecting) {
@@ -77,6 +95,13 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       LocalStorage.removeToken();
     }
   }, [disconnecting, setSessionInitial, unsetSignedIn]);
+
+  useEffect(() => {
+    const token = LocalStorage.getToken();
+    if (token) {
+      getMe();
+    }
+  }, [getMe])
 
   return <>{children}</>;
 };

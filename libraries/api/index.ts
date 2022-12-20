@@ -27,7 +27,7 @@ export type ApiMethodType = 'GET' | 'POST' | 'DELETE' | 'PUT';
 export const requestErrorHandler = (e: any, cb: Function) => {
   if (e.response && e.response.status === 401) {
     removeToken();
-    window.location.reload();
+    cb({ message: 'Session expired or not signed in. Please sign in again', status: 401})
     return;
   }
   if (

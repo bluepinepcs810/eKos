@@ -3,7 +3,7 @@ import BuyPremiumImage from '../../assets/buypremium.jpg';
 
 export default function BuyPremium() {
   return (
-    <section className="buypremium bg-main-gradient min-h-[300px] flex items-center justify-center">
+    <section className="buypremium bg-main-gradient min-h-[300px] flex items-center justify-center" id="buy-premium">
       <div className="content-container flex justify-between">
         <div className="buypremium__left flex flex-col items-start justify-center">
           <h2 className="text-[28px] text-main-light mb-4 font-semibold">

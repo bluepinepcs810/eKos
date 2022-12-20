@@ -4,7 +4,7 @@ import CityItem from './snippet/CityItem';
 
 const FindProduct = () => {
   return (
-    <section className="find-product bg-main-light min-h-[374px] flex justify-center items-center">
+    <section className="find-product bg-main-light min-h-[374px] flex justify-center items-center" id="find-product">
       <div className="content-container">
         <h2 className="text-[28px] font-semibold text-center text-main-thick mb-5">
           Find a product near me

@@ -48,7 +48,7 @@ import categories from '../../libraries/constants/categories';
 
 const Banner = () => {
   return (
-    <section className="banner bg-main-light min-h-[418px] flex items-center justify-center">
+    <section className="banner bg-main-light min-h-[418px] flex items-center justify-center" id="home-banner">
       <div className="content-container flex flex-col items-center justify-center">
         <h1 className="text-[28px] text-main-thick font-semibold mb-7">
           What are you looking for?

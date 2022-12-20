@@ -6,7 +6,7 @@ export const showError = (message: string | Object) => {
     return;
   }
   toastr.options = {
-    positionClass: 'toast-top-full-width',
+    positionClass: 'toast-bottom-full-width',
     hideDuration: 300,
     timeOut: 60000,
   };
@@ -20,7 +20,7 @@ export const showSuccess = (message: string | Object) => {
     return;
   }
   toastr.options = {
-    positionClass: 'toast-top-full-width',
+    positionClass: 'toast-bottom-full-width',
     hideDuration: 300,
     timeOut: 60000,
   };

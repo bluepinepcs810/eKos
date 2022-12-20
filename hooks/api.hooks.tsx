@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { PublicKey } from '@solana/web3.js';
 import {
   useQuery,
@@ -5,13 +6,41 @@ import {
   useQueryClient,
   useInfiniteQuery,
 } from 'react-query';
-import useProductFilter, {
+import {
   ProductFilterType,
 } from '../components/products/hooks/useProductFilter';
 import AuthApi from '../libraries/api/auth';
 import { ProductApi } from '../libraries/api/product';
 import { ProductModel } from '../libraries/models/product';
 import { ID } from '../libraries/types/common';
+import { useStoreActions } from '../store/types';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useRouter } from 'next/router';
+
+
+export const useAuthErrorHandler = () => {
+  const queryClient = useQueryClient();
+  const setSessionInitial = useStoreActions(
+    (actions) => actions.setSessionInitial
+  );
+  const unsetSignedIn = useStoreActions((actions) => actions.unsetSignedIn);
+  const { disconnect, publicKey } = useWallet();
+  const authError = useCallback((error: any) => {
+    if (error.status === 401) {
+      queryClient.resetQueries({ queryKey: ['getNonce', publicKey]});
+      disconnect();
+      setTimeout(() => {
+        unsetSignedIn();
+        setSessionInitial();
+      }, 500)
+    }
+  }, [disconnect, publicKey, queryClient, setSessionInitial, unsetSignedIn]);
+
+  return {
+    authError
+  }
+
+}
 
 export const useGetNonce = (publicKey: PublicKey | null) =>
   useQuery(
@@ -26,10 +55,15 @@ export const useSignIn = (publicKey: PublicKey | null) =>
 
 export const useProductCreate = () => {
   const queryClient = useQueryClient();
+  const { authError } = useAuthErrorHandler();
+
   return useMutation((data: ProductModel) => ProductApi.createProduct(data), {
     onSuccess: () => {
       queryClient.invalidateQueries(['listProduct']);
     },
+    onError: (error: any) => {
+      authError(error);
+    }
   });
 };
 
