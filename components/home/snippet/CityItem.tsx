@@ -7,7 +7,7 @@ type CityItemProps = {
 };
 const CityItem: React.FC<CityItemProps> = ({ image, text }) => {
   return (
-    <div className="flex p-[3px] bg-main rounded-lg w-[175px]">
+    <div className="city-item flex p-[3px] bg-main rounded-lg">
       <Image
         className="rounded-md"
         src={image}

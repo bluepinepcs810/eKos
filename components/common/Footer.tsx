@@ -4,9 +4,9 @@ import Link from 'next/link';
 const Footer = () => {
   return (
     <footer className="footer flex justify-center bg-main-gradient">
-      <div className="content-container pt-5 pb-8">
-        <div className="w-full flex">
-          <div className="footer__section w-1/4">
+      <div className="content-container pt-10 md:pt-5 pb-8 md:pb-8">
+        <div className="w-full flex flex-col md:flex-row">
+          <div className="footer__section md:w-1/4">
             <div className="footer__logo">
               <Image
                 src="/assets/eKosLogo-dark.png"
@@ -20,7 +20,7 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="footer__section w-1/4">
+          <div className="footer__section hidden md:block w-1/4">
             <div className="mt-2 mb-6 text-main-light text-lg font-semibold">
               Home Page
             </div>
@@ -34,12 +34,12 @@ const Footer = () => {
             <Link className="text-main-light mb-1" href="/#premium-offerings"><div>Premium offerings</div></Link>
           </div>
 
-          <div className="footer__section w-1/4 flex flex-col justify-center">
+          <div className="footer__section w-1/4 hidden md:flex flex-col justify-center">
             <div className="text-main-light mb-1">List a product</div>
             <div className="text-main-light mb-1">Connect Wallet</div>
           </div>
-          <div className="footer__section w-1/4">
-            <div className="mt-2 mb-6 text-main-light text-lg font-semibold">
+          <div className="footer__section md:w-1/4">
+            <div className="mb-4 mt-10 md:mt-2 md:mb-6 text-main-light text-lg font-semibold">
               Stay in the loop
             </div>
             <div className="mt-5 text-main-light">
@@ -47,8 +47,8 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="w-full flex justify-between">
-          <div className="footer__social w-1/4 flex justify-start gap-x-3">
+        <div className="w-full flex flex-col-reverse md:flex-row justify-center md:justify-between mt-8 md:mt-0">
+          <div className="footer__social w-full md:w-1/4 flex justify-center md:justify-start gap-x-3 gap-y-4 mt-4">
             <div className="footer__social-twitter">
               <svg
                 width="40"
@@ -82,12 +82,15 @@ const Footer = () => {
               </svg>
             </div>
           </div>
-          <div className="footer__subscribe w-1/4">
-            <div className="footer__subscribe__email">
+          <div className="footer__subscribe w-full md:w-1/4">
+            <div className="footer__subscribe__email flex gap-x-2">
               <input
                 className="w-full rounded-full px-3.5 py-3"
                 placeholder="Enter your email address."
               />
+              <button className='border border-main-light rounded-full px-3.5 py-3 text-main-light'>
+                Subscribe
+              </button>
             </div>
           </div>
         </div>

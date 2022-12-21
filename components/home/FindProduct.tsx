@@ -4,9 +4,9 @@ import CityItem from './snippet/CityItem';
 
 const FindProduct = () => {
   return (
-    <section className="find-product bg-main-light min-h-[374px] flex justify-center items-center" id="find-product">
+    <section className="find-product bg-main-light min-h-[374px] flex justify-center items-center py-10 lg:py-4" id="find-product">
       <div className="content-container">
-        <h2 className="text-[28px] font-semibold text-center text-main-thick mb-5">
+        <h2 className="text-[28px] font-semibold text-center text-main-thick mb-5 mt-5">
           Find a product near me
         </h2>
         <div className="search-city flex justify-center items-center gap-x-1 mb-7">
@@ -18,7 +18,7 @@ const FindProduct = () => {
             <MagnifierWhiteIcon />
           </button>
         </div>
-        <div className="city-bar flex gap-6 flex-wrap">
+        <div className="city-bar flex flex-wrap justify-center">
           <CityItem image="/assets/london.jpg" text="London" />
           <CityItem image="/assets/lecester.jpg" text="Lecester" />
           <CityItem image="/assets/manchester.jpg" text="Manchester" />

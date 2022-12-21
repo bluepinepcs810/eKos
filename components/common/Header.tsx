@@ -7,7 +7,6 @@ import MagnifierIcon from '../../assets/icon/magnifier-gray.svg';
 import Link from 'next/link';
 import { useStoreState } from '../../store/types';
 import useProductFilter from '../products/hooks/useProductFilter';
-import { useRouter } from 'next/router';
 
 const Header = () => {
   const { signedIn, me } = useStoreState((state) => state.session);
@@ -27,7 +26,7 @@ const Header = () => {
     <div className="header bg-main flex justify-center h-[70px]">
       <div className="content-container flex justify-between">
         <div className="header__logo flex items-center">
-          <div>
+          <div className='p-4'>
             <Link href="/">
               <Image src={Logo} width={100} height={50} alt="logo" />
             </Link>
@@ -56,7 +55,7 @@ const Header = () => {
             </div>
             {/* ----- E Search box ------*/}
           </div>
-          <div className="header__action-group flex items-center gap-4">
+          <div className="header__action-group hidden lg:flex items-center gap-4">
             {signedIn ? (
               <>
                 <div className="flex gap-x-2 text-main-dark hover:text-main-weighted group">

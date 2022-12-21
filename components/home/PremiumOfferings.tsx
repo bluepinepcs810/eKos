@@ -27,13 +27,13 @@ const PremiumOfferings = () => {
   return (
     <div className="premium-offerings bg-main py-14 flex justify-center" id="premium-offerings">
       <div className="content-container">
-        <div className="premium-offerings__header flex justify-between pr-1">
+        <div className="premium-offerings__header flex justify-center lg:justify-between pr-1">
           <h2 className="text-[28px] font-semibold text-center text-main-thick mb-5">
             Premium Offerings
           </h2>
 
           {/* ----- B Search box ------*/}
-          <div className="search-box">
+          <div className="search-box hidden lg:block">
             <div className="flex gap-x-2 bg-white justify-start items-center rounded-full px-3 py-2">
               <div className="icon">
                 <MagnifierIcon />
