@@ -1,7 +1,7 @@
 import { CATEGORY_KEYS } from '../constants/categories';
 import { ProductCondition } from '../constants/products';
 import { FileType, ID } from '../types/common';
-import { UserShortType, UserType } from './user';
+import { UserType } from './user';
 
 export enum CoinTypeEnum {
   SOL = 1,
@@ -14,6 +14,8 @@ type ProductBaseModel = {
   category: CATEGORY_KEYS;
   condition: ProductCondition;
   hashTags: string[];
+  country?: string,
+  city?: string,
 };
 
 export type ProductModel = ProductBaseModel & {

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import Slider from 'react-slick';
 import HeartButton from '../../components/snippet/HeartButton';
 import StarRating from '../../components/snippet/StarRating';
@@ -18,6 +19,7 @@ import { getConditionLabel } from '../../libraries/constants/products';
 import CategoryBadge from '../../components/products/id/CategoryBadge';
 import { CATEGORY_KEYS } from '../../libraries/constants/categories';
 import moment from 'moment';
+import { countries } from '../../libraries/utils/helpers/location';
 
 const ProductDetail = () => {
   const router = useRouter();
@@ -32,6 +34,13 @@ const ProductDetail = () => {
       showError(error as any);
     }
   }, [error, isError]);
+
+  const country = useMemo(() => {
+    if (!data?.product.country) return null;
+    const value = countries.find(item => item.isoCode === data.product.country)
+    if (!value) return null;
+    return value.name;
+  }, [data?.product.country])
 
   if (!data) {
     return (
@@ -197,33 +206,39 @@ const ProductDetail = () => {
                   </div>
                 </div>
               </div>
-              <div className="border-t-2 border-third-main" />
-              <div className="product-detail__card__info--location mt-4 mb-4">
-                <div className="flex gap-x-2 mb-8">
-                  <svg
-                    width="18"
-                    height="25"
-                    viewBox="0 0 18 25"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                      d="M0 8.75C0 3.9125 4.02429 0 9 0C13.9757 0 18 3.9125 18 8.75C18 15.3125 9 25 9 25C9 25 0 15.3125 0 8.75ZM9 2.5C5.45143 2.5 2.57143 5.3 2.57143 8.75C2.57143 12.3125 6.32571 17.7625 9 21.1C11.7257 17.7375 15.4286 12.35 15.4286 8.75C15.4286 5.3 12.5486 2.5 9 2.5ZM12.2145 8.75007C12.2145 10.476 10.7754 11.8751 9.00017 11.8751C7.22497 11.8751 5.78589 10.476 5.78589 8.75007C5.78589 7.02418 7.22497 5.62507 9.00017 5.62507C10.7754 5.62507 12.2145 7.02418 12.2145 8.75007Z"
-                      fill="#5E25D9"
-                    />
-                  </svg>
-                  <div className="text-main-dark font-semibold">UK, London</div>
-                </div>
-                {/* <GoogleMapReact
-                    bootstrapURLKeys={{ key: '' }}
-                    defaultCenter={{ lat: 10.99835602, lng: 77.01502627 }}
-                    defaultZoom={11}
-                  >
-                    <div>My Component</div>
-                  </GoogleMapReact> */}
-              </div>
+              {country ?
+                <>
+                  <div className="border-t-2 border-third-main" />
+                  <div className="product-detail__card__info--location mt-4 mb-4">
+                    <div className="flex gap-x-2 mb-8">
+                      <svg
+                        width="18"
+                        height="25"
+                        viewBox="0 0 18 25"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M0 8.75C0 3.9125 4.02429 0 9 0C13.9757 0 18 3.9125 18 8.75C18 15.3125 9 25 9 25C9 25 0 15.3125 0 8.75ZM9 2.5C5.45143 2.5 2.57143 5.3 2.57143 8.75C2.57143 12.3125 6.32571 17.7625 9 21.1C11.7257 17.7375 15.4286 12.35 15.4286 8.75C15.4286 5.3 12.5486 2.5 9 2.5ZM12.2145 8.75007C12.2145 10.476 10.7754 11.8751 9.00017 11.8751C7.22497 11.8751 5.78589 10.476 5.78589 8.75007C5.78589 7.02418 7.22497 5.62507 9.00017 5.62507C10.7754 5.62507 12.2145 7.02418 12.2145 8.75007Z"
+                          fill="#5E25D9"
+                        />
+                      </svg>
+                      <div className="text-main-dark font-semibold">{data.product.city ? (data.product.city + ', ') : '' }{data.product.country}</div>
+                    </div>
+                    {/* <GoogleMapReact
+                        bootstrapURLKeys={{ key: '' }}
+                        defaultCenter={{ lat: 10.99835602, lng: 77.01502627 }}
+                        defaultZoom={11}
+                      >
+                        <div>My Component</div>
+                      </GoogleMapReact> */}
+                  </div>
+                </>
+                :
+                <div className='mb-4'></div>
+              }
             </div>
           </div>
         </div>

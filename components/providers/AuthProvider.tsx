@@ -63,9 +63,21 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     const path = router.pathname;
+    let timer: NodeJS.Timeout;
     if(GUARDED.some(item => path.startsWith(item))) {
-      if (!signedIn || !me) {
+      const token = LocalStorage.getToken();
+      if (!token) {
         router.push('/');
+      }
+      timer = setTimeout(() => {
+        if (!signedIn || !me) {
+          router.push('/');
+        }
+      }, 2000)
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
       }
     }
   }, [me, router, signedIn])

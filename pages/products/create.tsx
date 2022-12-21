@@ -17,6 +17,8 @@ import { useRouter } from 'next/router';
 import PageLoader from '../../components/common/PageLoader';
 import { CoinGeckoContext } from '../../components/providers/CoingeckoProvider';
 import { roundNumber } from '../../libraries/utils/helpers/string';
+import { countries } from '../../libraries/utils/helpers/location';
+import { City } from 'country-state-city';
 
 const ProductCreatePage = () => {
   const router = useRouter();
@@ -36,7 +38,7 @@ const ProductCreatePage = () => {
       condition: ProductCondition.NEW,
       description: '',
       hashTags: [],
-      photos: [],
+      photos: []
     },
   });
   const { solanaPrice } = useContext(CoinGeckoContext);
@@ -48,6 +50,12 @@ const ProductCreatePage = () => {
   const photos = watch('photos', []);
   const hashTags = watch('hashTags', []);
   const price = watch('price', 1);
+  const country = watch('country');
+
+  const cities = useMemo(() => {
+    if (!country) return [];
+    return City.getCitiesOfCountry(country) ?? [];
+  }, [country]);
 
   const handlePhotoChange = useCallback(
     ({ files }: RDropzoneData) => {
@@ -70,7 +78,6 @@ const ProductCreatePage = () => {
       }
       createProduct({ ...data, coinType: CoinTypeEnum.SOL })
         .then((response) => {
-          console.log(response);
           showSuccess('Successfully listed');
           router.push(`/products/${response.productId}`);
         })
@@ -97,13 +104,13 @@ const ProductCreatePage = () => {
               </div>
               <div>
                 <input
-                  className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light"
+                  className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light text-main-weighted"
                   placeholder="In some words..."
                   {...register('name', {
                     required: 'Product name is required',
                     maxLength: {
-                      message: 'Name should less than 10',
-                      value: 10,
+                      message: 'Name should less than 100',
+                      value: 100,
                     },
                   })}
                 />
@@ -121,7 +128,7 @@ const ProductCreatePage = () => {
                 </div>
                 <div>
                   <select
-                    className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box"
+                    className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
                     {...register('category')}
                   >
                     {categories.map((category) => (
@@ -139,7 +146,7 @@ const ProductCreatePage = () => {
                 <div className="flex">
                   <div className="w-full py-4 px-6 border border-main-weighted rounded-md flex">
                     <input
-                      className="bg-main-light flex-grow"
+                      className="bg-main-light flex-grow text-main-weighted"
                       placeholder="Your offer"
                       type="number"
                       min={0}
@@ -195,7 +202,7 @@ const ProductCreatePage = () => {
                 </div>
                 <div>
                   <select
-                    className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box"
+                    className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
                     {...register('condition', {
                       required: 'Please select condition',
                     })}
@@ -221,7 +228,7 @@ const ProductCreatePage = () => {
                 </div>
                 <div>
                   <textarea
-                    className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light"
+                    className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light text-main-weighted"
                     placeholder="In some words..."
                     {...register('description', {
                       required: 'Please input description',
@@ -244,9 +251,57 @@ const ProductCreatePage = () => {
                 <TagsInput
                   value={hashTags}
                   onChange={(tags) => setValue('hashTags', tags)}
-                  className="w-full py-2.5 px-6 border border-main-weighted rounded-md bg-main-light"
+                  className="w-full py-2.5 px-6 border border-main-weighted rounded-md bg-main-light text-main-weighted"
                   inputProps={{ placeholder: 'Your hashtags' }}
                 />
+              </div>
+            </div>
+            <div className="mb-4 flex">
+              <div className="w-1/2 pr-2">
+                <div className="text-main-weighted font-semibold mb-3.5">
+                  Country
+                </div>
+                <div>
+                  <select
+                    className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
+                    {...register('country')}
+                  >
+                    <option>Please select country</option>
+                    {countries.map((item) => (
+                      <option key={item.isoCode} value={item.isoCode}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.country && (
+                    <p className="mt-2 text-sm text-red-600">
+                      {errors.country?.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="w-1/2 pr-2">
+                <div className="text-main-weighted font-semibold mb-3.5">
+                  Cities
+                </div>
+                <div>
+                  <select
+                    className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
+                    {...register('city')}
+                  >
+                    <option>Please select city</option>
+                    {cities.map((item) => (
+                      <option key={item.name + item.latitude + item.longitude} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.city && (
+                    <p className="mt-2 text-sm text-red-600">
+                      {errors.city?.message}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -255,19 +310,6 @@ const ProductCreatePage = () => {
             <h2 className="uppercase font-semibold text-main-dark mb-3">
               Photos
             </h2>
-            {/* <div className="mb-3 h-[130px] uppercase text-main-weighted border-2 rounded-lg border-main-weighted border-dashed flex justify-center items-center">
-              <div>Move your photo here</div>
-            </div>
-            <div className="flex flex-wrap gap-x-[15px] gap-y-[15px]">
-              <FallbackImage className="p-[21px] rounded-md" />
-              <FallbackImage className="p-[21px] rounded-md" />
-              <FallbackImage className="p-[21px] rounded-md" />
-              <FallbackImage className="p-[21px] rounded-md" />
-              <FallbackImage className="p-[21px] rounded-md" />
-              <FallbackImage className="p-[21px] rounded-md" />
-              <FallbackImage className="p-[21px] rounded-md" />
-              <FallbackImage className="p-[21px] rounded-md" />
-            </div> */}
             <RDropzone
               dropzonClassName="mb-3 h-[130px] uppercase text-main-weighted border-2 rounded-lg border-main-weighted border-dashed flex justify-center items-center"
               dropzonLabel="Move files here"
