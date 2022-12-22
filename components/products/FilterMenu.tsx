@@ -10,7 +10,7 @@ const FiltersMenu = () => {
   return (
     <div className="filters-menu">
       <button
-        className="filter-menu-button rounded-full bg-main-light py-1.5 px-5 text-main-dark hover:bg-main-strong transition"
+        className="filter-menu-button rounded-full bg-main-light py-1 px-5 text-main-dark hover:bg-main-strong transition"
         onClick={() => setOpen((old) => !old)}
       >
         Filters
@@ -19,7 +19,7 @@ const FiltersMenu = () => {
         open={open}
         direction="left"
         onClose={() => setOpen(false)}
-        className="!w-full !max-w-[524px]"
+        className="!w-full md:!max-w-[524px]"
       >
         <ProductFilterDrawer onClose={() => setOpen(false)} />
       </Drawer>

@@ -52,7 +52,7 @@ const FilterPriceMenu = () => {
       }
     >
       <button
-        className="filter-menu-button rounded-full bg-main-light py-1.5 px-5 text-main-dark hover:bg-main-strong transition flex justify-center items-center gap-x-3"
+        className="filter-menu-button rounded-full bg-main-light py-1 px-5 text-main-dark hover:bg-main-strong transition flex justify-center items-center gap-x-3"
         onClick={handleClick}
       >
         <svg
@@ -78,7 +78,7 @@ const FilterPriceMenu = () => {
           <ArrowDownIcon />
         </div>
       </button>
-      <div className="filter-menu__panel hidden group-[.active]:block absolute transition bg-main-light pt-2 px-6 z-40 w-screen max-w-[370px] rounded-lg">
+      <div className="filter-menu__panel hidden group-[.active]:block absolute transition bg-main-light pt-2 px-6 z-40 w-screen lg:max-w-[370px] lg:rounded-lg">
         <div className="text-main-weighted text-lg font-semibold mt-2 mb-3">
           Price range
         </div>
@@ -116,7 +116,7 @@ const FilterPriceMenu = () => {
             </div>
           </div>
         </div>
-        <div className="mt-4 mb-4 flex justify-end gap-x-2">
+        <div className="lg:mt-4 lg:mb-4 flex justify-end gap-x-2 fixed z-30 bottom-0 left-0 pr-5 lg:pr-0 py-3 lg:py-0 w-screen lg:relative lg:w-full border-t border-main-weighted lg:border-none ">
           <button
             className="text-main-dark hover:bg-main-strong px-5 py-2 rounded-full transition"
             onClick={handleCancel}

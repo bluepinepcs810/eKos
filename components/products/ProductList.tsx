@@ -49,7 +49,7 @@ const ProductList = () => {
         }
       ></div>
       <div className="content-container">
-        <div className="product-list__body flex flex-wrap gap-x-6 gap-y-9">
+        <div className="product-list__body flex flex-wrap gap-x-0 md:gap-x-6 gap-y-9">
           {isSuccess &&
             data.pages.map((page) =>
               page.productList.map((item) => (

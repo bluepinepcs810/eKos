@@ -93,3 +93,12 @@ export const useProductList = (query: ProductFilterType) => {
     }
   );
 };
+
+export const useProductLike = (productId: ID) => {
+  const { authError } = useAuthErrorHandler();
+  return useMutation(() => ProductApi.likeProduct(productId), {
+    onError: (error: any) => {
+      authError(error)
+    }
+  })
+}

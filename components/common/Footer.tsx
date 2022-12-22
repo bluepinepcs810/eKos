@@ -1,9 +1,20 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 
 const Footer = () => {
+  const router = useRouter();
+  const [footerVisible, setFooterVisible] = useState(true);
+  useEffect(() => {
+    if (router.pathname.startsWith('/profile/inbox/chat'))  {
+      setFooterVisible(false);
+    } else {
+      setFooterVisible(true);
+    }
+  }, [router.pathname])
   return (
-    <footer className="footer flex justify-center bg-main-gradient">
+    <footer className={"footer justify-center bg-main-gradient " + (footerVisible ? 'flex' : 'hidden md:flex')}>
       <div className="content-container pt-10 md:pt-5 pb-8 md:pb-8">
         <div className="w-full flex flex-col md:flex-row">
           <div className="footer__section md:w-1/4">

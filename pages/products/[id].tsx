@@ -50,14 +50,14 @@ const ProductDetail = () => {
     );
   }
   return (
-    <div className="product-detail-page bg-main pt-4 flex flex-col items-center justify-center">
+    <div className="product-detail-page bg-main lg:pt-4 flex flex-col items-center justify-center">
       <PageLoader loading={isLoading} />
-      <div className="w-full max-w-[828px] mb-5">
-        <div className="product-detail__card w-full bg-main-light p-5">
-          <div className="product-detail__card__header flex justify-between gap-x-5 mb-5">
+      <div className="w-full max-w-[828px] md:mb-5">
+        <div className="product-detail__card w-full bg-main-light py-5 lg:px-5">
+          <div className="product-detail__card__header flex flex-col lg:flex-row justify-between gap-x-5 lg:mb-5 px-4 lg:px-0">
             <div className="product-detail__card__header--info flex justify-between flex-grow">
               <UserTap data={data.product.listedUser} />
-              <div className="product-detail__card__header--review flex flex-col justify-center gap-y-3">
+              <div className="product-detail__card__header--review hidden lg:flex flex-col justify-center gap-y-3">
                 <StarRating rate={2} size={20} spacing={2} />
                 <div className="text-center text-main-dark">
                   <span className="font-semibold mr-1">
@@ -67,16 +67,17 @@ const ProductDetail = () => {
                 </div>
               </div>
               <div className="flex items-center">
-                <HeartButton />
+                <HeartButton productId={id as string} />
               </div>
             </div>
-            <div className="product-detail__card__header--chat-btn flex justify-center items-center">
-              <button className="rounded-full border border-main-dark py-1.5 px-6 text-main-dark outlined-button">
+            <div className="product-detail__card__header--chat-btn flex justify-center items-center mt-3 lg:mt-0 w-full lg:w-fit">
+              <button className="rounded-full border border-main-dark py-1.5 px-6 text-main-dark outlined-button w-full">
                 Chat
               </button>
             </div>
           </div>
-          <div className="product-detail__card__body px-14">
+          <div className='w-full border-t lg:hidden border-third-main mt-2 mb-5 px-4 lg:px-0'></div>
+          <div className="product-detail__card__body px-4 lg:px-14">
             <div className="product-detail__card__images relative">
               <Slider
                 dots
@@ -88,6 +89,14 @@ const ProductDetail = () => {
                 nextArrow={<NextArrow style={{ right: '-51px' }} />}
                 prevArrow={<PrevArrow />}
                 centerPadding="10px"
+                responsive={[
+                  {
+                    breakpoint: 1024,
+                    settings: {
+                      dots: false
+                    }
+                  }
+                ]}
               >
                 {data.product.photos.map((item) => (
                   <div key={item} className="rounded-lg">
@@ -243,7 +252,7 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
-      <div className="product-buy-actionbar bg-main-light w-full flex justify-center py-2 items-center">
+      <div className="product-buy-actionbar bg-main-light w-full flex justify-center py-2 items-center px-4 lg:px-0">
         <div className="w-full max-w-[828px] flex justify-between">
           <div className="flex flex-col justify-center items-start">
             <div className="text-main-dark">Your product name</div>

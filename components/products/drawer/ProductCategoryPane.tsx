@@ -14,7 +14,7 @@ const ProductCategoryPane: FC<ProductCategoryPaneProps> = ({
   setCategory,
 }) => {
   return (
-    <div className="bg-main-light h-full overflow-y-auto pt-12 pl-32 pr-2">
+    <div className="bg-main-light h-full overflow-y-auto pt-12 px-3 md:pl-32 md:pr-2">
       <div className="flex flex-col">
         <div className="flex border-b border-third-main pb-4">
           <button onClick={() => setPane('main')}>

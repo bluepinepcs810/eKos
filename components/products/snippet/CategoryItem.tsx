@@ -22,7 +22,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => {
   return (
     <div
       className={
-        'w-1/5 h-[90px] flex items-center justify-center flex-col gap-y-2 hover:bg-main hover:opacity-80 transition cursor-pointer ' +
+        'w-1/3 lg:w-1/5 h-[90px] flex items-center justify-center flex-col gap-y-2 hover:bg-main hover:opacity-80 transition cursor-pointer ' +
         (query.category === category.key ? 'bg-main' : '')
       }
       onClick={handleClick}

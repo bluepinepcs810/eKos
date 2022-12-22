@@ -1,4 +1,4 @@
-import { PropsWithChildren, useMemo } from 'react';
+import { PropsWithChildren } from 'react';
 import Footer from '../common/Footer';
 import Header from '../common/Header';
 import { QueryClient, QueryClientProvider } from 'react-query';

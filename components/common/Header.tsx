@@ -33,7 +33,7 @@ const Header = () => {
           </div>
         </div>
         <div className="header__left-pane flex items-center">
-          <div className="header__search mr-6">
+          <div className="header__search md:mr-6">
             {/* ----- B Search box ------*/}
             <div className="search-box">
               <form onSubmit={handleSubmit}>
@@ -43,7 +43,7 @@ const Header = () => {
                   </div>
                   <div className="search-input rounded-full">
                     <input
-                      className="mr-5 w-56"
+                      className="mr-5 w-28 sm:w-44 md:w-56"
                       type="text"
                       placeholder="Search"
                       value={q}

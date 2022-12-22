@@ -44,8 +44,14 @@ const listProduct = async (
     condition: filter.condition?.join(','),
   });
 };
+const likeProduct = async (productId: ID): Promise<{ result: boolean }> => {
+  return Api.post(`/product/like`, {
+    productId
+  });
+}
 export const ProductApi = {
   createProduct,
   retrieveProduct,
   listProduct,
+  likeProduct
 };

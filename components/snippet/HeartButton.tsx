@@ -1,15 +1,37 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
+import { useProductLike } from '../../hooks/api.hooks';
+import { ID } from '../../libraries/types/common';
+import { useStoreState } from '../../store/types';
 
-const HeartButton = () => {
+type HeartButtonProps = {
+  productId: ID
+}
+
+const HeartButton: React.FC<HeartButtonProps> = ({ productId }) => {
+  const { signedIn, initial, me } = useStoreState((state) => state.session);
+
+  const { mutate: run, data, isSuccess } = useProductLike(productId);
+
   const [active, setActive] = useState(false);
   const handleClick = useCallback((e: any) => {
-    console.log({ e });
+    if (!signedIn) return;
     e.stopPropagation();
     e.nativeEvent.preventDefault();
     e.nativeEvent.stopImmediatePropagation();
     setActive((old) => !old);
-  }, []);
+    run();
+  }, [run, signedIn]);
 
+  useEffect(() => {
+    if (isSuccess) {
+      setActive(data.result);
+    }
+  }, [data?.result, isSuccess])
+
+
+  if (!signedIn) {
+    return null;
+  }
   return (
     <div onClick={handleClick} className="cursor-pointer">
       <svg

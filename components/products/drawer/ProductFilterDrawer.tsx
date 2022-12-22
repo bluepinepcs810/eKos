@@ -9,6 +9,7 @@ import ArrowRight from '../../../assets/icon/menu-arrow-right.svg';
 import useProductFilter from '../hooks/useProductFilter';
 import { AnimatePresence, motion } from 'framer-motion';
 import ProductCategoryPane from './ProductCategoryPane';
+import ProductConditionPane from './ProductConditionPane';
 
 type ProductFilterDrawerProps = {
   onClose: () => void;
@@ -18,7 +19,7 @@ export type ProductFilterPaneType = 'category' | 'price' | 'main';
 
 const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
   const [currentPane, setCurrentPane] = useState<ProductFilterPaneType>('main');
-  const { query, setCategory, setFrom, setTo, refresh, handleApply } =
+  const { query, setCategory, setFrom, setTo, setCondition, refresh, handleApply } =
     useProductFilter();
 
   const category = findCategoryItem(query.category);
@@ -48,7 +49,7 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
             transition={{ x: { duration: 0 } }}
           >
             <div className="bg-main-light h-full overflow-y-auto">
-              <div className="pr-14 pt-20 pl-32 pb-8">
+              <div className="px-4 md:pr-14 md:pt-20 md:pl-32 md:pb-8">
                 {/* B Category selector */}
                 <div className="text-main-weighted pt-5">Category</div>
                 <button
@@ -113,12 +114,14 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
 
                 {/* B Condition selector */}
                 <div className="text-main-weighted pt-5">Category</div>
-                <div className="flex py-5 items-center justify-between border-b border-third-main cursor-pointer">
+                <button className="flex py-5 items-center justify-between border-b border-third-main cursor-pointer w-full"
+                  onClick={() => setCurrentPane('price')}
+                >
                   <div className="text-main-dark pl-8">Any item condition</div>
                   <div>
                     <ArrowRight />
                   </div>
-                </div>
+                </button>
                 {/* E Condition selector */}
 
                 {/* Footer */}
@@ -141,7 +144,8 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
                 </div>
               </div>
 
-              <div className="flex justify-end px-5 gap-x-2">
+              <div className="lg:mt-4 lg:mb-4 flex justify-end gap-x-2 fixed z-20 bottom-0 left-0 pr-5 py-3 lg:py-0
+                lg:relative w-full border-t border-main-weighted lg:border-none">
                 <button
                   className="text-main-dark hover:bg-main-strong px-5 py-2 rounded-full transition"
                   onClick={handleCancel}
@@ -175,6 +179,19 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
               setPane={setCurrentPane}
               setCategory={handleSelectCategory}
             />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {currentPane === 'price' && (
+          <motion.div
+            className="h-full"
+            initial={{ x: '100%', opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: '100%', opacity: 0 }}
+            // transition={{ x: { duration: 0 }}}
+          >
+            <ProductConditionPane setPane={setCurrentPane} condition={query.condition} setCondition={setCondition} />
           </motion.div>
         )}
       </AnimatePresence>

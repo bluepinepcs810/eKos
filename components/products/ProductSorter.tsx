@@ -21,7 +21,7 @@ const ProductSorter = () => {
   );
 
   return (
-    <div className="flex gap-x-2">
+    <div className="flex gap-x-2 flex-nowrap">
       <div className="flex flex-col gap-y-1">
         <button className="" onClick={handleAscClick}>
           <svg
@@ -53,7 +53,7 @@ const ProductSorter = () => {
         </button>
       </div>
       <div className="text-main-weighted items-center">
-        <div>Sort by:</div>
+        <div className='whitespace-nowrap'>Sort by:</div>
       </div>
       <div>
         <select

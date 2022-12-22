@@ -79,13 +79,16 @@
 
   &__panel {
     box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.15);
-    top: 47px;
+    @apply fixed w-full h-full top-0 left-0 lg:absolute lg:top-[47px] lg:w-[580px] lg:rounded-lg lg:h-fit overflow-auto
   }
 }
 
 .product-detail__card {
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
-  border-radius: 11px;
+  @media screen and (min-width: 1024px) {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
+  }
+  // border-radius: 11px;
+  @apply lg:rounded-[11px];
 
   &__images .slick-next {
     right: -51px !important;
