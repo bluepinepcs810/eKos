@@ -49,9 +49,13 @@ const likeProduct = async (productId: ID): Promise<{ result: boolean }> => {
     productId
   });
 }
+const getMyFavorites = async (query: Pager): Promise<ProductDetailModel[]> => {
+  return Api.get('/user/liked-products', query);
+}
 export const ProductApi = {
   createProduct,
   retrieveProduct,
   listProduct,
-  likeProduct
+  likeProduct,
+  getMyFavorites
 };

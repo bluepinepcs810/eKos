@@ -58,7 +58,7 @@ const Header = () => {
           <div className="header__action-group hidden lg:flex items-center gap-4">
             {signedIn ? (
               <>
-                <div className="flex gap-x-2 text-main-dark hover:text-main-weighted group">
+                <Link href="/profile/favorites" className="flex gap-x-2 text-main-dark hover:text-main-weighted group">
                   <svg
                     width="28"
                     height="24"
@@ -73,7 +73,7 @@ const Header = () => {
                     />
                   </svg>
                   <div>Favorites</div>
-                </div>
+                </Link>
                 <Link
                   className="flex gap-x-2 group text-main-dark hover:text-main-weighted"
                   href={'/profile/inbox'}

@@ -4,15 +4,16 @@ import { ID } from '../../libraries/types/common';
 import { useStoreState } from '../../store/types';
 
 type HeartButtonProps = {
-  productId: ID
+  productId: ID,
+  isLiked: boolean
 }
 
-const HeartButton: React.FC<HeartButtonProps> = ({ productId }) => {
-  const { signedIn, initial, me } = useStoreState((state) => state.session);
+const HeartButton: React.FC<HeartButtonProps> = ({ productId, isLiked }) => {
+  const { signedIn } = useStoreState((state) => state.session);
 
   const { mutate: run, data, isSuccess } = useProductLike(productId);
 
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(isLiked);
   const handleClick = useCallback((e: any) => {
     if (!signedIn) return;
     e.stopPropagation();

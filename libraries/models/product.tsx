@@ -14,7 +14,7 @@ type ProductBaseModel = {
   category: CATEGORY_KEYS;
   condition: ProductCondition;
   hashTags: string[];
-  country?: string,
+  countryCode?: string,
   city?: string,
 };
 

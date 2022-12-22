@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { HTMLAttributes, useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -10,12 +10,12 @@ import { roundNumber } from '../../libraries/utils/helpers/string';
 
 type ProductCardProps = {
   data: ProductDetailModel;
-};
-const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
+} & HTMLAttributes<HTMLAnchorElement>;
+const ProductCard: React.FC<ProductCardProps> = ({ data, className }) => {
   const { solanaPrice } = useContext(CoinGeckoContext);
   return (
-    <Link href={'/products/' + data.id} className="w-1/2 sm:w-1/3 max-w-[275px] px-1 md:px-0">
-      <div className="product-card bg-main-light p-[5px] rounded-lg cursor-pointer hover:drop-shadow-lg transition">
+    <Link href={'/products/' + data.id} className={"w-1/2 sm:w-1/3 max-w-[275px] px-1 md:px-0 bg-main-light rounded-lg cursor-pointer hover:drop-shadow-lg transition " + (className ?? '')}>
+      <div className="product-card p-[5px]">
         <div className="product-card__image lg:max-w-[275px] max-h-[122px] md:max-h-[187px] object-cover overflow-hidden rounded-md">
           <Image
             className="rounded-md"
@@ -47,7 +47,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
           </div>
           <div className="product-card__meta__action flex items-center justify-center sm:block">
             <div className="product-card__meta_action-like">
-              <HeartButton productId={data.id} />
+              <HeartButton productId={data.id} isLiked={data.isLiked} />
             </div>
           </div>
         </div>

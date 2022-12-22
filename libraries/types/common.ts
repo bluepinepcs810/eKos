@@ -6,7 +6,7 @@ export type FileType = {
   url: string;
 };
 
-export type Pager<T> = T & {
+export type Pager<T = {}> = T & {
   page?: number;
   size?: number;
   sort?: string;

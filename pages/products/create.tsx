@@ -50,12 +50,12 @@ const ProductCreatePage = () => {
   const photos = watch('photos', []);
   const hashTags = watch('hashTags', []);
   const price = watch('price', 1);
-  const country = watch('country');
+  const countryCode = watch('countryCode');
 
   const cities = useMemo(() => {
-    if (!country) return [];
-    return City.getCitiesOfCountry(country) ?? [];
-  }, [country]);
+    if (!countryCode) return [];
+    return City.getCitiesOfCountry(countryCode) ?? [];
+  }, [countryCode]);
 
   const handlePhotoChange = useCallback(
     ({ files }: RDropzoneData) => {
@@ -264,7 +264,7 @@ const ProductCreatePage = () => {
                 <div>
                   <select
                     className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
-                    {...register('country')}
+                    {...register('countryCode')}
                   >
                     <option>Please select country</option>
                     {countries.map((item) => (
@@ -273,9 +273,9 @@ const ProductCreatePage = () => {
                       </option>
                     ))}
                   </select>
-                  {errors.country && (
+                  {errors.countryCode && (
                     <p className="mt-2 text-sm text-red-600">
-                      {errors.country?.message}
+                      {errors.countryCode?.message}
                     </p>
                   )}
                 </div>

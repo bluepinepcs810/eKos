@@ -36,11 +36,11 @@ const ProductDetail = () => {
   }, [error, isError]);
 
   const country = useMemo(() => {
-    if (!data?.product.country) return null;
-    const value = countries.find(item => item.isoCode === data.product.country)
+    if (!data?.product.countryCode) return null;
+    const value = countries.find(item => item.isoCode === data.product.countryCode)
     if (!value) return null;
     return value.name;
-  }, [data?.product.country])
+  }, [data?.product.countryCode])
 
   if (!data) {
     return (
@@ -67,7 +67,7 @@ const ProductDetail = () => {
                 </div>
               </div>
               <div className="flex items-center">
-                <HeartButton productId={id as string} />
+                <HeartButton productId={id as string} isLiked={data.product.isLiked} />
               </div>
             </div>
             <div className="product-detail__card__header--chat-btn flex justify-center items-center mt-3 lg:mt-0 w-full lg:w-fit">
@@ -234,7 +234,7 @@ const ProductDetail = () => {
                           fill="#5E25D9"
                         />
                       </svg>
-                      <div className="text-main-dark font-semibold">{data.product.city ? (data.product.city + ', ') : '' }{data.product.country}</div>
+                      <div className="text-main-dark font-semibold">{data.product.city ? (data.product.city + ', ') : '' }{country}</div>
                     </div>
                     {/* <GoogleMapReact
                         bootstrapURLKeys={{ key: '' }}

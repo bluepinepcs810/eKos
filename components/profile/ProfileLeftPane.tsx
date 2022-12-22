@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { FC } from 'react';
 import { ProfilePane } from '../../libraries/types/pages/profile';
 import UserTap from '../snippet/UserTap';
@@ -35,7 +36,8 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
           <div className="text-main-dark text-lg font-semibold">Purchases</div>
         </div>
 
-        <div
+        <Link
+          href="/profile/inbox"
           className={
             'flex gap-x-3 py-2 px-3 rounded-md hover:bg-main cursor-pointer items-center ' +
             (activePane === ProfilePane.INBOX && 'bg-main')
@@ -56,7 +58,7 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
             </svg>
           </div>
           <div className="text-main-dark text-lg font-semibold">Inbox</div>
-        </div>
+        </Link>
 
         <div
           className={
@@ -93,7 +95,8 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
           <div className="text-main-dark text-lg font-semibold">Products</div>
         </div>
 
-        <div
+        <Link
+          href="/profile/favorites"
           className={
             'flex gap-x-3 py-2 px-3 rounded-md hover:bg-main cursor-pointer items-center ' +
             (activePane === ProfilePane.FAVORITES && 'bg-main')
@@ -115,7 +118,7 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
             </svg>
           </div>
           <div className="text-main-dark text-lg font-semibold">Favorites</div>
-        </div>
+        </Link>
 
         <div
           className={

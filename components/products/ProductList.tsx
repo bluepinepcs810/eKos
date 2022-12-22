@@ -53,7 +53,7 @@ const ProductList = () => {
           {isSuccess &&
             data.pages.map((page) =>
               page.productList.map((item) => (
-                <ProductCard data={item} key={item.id} />
+                <ProductCard data={item} key={item.id}/>
               ))
             )}
         </div>

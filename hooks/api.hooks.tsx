@@ -102,3 +102,21 @@ export const useProductLike = (productId: ID) => {
     }
   })
 }
+
+export const useMyFavorites = () =>
+  useInfiniteQuery(
+    ['getMyFavorites'],
+    async ({ pageParam = 1}) => {
+      return ProductApi.getMyFavorites({
+        page: pageParam,
+        size: PRODUCT_PAGE_SIZE
+      })
+    },
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        if (!lastPage.length) return undefined;
+        return allPages.length + 1;
+      },
+      retry: 1,
+    }
+  )

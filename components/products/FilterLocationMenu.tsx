@@ -1,17 +1,32 @@
-import { useCallback, useContext, useState } from 'react';
+import { City } from 'country-state-city';
+import { useCallback, useContext, useMemo } from 'react';
 import ArrowDownIcon from '../../assets/icon/arrow-down.svg';
+import { countries } from '../../libraries/utils/helpers/location';
 import {
   ProductFilterContext,
   ProductFilterSections,
 } from './context/filter-context';
 import { ProductFilterActionTypes } from './context/fitler-reducer';
+import useProductFilter from './hooks/useProductFilter';
 
 const FilterLocationMenu = () => {
   const {
-    state: { filter, activeFilterSection },
+    state: { activeFilterSection },
     dispatch,
   } = useContext(ProductFilterContext);
-  const [location, setLocation] = useState(filter.location);
+
+  const {
+    query,
+    handleApply: queryApply,
+    setCountryCode,
+    setCity,
+    refresh,
+  } = useProductFilter();
+
+  const cities = useMemo(() => {
+    if (!query.countryCode) return [];
+    return City.getCitiesOfCountry(query.countryCode) ?? [];
+  }, [query.countryCode]);
 
   const handleClick = useCallback(() => {
     dispatch({
@@ -21,23 +36,25 @@ const FilterLocationMenu = () => {
   }, [dispatch]);
 
   const handleCancel = useCallback(() => {
-    setLocation(filter.location);
     dispatch({
       type: ProductFilterActionTypes.SET_SECTION,
       payload: ProductFilterSections.NONE,
     });
-  }, [dispatch, filter.location]);
+    refresh();
+  }, [dispatch, refresh]);
 
   const handleApply = useCallback(() => {
     dispatch({
-      type: ProductFilterActionTypes.SET_FILTER_LOCATION,
-      payload: location,
-    });
-    dispatch({
       type: ProductFilterActionTypes.SET_SECTION,
       payload: ProductFilterSections.NONE,
     });
-  }, [dispatch, location]);
+    queryApply();
+  }, [dispatch, queryApply]);
+
+  const handleCountryCode = useCallback((value: string | undefined) => {
+    setCountryCode(value);
+    setCity(undefined);
+  }, [setCity, setCountryCode])
 
   return (
     <div
@@ -72,19 +89,43 @@ const FilterLocationMenu = () => {
       </button>
       <div className="filter-menu__panel hidden group-[.active]:block absolute transition bg-main-light px-6 pt-2 z-40 w-screen max-w-[370px] rounded-lg">
         <div className="text-main-weighted text-lg font-semibold mt-2 mb-3">
-          Item condition
+          Location
         </div>
-        <div className="mb-3">
-          <input
-            className="rounded-full w-full py-2.5 px-5 border border-main-thick"
-            placeholder="Find your city"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
+        <div className='mb-3'>
+          <div>
+            <label className="text-main-weighted">Country</label>
+          </div>
+          <div>
+            <select className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
+              onChange={e => handleCountryCode(e.target.value)}
+            >
+              <option>Please select country</option>
+              {countries.map((item) => (
+                <option key={item.isoCode} value={item.isoCode}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-        <div className="mb-3">
-          <div className="h-[222px] bg-main rounded-md"></div>
+        <div className=''>
+          <div>
+            <label className="text-main-weighted">City</label>
+          </div>
+          <div>
+            <select className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
+              onChange={e => setCity(e.target.value)}
+            >
+              <option>Please select city</option>
+              {cities.map((item, index) => (
+                <option key={item.name + index} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
+
         <div className="mt-4 mb-4 flex justify-end gap-x-2">
           <button
             className="text-main-dark hover:bg-main-strong px-5 py-2 rounded-full transition"
