@@ -38,7 +38,7 @@ const ProductCreatePage = () => {
       condition: ProductCondition.NEW,
       description: '',
       hashTags: [],
-      photos: []
+      photos: [],
     },
   });
   const { solanaPrice } = useContext(CoinGeckoContext);
@@ -291,7 +291,10 @@ const ProductCreatePage = () => {
                   >
                     <option>Please select city</option>
                     {cities.map((item) => (
-                      <option key={item.name + item.latitude + item.longitude} value={item.name}>
+                      <option
+                        key={item.name + item.latitude + item.longitude}
+                        value={item.name}
+                      >
                         {item.name}
                       </option>
                     ))}

@@ -20,11 +20,21 @@ import CategoryBadge from '../../components/products/id/CategoryBadge';
 import { CATEGORY_KEYS } from '../../libraries/constants/categories';
 import moment from 'moment';
 import { countries } from '../../libraries/utils/helpers/location';
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import * as ekosProgram from '../../libraries/ekosSDK';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { findEscrowPDA } from '../../libraries/utils/pda';
+import { argv } from 'process';
+import { BN } from '@project-serum/anchor';
+import { sendTransactionWithRetry } from '../../libraries/utils/transaction';
 
 const ProductDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data, isLoading, isError, error } = useProductRetrieve(id as ID);
+
+  const wallet = useWallet();
+  const { connection } = useConnection();
 
   const formatDate = useCallback((date: string) => {
     return moment(date).format('D-MMM-YYYY');
@@ -37,10 +47,12 @@ const ProductDetail = () => {
 
   const country = useMemo(() => {
     if (!data?.product.countryCode) return null;
-    const value = countries.find(item => item.isoCode === data.product.countryCode)
+    const value = countries.find(
+      (item) => item.isoCode === data.product.countryCode
+    );
     if (!value) return null;
     return value.name;
-  }, [data?.product.countryCode])
+  }, [data?.product.countryCode]);
 
   if (!data) {
     return (
@@ -49,6 +61,49 @@ const ProductDetail = () => {
       </div>
     );
   }
+
+  const deposit = async () => {
+    const buyerPublicKey = new PublicKey(
+      'BwkUHwqhLo5TeUiMz1aPD6qQ1KKrR5kkUs8TfWNn5eYV'
+    );
+    const sellerPublicKey = new PublicKey(
+      '9Th78fG1GJ6QcbdXV78TLcsSd5LQ6kHzfvLYViSPbzWM'
+    );
+    const productId = 'a38add00';
+    const [escrow] = findEscrowPDA({
+      sellerPublicKey,
+      buyerPublicKey,
+      productId,
+    });
+    const amount = new BN(1 * LAMPORTS_PER_SOL);
+    const lockupTs = 5 * 60;
+
+    const accounts = {
+      buyer: buyerPublicKey,
+      seller: sellerPublicKey,
+      escrow,
+    };
+
+    const args = {
+      amount,
+      lockupTs,
+    };
+
+    const depositIx = ekosProgram.createDepositSolInstruction(accounts, args);
+
+    try {
+      const { txid } = await sendTransactionWithRetry(
+        connection,
+        wallet,
+        [depositIx],
+        []
+      );
+      console.log('Signature: ', txid);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className="product-detail-page bg-main lg:pt-4 flex flex-col items-center justify-center">
       <PageLoader loading={isLoading} />
@@ -67,7 +122,10 @@ const ProductDetail = () => {
                 </div>
               </div>
               <div className="flex items-center">
-                <HeartButton productId={id as string} isLiked={data.product.isLiked} />
+                <HeartButton
+                  productId={id as string}
+                  isLiked={data.product.isLiked}
+                />
               </div>
             </div>
             <div className="product-detail__card__header--chat-btn flex justify-center items-center mt-3 lg:mt-0 w-full lg:w-fit">
@@ -76,7 +134,7 @@ const ProductDetail = () => {
               </button>
             </div>
           </div>
-          <div className='w-full border-t lg:hidden border-third-main mt-2 mb-5 px-4 lg:px-0'></div>
+          <div className="w-full border-t lg:hidden border-third-main mt-2 mb-5 px-4 lg:px-0"></div>
           <div className="product-detail__card__body px-4 lg:px-14">
             <div className="product-detail__card__images relative">
               <Slider
@@ -93,9 +151,9 @@ const ProductDetail = () => {
                   {
                     breakpoint: 1024,
                     settings: {
-                      dots: false
-                    }
-                  }
+                      dots: false,
+                    },
+                  },
                 ]}
               >
                 {data.product.photos.map((item) => (
@@ -215,7 +273,7 @@ const ProductDetail = () => {
                   </div>
                 </div>
               </div>
-              {country ?
+              {country ? (
                 <>
                   <div className="border-t-2 border-third-main" />
                   <div className="product-detail__card__info--location mt-4 mb-4">
@@ -234,7 +292,10 @@ const ProductDetail = () => {
                           fill="#5E25D9"
                         />
                       </svg>
-                      <div className="text-main-dark font-semibold">{data.product.city ? (data.product.city + ', ') : '' }{country}</div>
+                      <div className="text-main-dark font-semibold">
+                        {data.product.city ? data.product.city + ', ' : ''}
+                        {country}
+                      </div>
                     </div>
                     {/* <GoogleMapReact
                         bootstrapURLKeys={{ key: '' }}
@@ -245,9 +306,9 @@ const ProductDetail = () => {
                       </GoogleMapReact> */}
                   </div>
                 </>
-                :
-                <div className='mb-4'></div>
-              }
+              ) : (
+                <div className="mb-4"></div>
+              )}
             </div>
           </div>
         </div>
@@ -281,7 +342,10 @@ const ProductDetail = () => {
             </div>
           </div>
           <div className="flex items-center">
-            <button className="rounded-full bg-main-gradient px-7 py-2 text-main-light border border-main-dark filled-button">
+            <button
+              className="rounded-full bg-main-gradient px-7 py-2 text-main-light border border-main-dark filled-button"
+              onClick={deposit}
+            >
               Buy
             </button>
           </div>
