@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useMyFavorites } from "../../../hooks/api.hooks";
+import { useMyProducts } from "../../../hooks/api.hooks";
 import { showError } from "../../../libraries/utils/toast";
 import ProductCard from "../../common/ProductCard";
 
-const FavoritePane = () => {
+const MyProductsPane = () => {
   const {
     data,
     isSuccess,
@@ -11,7 +11,7 @@ const FavoritePane = () => {
     fetchNextPage,
     isError,
     error,
-  } = useMyFavorites();
+  } = useMyProducts();
 
   useEffect(() => {
     if (isError) {
@@ -43,5 +43,4 @@ const FavoritePane = () => {
     </div>
   )
 }
-
-export default FavoritePane;
+export default MyProductsPane;

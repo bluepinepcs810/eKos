@@ -6,6 +6,7 @@ import { UserType } from './user';
 export enum CoinTypeEnum {
   SOL = 1,
 }
+
 type ProductBaseModel = {
   name: string;
   description: string;
@@ -22,21 +23,17 @@ export type ProductModel = ProductBaseModel & {
   photos: FileType[];
 };
 
-export type ProductShortModel = {
+export type ProductShortModel = ProductBaseModel & {
   id: ID;
-  name: string;
-  coinType: CoinTypeEnum;
-  price: number;
-  category: CATEGORY_KEYS;
-  isLiked: boolean;
+  photos: string[],
 };
 export type ProductDetailModel = ProductBaseModel & {
   id: ID;
   photos: string[];
 
   listedUser: UserType;
-  rate: number;
-  rateCount: number;
+  rating?: number;
+  rated?: number;
   isLiked: boolean;
   viewed: number;
   liked: number;

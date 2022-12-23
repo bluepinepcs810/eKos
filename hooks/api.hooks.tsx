@@ -12,10 +12,12 @@ import {
 import AuthApi from '../libraries/api/auth';
 import { ProductApi } from '../libraries/api/product';
 import { ProductModel } from '../libraries/models/product';
-import { ID } from '../libraries/types/common';
+import { ID, Pager } from '../libraries/types/common';
 import { useStoreActions } from '../store/types';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useRouter } from 'next/router';
+import { OrderApi } from '../libraries/api/order';
+import { showError, showSuccess } from '../libraries/utils/toast';
 
 
 export const useAuthErrorHandler = () => {
@@ -120,3 +122,78 @@ export const useMyFavorites = () =>
       retry: 1,
     }
   )
+
+export const useMyProducts = () =>
+  useInfiniteQuery(
+    ['getMyProducts'],
+    async ({ pageParam = 1}) => {
+      return ProductApi.getMyProducts({
+        page: pageParam,
+        size: PRODUCT_PAGE_SIZE
+      })
+    },
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        if (!lastPage.length) return undefined;
+        return allPages.length + 1;
+      },
+      retry: 1,
+    }
+  )
+
+export const useOrderCreate = () => {
+  const queryClient = useQueryClient();
+  const { authError } = useAuthErrorHandler();
+
+  return useMutation(({ productId, txSig}: { productId: ID, txSig: string}) =>
+    OrderApi.createOrder(productId, txSig), {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['buyingOrders']);
+        queryClient.invalidateQueries(['sellingOrders']);
+      },
+      onError: (error: any) => {
+        authError(error);
+      }
+    }
+  );
+}
+export const useSellingOrders = (page: number) =>
+  useQuery(
+    ['sellingOrders', page],
+    () => OrderApi.getSellingOrders({ page, size: 1000 }),
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        if (!lastPage.length) return undefined;
+        return allPages.length + 1;
+      },
+      retry: 1,
+    }
+  )
+
+
+export const useBuyingOrders = (page: number) =>
+  useQuery(
+    ['buyingOrders', page],
+    () => OrderApi.getBuyingOrders({ page, size: 1000 })
+  )
+
+
+
+export const useOrderConfirm = () => {
+    const queryClient = useQueryClient();
+    const { authError } = useAuthErrorHandler();
+
+    return useMutation(({ orderId }: { orderId: ID}) =>
+      OrderApi.confirmOrder(orderId), {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['buyingOrders']);
+          queryClient.invalidateQueries(['sellingOrders']);
+          showSuccess("Successfully confirmed")
+        },
+        onError: (error: any) => {
+          authError(error);
+          showError(error);
+        }
+      }
+    );
+  }

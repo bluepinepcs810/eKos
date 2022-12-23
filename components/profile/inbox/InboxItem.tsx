@@ -13,7 +13,7 @@ const InboxItem = () => {
             src="/avatar-sample.png"
             alt="avatar"
             fill
-            className=" object-cover"
+            className=" object-cover rounded-full"
           />
           <div className="absolute bg-green-400 w-2 h-2 border border-white rounded-full right-1 bottom-0.5"></div>
         </div>

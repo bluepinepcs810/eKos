@@ -13,7 +13,8 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
         <UserTap data={{ userName: 'Bob S', rating: 3, id: 1, walletAddress: 'test' }} />
       </div>
       <div className="flex flex-col gap-y-1.5">
-        <div
+        <Link
+          href="/profile/purchases"
           className={
             'flex gap-x-3 py-2 px-3 rounded-md hover:bg-main cursor-pointer items-center ' +
             (activePane === ProfilePane.PURCHASE && 'bg-main')
@@ -34,7 +35,7 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
             </svg>
           </div>
           <div className="text-main-dark text-lg font-semibold">Purchases</div>
-        </div>
+        </Link>
 
         <Link
           href="/profile/inbox"
@@ -60,7 +61,7 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
           <div className="text-main-dark text-lg font-semibold">Inbox</div>
         </Link>
 
-        <div
+        <Link href="/profile/products"
           className={
             'flex gap-x-3 py-2 px-3 rounded-md hover:bg-main cursor-pointer items-center ' +
             (activePane === ProfilePane.PRODUCTS && 'bg-main')
@@ -93,7 +94,7 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
             </svg>
           </div>
           <div className="text-main-dark text-lg font-semibold">Products</div>
-        </div>
+        </Link>
 
         <Link
           href="/profile/favorites"

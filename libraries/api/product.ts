@@ -1,9 +1,10 @@
+import { resolve } from 'path';
 import Api from '.';
 import { ProductFilterType } from '../../components/products/hooks/useProductFilter';
+import { MockProducts } from '../mock/products';
 import {
   ProductDetailModel,
   ProductModel,
-  ProductShortModel,
 } from '../models/product';
 import { ID, Pager } from '../types/common';
 
@@ -52,10 +53,18 @@ const likeProduct = async (productId: ID): Promise<{ result: boolean }> => {
 const getMyFavorites = async (query: Pager): Promise<ProductDetailModel[]> => {
   return Api.get('/user/liked-products', query);
 }
+const getMyProducts = async (query: Pager): Promise<ProductDetailModel[]> => {
+  /**
+   * TODO integrate api
+   */
+  return MockProducts;
+}
+
 export const ProductApi = {
   createProduct,
   retrieveProduct,
   listProduct,
   likeProduct,
-  getMyFavorites
+  getMyFavorites,
+  getMyProducts
 };

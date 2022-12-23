@@ -10,11 +10,11 @@ import PrevArrow from '../../components/snippet/slick/PrevArrow';
 import Image from 'next/image';
 import ShareButton from '../../components/snippet/ShareButton';
 import { useRouter } from 'next/router';
-import { useProductRetrieve } from '../../hooks/api.hooks';
+import { useOrderCreate, useProductRetrieve } from '../../hooks/api.hooks';
 import { ID } from '../../libraries/types/common';
 import PageLoader from '../../components/common/PageLoader';
 import { useCallback, useEffect } from 'react';
-import { showError } from '../../libraries/utils/toast';
+import { showError, showSuccess } from '../../libraries/utils/toast';
 import { getConditionLabel } from '../../libraries/constants/products';
 import CategoryBadge from '../../components/products/id/CategoryBadge';
 import { CATEGORY_KEYS } from '../../libraries/constants/categories';
@@ -36,6 +36,8 @@ const ProductDetail = () => {
   const wallet = useWallet();
   const { connection } = useConnection();
 
+  const createOrder = useOrderCreate()
+
   const formatDate = useCallback((date: string) => {
     return moment(date).format('D-MMM-YYYY');
   }, []);
@@ -54,6 +56,65 @@ const ProductDetail = () => {
     return value.name;
   }, [data?.product.countryCode]);
 
+
+  const deposit = async () => {
+    if (!wallet.publicKey) return;
+    // const buyerPublicKey = wallet.publicKey;
+    // const sellerPublicKey = new PublicKey(
+    //   '9Th78fG1GJ6QcbdXV78TLcsSd5LQ6kHzfvLYViSPbzWM'
+    // );
+    // const productId = 'a38add00';
+    // const [escrow] = findEscrowPDA({
+    //   sellerPublicKey,
+    //   buyerPublicKey,
+    //   productId,
+    // });
+    // const amount = new BN(1 * LAMPORTS_PER_SOL);
+    // const lockupTs = 5 * 60;
+
+    // const accounts = {
+    //   buyer: buyerPublicKey,
+    //   seller: sellerPublicKey,
+    //   escrow,
+    // };
+
+    // const args = {
+    //   amount,
+    //   lockupTs,
+    // };
+
+    // const depositIx = ekosProgram.createDepositSolInstruction(accounts, args);
+
+    // try {
+    //   const { txid } = await sendTransactionWithRetry(
+    //     connection,
+    //     wallet,
+    //     [depositIx],
+    //     []
+    //   );
+    //   console.log('Signature: ', txid);
+
+    // } catch (e) {
+    //   console.log(e);
+    // }
+
+    // TODO send txid to server
+
+    createOrder.mutate({ productId: id as string, txSig: "TEST" + (new Date).getUTCMilliseconds()});
+  };
+
+  useEffect(() => {
+    if (createOrder.isSuccess) {
+      showSuccess("Successfully ordered");
+    }
+  }, [createOrder.isSuccess]);
+
+  useEffect(() => {
+    if (createOrder.isError) {
+      showError(createOrder.error);
+    }
+  }, [createOrder.error, createOrder.isError])
+
   if (!data) {
     return (
       <div className="min-h-[800px] product-detail-page bg-main pt-4">
@@ -61,48 +122,6 @@ const ProductDetail = () => {
       </div>
     );
   }
-
-  const deposit = async () => {
-    const buyerPublicKey = new PublicKey(
-      'BwkUHwqhLo5TeUiMz1aPD6qQ1KKrR5kkUs8TfWNn5eYV'
-    );
-    const sellerPublicKey = new PublicKey(
-      '9Th78fG1GJ6QcbdXV78TLcsSd5LQ6kHzfvLYViSPbzWM'
-    );
-    const productId = 'a38add00';
-    const [escrow] = findEscrowPDA({
-      sellerPublicKey,
-      buyerPublicKey,
-      productId,
-    });
-    const amount = new BN(1 * LAMPORTS_PER_SOL);
-    const lockupTs = 5 * 60;
-
-    const accounts = {
-      buyer: buyerPublicKey,
-      seller: sellerPublicKey,
-      escrow,
-    };
-
-    const args = {
-      amount,
-      lockupTs,
-    };
-
-    const depositIx = ekosProgram.createDepositSolInstruction(accounts, args);
-
-    try {
-      const { txid } = await sendTransactionWithRetry(
-        connection,
-        wallet,
-        [depositIx],
-        []
-      );
-      console.log('Signature: ', txid);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   return (
     <div className="product-detail-page bg-main lg:pt-4 flex flex-col items-center justify-center">

@@ -53,7 +53,6 @@ const PremiumOfferings = () => {
         </div>
 
         <div className="premium-offerings__body flex flex-wrap gap-x-6 gap-y-9">
-          {/*  TODO get featured products */}
           {isSuccess &&
             data.pages.map((page) =>
               page.productList.map((item) => (

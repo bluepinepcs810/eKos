@@ -38,7 +38,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ data, className }) => {
                 </div>
               </div>
               <div className="product-card__meta__info__price-dollar text-sm flex items-center text-main-thick">
-                {/* TODO integrate solana price api */}
                 {!!solanaPrice && (
                   <span>({roundNumber(solanaPrice * data.price)}$)</span>
                 )}
