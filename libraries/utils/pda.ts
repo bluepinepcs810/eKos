@@ -1,17 +1,25 @@
 import { PublicKey } from '@solana/web3.js';
 import { PROGRAM_ADDRESS } from '../ekosSDK';
+import { BN } from '@project-serum/anchor';
 
-export const findEscrowPDA = ({
-  sellerPublicKey,
-  buyerPublicKey,
-  productId,
+export const findEscrowSolPotPDA = ({
+  escrowPublicKey,
 }: {
-  sellerPublicKey: PublicKey;
-  buyerPublicKey: PublicKey;
-  productId: string;
+  escrowPublicKey: PublicKey;
 }) => {
   return PublicKey.findProgramAddressSync(
-    [sellerPublicKey.toBytes(), buyerPublicKey.toBytes()],
+    [Buffer.from('escrow_sol_pot'), escrowPublicKey.toBytes()],
+    new PublicKey(PROGRAM_ADDRESS)
+  );
+};
+
+export const findEscrowAuthorityPDA = ({
+  escrowPublicKey,
+}: {
+  escrowPublicKey: PublicKey;
+}) => {
+  return PublicKey.findProgramAddressSync(
+    [escrowPublicKey.toBytes()],
     new PublicKey(PROGRAM_ADDRESS)
   );
 };

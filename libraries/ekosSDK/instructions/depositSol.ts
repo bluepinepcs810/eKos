@@ -14,7 +14,9 @@ import * as web3 from '@solana/web3.js'
  * @category generated
  */
 export type DepositSolInstructionArgs = {
-  amount: beet.bignum
+  solPotBump: number
+  orderId: beet.bignum
+  solAmount: beet.bignum
   lockupTs: beet.bignum
 }
 /**
@@ -29,7 +31,9 @@ export const depositSolStruct = new beet.BeetArgsStruct<
 >(
   [
     ['instructionDiscriminator', beet.uniformFixedSizeArray(beet.u8, 8)],
-    ['amount', beet.u64],
+    ['solPotBump', beet.u8],
+    ['orderId', beet.u64],
+    ['solAmount', beet.u64],
     ['lockupTs', beet.u64],
   ],
   'DepositSolInstructionArgs'
@@ -37,17 +41,21 @@ export const depositSolStruct = new beet.BeetArgsStruct<
 /**
  * Accounts required by the _depositSol_ instruction
  *
+ * @property [_writable_, **signer**] escrow
+ * @property [] escrowAuthority
+ * @property [_writable_] solPot
  * @property [_writable_, **signer**] buyer
  * @property [] seller
- * @property [_writable_] escrow
  * @category Instructions
  * @category DepositSol
  * @category generated
  */
 export type DepositSolInstructionAccounts = {
+  escrow: web3.PublicKey
+  escrowAuthority: web3.PublicKey
+  solPot: web3.PublicKey
   buyer: web3.PublicKey
   seller: web3.PublicKey
-  escrow: web3.PublicKey
   systemProgram?: web3.PublicKey
   anchorRemainingAccounts?: web3.AccountMeta[]
 }
@@ -77,6 +85,21 @@ export function createDepositSolInstruction(
   })
   const keys: web3.AccountMeta[] = [
     {
+      pubkey: accounts.escrow,
+      isWritable: true,
+      isSigner: true,
+    },
+    {
+      pubkey: accounts.escrowAuthority,
+      isWritable: false,
+      isSigner: false,
+    },
+    {
+      pubkey: accounts.solPot,
+      isWritable: true,
+      isSigner: false,
+    },
+    {
       pubkey: accounts.buyer,
       isWritable: true,
       isSigner: true,
@@ -84,11 +107,6 @@ export function createDepositSolInstruction(
     {
       pubkey: accounts.seller,
       isWritable: false,
-      isSigner: false,
-    },
-    {
-      pubkey: accounts.escrow,
-      isWritable: true,
       isSigner: false,
     },
     {

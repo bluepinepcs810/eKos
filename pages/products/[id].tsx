@@ -20,11 +20,13 @@ import CategoryBadge from '../../components/products/id/CategoryBadge';
 import { CATEGORY_KEYS } from '../../libraries/constants/categories';
 import moment from 'moment';
 import { countries } from '../../libraries/utils/helpers/location';
-import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import { Keypair, LAMPORTS_PER_SOL, PublicKey, Signer } from '@solana/web3.js';
 import * as ekosProgram from '../../libraries/ekosSDK';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { findEscrowPDA } from '../../libraries/utils/pda';
-import { argv } from 'process';
+import {
+  findEscrowAuthorityPDA,
+  findEscrowSolPotPDA,
+} from '../../libraries/utils/pda';
 import { BN } from '@project-serum/anchor';
 import { sendTransactionWithRetry } from '../../libraries/utils/transaction';
 
@@ -36,7 +38,7 @@ const ProductDetail = () => {
   const wallet = useWallet();
   const { connection } = useConnection();
 
-  const createOrder = useOrderCreate()
+  const createOrder = useOrderCreate();
 
   const formatDate = useCallback((date: string) => {
     return moment(date).format('D-MMM-YYYY');
@@ -56,56 +58,74 @@ const ProductDetail = () => {
     return value.name;
   }, [data?.product.countryCode]);
 
-
   const deposit = async () => {
-    if (!wallet.publicKey) return;
-    // const buyerPublicKey = wallet.publicKey;
-    // const sellerPublicKey = new PublicKey(
-    //   '9Th78fG1GJ6QcbdXV78TLcsSd5LQ6kHzfvLYViSPbzWM'
-    // );
-    // const productId = 'a38add00';
-    // const [escrow] = findEscrowPDA({
-    //   sellerPublicKey,
-    //   buyerPublicKey,
-    //   productId,
-    // });
-    // const amount = new BN(1 * LAMPORTS_PER_SOL);
-    // const lockupTs = 5 * 60;
+    if (!wallet.publicKey || !data) return;
 
-    // const accounts = {
-    //   buyer: buyerPublicKey,
-    //   seller: sellerPublicKey,
-    //   escrow,
-    // };
+    const keypair = Keypair.generate();
 
-    // const args = {
-    //   amount,
-    //   lockupTs,
-    // };
+    console.log(keypair.publicKey.toBase58());
 
-    // const depositIx = ekosProgram.createDepositSolInstruction(accounts, args);
+    const buyerPublicKey = wallet.publicKey;
+    const sellerPublicKey = new PublicKey(
+      data.product.listedUser.walletAddress
+    );
 
-    // try {
-    //   const { txid } = await sendTransactionWithRetry(
-    //     connection,
-    //     wallet,
-    //     [depositIx],
-    //     []
-    //   );
-    //   console.log('Signature: ', txid);
+    const orderId = new BN(1);
 
-    // } catch (e) {
-    //   console.log(e);
-    // }
+    const [escrowAuthority, bump] = findEscrowAuthorityPDA({
+      escrowPublicKey: keypair.publicKey,
+    });
+    const [solPot, solPotBump] = findEscrowSolPotPDA({
+      escrowPublicKey: keypair.publicKey,
+    });
 
-    // TODO send txid to server
+    const solAmount = new BN(data.product.price * LAMPORTS_PER_SOL);
+    const lockupTs = 5 * 60;
 
-    createOrder.mutate({ productId: id as string, txSig: "TEST" + (new Date).getUTCMilliseconds()});
+    const accounts = {
+      escrow: keypair.publicKey,
+      escrowAuthority,
+      solPot,
+      buyer: buyerPublicKey,
+      seller: sellerPublicKey,
+    };
+
+    const args = {
+      solPotBump,
+      orderId,
+      solAmount,
+      lockupTs,
+    };
+
+    const signers: Keypair[] = [];
+    signers.push(keypair);
+
+    const depositIx = ekosProgram.createDepositSolInstruction(accounts, args);
+
+    try {
+      const { txid } = await sendTransactionWithRetry(
+        connection,
+        wallet,
+        [depositIx],
+        signers
+      );
+      // TODO send txid to server
+
+      if (!txid) {
+        return;
+      }
+
+      // createOrder.mutate({ productId: id as string, txSig: "TEST" + (new Date).getUTCMilliseconds()});
+      createOrder.mutate({ productId: id as string, txSig: txid });
+      console.log('Signature: ', txid);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
     if (createOrder.isSuccess) {
-      showSuccess("Successfully ordered");
+      showSuccess('Successfully ordered');
     }
   }, [createOrder.isSuccess]);
 
@@ -113,7 +133,7 @@ const ProductDetail = () => {
     if (createOrder.isError) {
       showError(createOrder.error);
     }
-  }, [createOrder.error, createOrder.isError])
+  }, [createOrder.error, createOrder.isError]);
 
   if (!data) {
     return (

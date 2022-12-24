@@ -10,75 +10,73 @@ import * as web3 from '@solana/web3.js'
 
 /**
  * @category Instructions
- * @category Withdraw
+ * @category Confirm
  * @category generated
  */
-export type WithdrawInstructionArgs = {
-  productId: string
-  escrowBump: number
+export type ConfirmInstructionArgs = {
+  solPotBump: number
 }
 /**
  * @category Instructions
- * @category Withdraw
+ * @category Confirm
  * @category generated
  */
-export const withdrawStruct = new beet.FixableBeetArgsStruct<
-  WithdrawInstructionArgs & {
+export const confirmStruct = new beet.BeetArgsStruct<
+  ConfirmInstructionArgs & {
     instructionDiscriminator: number[] /* size: 8 */
   }
 >(
   [
     ['instructionDiscriminator', beet.uniformFixedSizeArray(beet.u8, 8)],
-    ['productId', beet.utf8String],
-    ['escrowBump', beet.u8],
+    ['solPotBump', beet.u8],
   ],
-  'WithdrawInstructionArgs'
+  'ConfirmInstructionArgs'
 )
 /**
- * Accounts required by the _withdraw_ instruction
+ * Accounts required by the _confirm_ instruction
  *
- * @property [] seller
- * @property [_writable_, **signer**] buyer
  * @property [_writable_] escrow
+ * @property [_writable_, **signer**] buyer
+ * @property [_writable_] seller
+ * @property [_writable_] solPot
  * @category Instructions
- * @category Withdraw
+ * @category Confirm
  * @category generated
  */
-export type WithdrawInstructionAccounts = {
-  seller: web3.PublicKey
-  buyer: web3.PublicKey
+export type ConfirmInstructionAccounts = {
   escrow: web3.PublicKey
+  buyer: web3.PublicKey
+  seller: web3.PublicKey
+  solPot: web3.PublicKey
   systemProgram?: web3.PublicKey
   anchorRemainingAccounts?: web3.AccountMeta[]
 }
 
-export const withdrawInstructionDiscriminator = [
-  183, 18, 70, 156, 148, 109, 161, 34,
-]
+export const confirmInstructionDiscriminator = [174, 1, 15, 213, 3, 190, 131, 0]
 
 /**
- * Creates a _Withdraw_ instruction.
+ * Creates a _Confirm_ instruction.
  *
  * @param accounts that will be accessed while the instruction is processed
  * @param args to provide as instruction data to the program
  *
  * @category Instructions
- * @category Withdraw
+ * @category Confirm
  * @category generated
  */
-export function createWithdrawInstruction(
-  accounts: WithdrawInstructionAccounts,
-  args: WithdrawInstructionArgs,
+export function createConfirmInstruction(
+  accounts: ConfirmInstructionAccounts,
+  args: ConfirmInstructionArgs,
   programId = new web3.PublicKey('6PzCGqfvD4warUKFqyB2GUgdw3U4QM9dzrK7rkj9ooB9')
 ) {
-  const [data] = withdrawStruct.serialize({
-    instructionDiscriminator: withdrawInstructionDiscriminator,
+  const [data] = confirmStruct.serialize({
+    instructionDiscriminator: confirmInstructionDiscriminator,
     ...args,
   })
   const keys: web3.AccountMeta[] = [
     {
-      pubkey: accounts.seller,
-      isWritable: false,
+      pubkey: accounts.escrow,
+      isWritable: true,
       isSigner: false,
     },
     {
@@ -87,7 +85,12 @@ export function createWithdrawInstruction(
       isSigner: true,
     },
     {
-      pubkey: accounts.escrow,
+      pubkey: accounts.seller,
+      isWritable: true,
+      isSigner: false,
+    },
+    {
+      pubkey: accounts.solPot,
       isWritable: true,
       isSigner: false,
     },

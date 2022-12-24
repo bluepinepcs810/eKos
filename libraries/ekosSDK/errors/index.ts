@@ -156,6 +156,52 @@ createErrorFromNameLookup.set(
 )
 
 /**
+ * NotValidSigner: 'You are not valid signer.'
+ *
+ * @category Errors
+ * @category generated
+ */
+export class NotValidSignerError extends Error {
+  readonly code: number = 0x1776
+  readonly name: string = 'NotValidSigner'
+  constructor() {
+    super('You are not valid signer.')
+    if (typeof Error.captureStackTrace === 'function') {
+      Error.captureStackTrace(this, NotValidSignerError)
+    }
+  }
+}
+
+createErrorFromCodeLookup.set(0x1776, () => new NotValidSignerError())
+createErrorFromNameLookup.set('NotValidSigner', () => new NotValidSignerError())
+
+/**
+ * InvalidTransferDestination: 'Invalid transfer destination'
+ *
+ * @category Errors
+ * @category generated
+ */
+export class InvalidTransferDestinationError extends Error {
+  readonly code: number = 0x1777
+  readonly name: string = 'InvalidTransferDestination'
+  constructor() {
+    super('Invalid transfer destination')
+    if (typeof Error.captureStackTrace === 'function') {
+      Error.captureStackTrace(this, InvalidTransferDestinationError)
+    }
+  }
+}
+
+createErrorFromCodeLookup.set(
+  0x1777,
+  () => new InvalidTransferDestinationError()
+)
+createErrorFromNameLookup.set(
+  'InvalidTransferDestination',
+  () => new InvalidTransferDestinationError()
+)
+
+/**
  * Attempts to resolve a custom program error from the provided error code.
  * @category Errors
  * @category generated

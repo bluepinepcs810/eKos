@@ -16,14 +16,14 @@ import * as beetSolana from '@metaplex-foundation/beet-solana'
  */
 export type EscrowArgs = {
   authority: web3.PublicKey
+  authoritySeed: web3.PublicKey
+  authorityBumpSeed: number[] /* size: 1 */
   seller: web3.PublicKey
   buyer: web3.PublicKey
-  canClaim: boolean
-  canWithdraw: boolean
-  amountOfSol: beet.bignum
-  amountOfUsdc: beet.bignum
+  orderId: beet.bignum
+  solAmount: beet.bignum
   createdTs: beet.bignum
-  lockupTs: beet.bignum
+  lockTs: beet.bignum
 }
 
 export const escrowDiscriminator = [31, 213, 123, 187, 186, 22, 218, 155]
@@ -37,14 +37,14 @@ export const escrowDiscriminator = [31, 213, 123, 187, 186, 22, 218, 155]
 export class Escrow implements EscrowArgs {
   private constructor(
     readonly authority: web3.PublicKey,
+    readonly authoritySeed: web3.PublicKey,
+    readonly authorityBumpSeed: number[] /* size: 1 */,
     readonly seller: web3.PublicKey,
     readonly buyer: web3.PublicKey,
-    readonly canClaim: boolean,
-    readonly canWithdraw: boolean,
-    readonly amountOfSol: beet.bignum,
-    readonly amountOfUsdc: beet.bignum,
+    readonly orderId: beet.bignum,
+    readonly solAmount: beet.bignum,
     readonly createdTs: beet.bignum,
-    readonly lockupTs: beet.bignum
+    readonly lockTs: beet.bignum
   ) {}
 
   /**
@@ -53,14 +53,14 @@ export class Escrow implements EscrowArgs {
   static fromArgs(args: EscrowArgs) {
     return new Escrow(
       args.authority,
+      args.authoritySeed,
+      args.authorityBumpSeed,
       args.seller,
       args.buyer,
-      args.canClaim,
-      args.canWithdraw,
-      args.amountOfSol,
-      args.amountOfUsdc,
+      args.orderId,
+      args.solAmount,
       args.createdTs,
-      args.lockupTs
+      args.lockTs
     )
   }
 
@@ -168,12 +168,12 @@ export class Escrow implements EscrowArgs {
   pretty() {
     return {
       authority: this.authority.toBase58(),
+      authoritySeed: this.authoritySeed.toBase58(),
+      authorityBumpSeed: this.authorityBumpSeed,
       seller: this.seller.toBase58(),
       buyer: this.buyer.toBase58(),
-      canClaim: this.canClaim,
-      canWithdraw: this.canWithdraw,
-      amountOfSol: (() => {
-        const x = <{ toNumber: () => number }>this.amountOfSol
+      orderId: (() => {
+        const x = <{ toNumber: () => number }>this.orderId
         if (typeof x.toNumber === 'function') {
           try {
             return x.toNumber()
@@ -183,8 +183,8 @@ export class Escrow implements EscrowArgs {
         }
         return x
       })(),
-      amountOfUsdc: (() => {
-        const x = <{ toNumber: () => number }>this.amountOfUsdc
+      solAmount: (() => {
+        const x = <{ toNumber: () => number }>this.solAmount
         if (typeof x.toNumber === 'function') {
           try {
             return x.toNumber()
@@ -205,8 +205,8 @@ export class Escrow implements EscrowArgs {
         }
         return x
       })(),
-      lockupTs: (() => {
-        const x = <{ toNumber: () => number }>this.lockupTs
+      lockTs: (() => {
+        const x = <{ toNumber: () => number }>this.lockTs
         if (typeof x.toNumber === 'function') {
           try {
             return x.toNumber()
@@ -233,14 +233,14 @@ export const escrowBeet = new beet.BeetStruct<
   [
     ['accountDiscriminator', beet.uniformFixedSizeArray(beet.u8, 8)],
     ['authority', beetSolana.publicKey],
+    ['authoritySeed', beetSolana.publicKey],
+    ['authorityBumpSeed', beet.uniformFixedSizeArray(beet.u8, 1)],
     ['seller', beetSolana.publicKey],
     ['buyer', beetSolana.publicKey],
-    ['canClaim', beet.bool],
-    ['canWithdraw', beet.bool],
-    ['amountOfSol', beet.u64],
-    ['amountOfUsdc', beet.u64],
+    ['orderId', beet.u64],
+    ['solAmount', beet.u64],
     ['createdTs', beet.u64],
-    ['lockupTs', beet.u64],
+    ['lockTs', beet.u64],
   ],
   Escrow.fromArgs,
   'Escrow'
