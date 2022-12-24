@@ -15,6 +15,7 @@ import { OrderStatusEnum } from '../../../../libraries/models/order';
 
 const BuyingPane = () => {
   const { data, isError, error } = useBuyingOrders(1);
+  const [loading, setLoading] = useState(false);
 
   const wallet = useWallet();
   const { connection } = useConnection();
@@ -35,32 +36,34 @@ const BuyingPane = () => {
 
   const handleConfirm = useCallback(
     async (orderId: ID) => {
+      if (loading) return;
       if (!wallet.publicKey || !data) return;
       const order = data?.find((item) => item.id === orderId);
       if (!order) return;
-      const buyerPublicKey = new PublicKey(order.buyer.walletAddress);
-      const sellerPublicKey = new PublicKey(order.seller.walletAddress);
-      const escrow = new PublicKey(
-        // 'Bb1ktHASaKpA3DfsWtGXGcSbJjRRTa9tZUXoujMrkgf4'
-        order.escrowPublicKey!
-      );
-
-      const [solPot, solPotBump] = findEscrowSolPotPDA({
-        escrowPublicKey: escrow,
-      });
-
-      const accounts = {
-        escrow,
-        buyer: buyerPublicKey,
-        seller: sellerPublicKey,
-        solPot,
-      };
-
-      const args = { solPotBump };
-
-      const confirmIx = ekosProgram.createConfirmInstruction(accounts, args);
-
+      setLoading(true);
       try {
+        const buyerPublicKey = new PublicKey(order.buyer.walletAddress);
+        const sellerPublicKey = new PublicKey(order.seller.walletAddress);
+        const escrow = new PublicKey(
+          // 'Bb1ktHASaKpA3DfsWtGXGcSbJjRRTa9tZUXoujMrkgf4'
+          order.escrowPublicKey!
+        );
+
+        const [solPot, solPotBump] = findEscrowSolPotPDA({
+          escrowPublicKey: escrow,
+        });
+
+        const accounts = {
+          escrow,
+          buyer: buyerPublicKey,
+          seller: sellerPublicKey,
+          solPot,
+        };
+
+        const args = { solPotBump };
+
+        const confirmIx = ekosProgram.createConfirmInstruction(accounts, args);
+
         const { txid } = await sendTransactionWithRetry(
           connection,
           wallet,
@@ -70,16 +73,16 @@ const BuyingPane = () => {
         // TODO send txid to server
 
         if (!txid) {
+          setLoading(false);
           return;
         }
         confirmOrder.mutate({ orderId, txSig: txid });
       } catch (e) {
         console.log(e);
-        return;
       }
-      // TODO add sign instruction
+      setLoading(false);
     },
-    [confirmOrder, connection, data, wallet]
+    [confirmOrder, connection, data, loading, wallet]
   );
 
   useEffect(() => {
@@ -90,7 +93,7 @@ const BuyingPane = () => {
 
   return (
     <div className="shadow-lg bg-white border border-main-dark rounded-md px-3 py-5">
-      <PageLoader loading={confirmOrder.isLoading} />
+      <PageLoader loading={loading} />
       <table className="min-w-full">
         <thead>
           <tr>

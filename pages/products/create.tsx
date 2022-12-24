@@ -149,7 +149,6 @@ const ProductCreatePage = () => {
                       className="bg-main-light flex-grow text-main-weighted"
                       placeholder="Your offer"
                       type="number"
-                      min={0}
                       {...register('price', {
                         required: 'Please input price',
                         min: {
