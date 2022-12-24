@@ -1,17 +1,11 @@
-import { useEffect } from "react";
-import { useMyFavorites } from "../../../hooks/api.hooks";
-import { showError } from "../../../libraries/utils/toast";
-import ProductCard from "../../common/ProductCard";
+import { useEffect } from 'react';
+import { useMyFavorites } from '../../../hooks/api.hooks';
+import { showError } from '../../../libraries/utils/toast';
+import ProductCard from '../../common/ProductCard';
 
 const FavoritePane = () => {
-  const {
-    data,
-    isSuccess,
-    hasNextPage,
-    fetchNextPage,
-    isError,
-    error,
-  } = useMyFavorites();
+  const { data, isSuccess, hasNextPage, fetchNextPage, isError, error } =
+    useMyFavorites();
 
   useEffect(() => {
     if (isError) {
@@ -41,7 +35,7 @@ const FavoritePane = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default FavoritePane;

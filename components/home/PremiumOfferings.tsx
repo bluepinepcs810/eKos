@@ -6,10 +6,7 @@ import ProductCard from '../common/ProductCard';
 import useProductFilter from '../products/hooks/useProductFilter';
 
 const PremiumOfferings = () => {
-  const {
-    data,
-    isSuccess
-  } = useProductList({ featured: true });
+  const { data, isSuccess } = useProductList({ featured: true });
 
   const {
     query: { q },
@@ -25,7 +22,10 @@ const PremiumOfferings = () => {
   );
 
   return (
-    <div className="premium-offerings bg-main py-14 flex justify-center" id="premium-offerings">
+    <div
+      className="premium-offerings bg-main py-14 flex justify-center"
+      id="premium-offerings"
+    >
       <div className="content-container">
         <div className="premium-offerings__header flex justify-center lg:justify-between pr-1">
           <h2 className="text-[28px] font-semibold text-center text-main-thick mb-5">
@@ -40,7 +40,9 @@ const PremiumOfferings = () => {
               </div>
               <form onSubmit={handleSubmit}>
                 <div className="search-input rounded-full">
-                  <input className="mr-5 w-56" type="text"
+                  <input
+                    className="mr-5 w-56"
+                    type="text"
                     placeholder="Search"
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
@@ -58,8 +60,7 @@ const PremiumOfferings = () => {
               page.productList.map((item) => (
                 <ProductCard data={item} key={item.id} />
               ))
-            )
-          }
+            )}
         </div>
         <div className="premium-offerings__footer flex justify-center mt-12 mb-14">
           <Link

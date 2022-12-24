@@ -1,6 +1,6 @@
-import MyProductsPane from "../../../components/profile/products/MyProductsPane";
-import ProfileLeftPane from "../../../components/profile/ProfileLeftPane";
-import { ProfilePane } from "../../../libraries/types/pages/profile";
+import MyProductsPane from '../../../components/profile/products/MyProductsPane';
+import ProfileLeftPane from '../../../components/profile/ProfileLeftPane';
+import { ProfilePane } from '../../../libraries/types/pages/profile';
 
 const MyProducts = () => {
   return (
@@ -12,6 +12,6 @@ const MyProducts = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 export default MyProducts;

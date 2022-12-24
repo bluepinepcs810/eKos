@@ -1,17 +1,11 @@
-import { useEffect } from "react";
-import { useMyProducts } from "../../../hooks/api.hooks";
-import { showError } from "../../../libraries/utils/toast";
-import ProductCard from "../../common/ProductCard";
+import { useEffect } from 'react';
+import { useMyProducts } from '../../../hooks/api.hooks';
+import { showError } from '../../../libraries/utils/toast';
+import ProductCard from '../../common/ProductCard';
 
 const MyProductsPane = () => {
-  const {
-    data,
-    isSuccess,
-    hasNextPage,
-    fetchNextPage,
-    isError,
-    error,
-  } = useMyProducts();
+  const { data, isSuccess, hasNextPage, fetchNextPage, isError, error } =
+    useMyProducts();
 
   useEffect(() => {
     if (isError) {
@@ -41,6 +35,6 @@ const MyProductsPane = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 export default MyProductsPane;

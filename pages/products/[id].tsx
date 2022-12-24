@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import Slider from 'react-slick';
 import HeartButton from '../../components/snippet/HeartButton';
 import StarRating from '../../components/snippet/StarRating';
@@ -10,7 +10,11 @@ import PrevArrow from '../../components/snippet/slick/PrevArrow';
 import Image from 'next/image';
 import ShareButton from '../../components/snippet/ShareButton';
 import { useRouter } from 'next/router';
-import { useOrderCreate, useProductRetrieve } from '../../hooks/api.hooks';
+import {
+  useOrderCreate,
+  useOrderUpdateCreate,
+  useProductRetrieve,
+} from '../../hooks/api.hooks';
 import { ID } from '../../libraries/types/common';
 import PageLoader from '../../components/common/PageLoader';
 import { useCallback, useEffect } from 'react';
@@ -33,11 +37,13 @@ import { sendTransactionWithRetry } from '../../libraries/utils/transaction';
 const ProductDetail = () => {
   const router = useRouter();
   const { id } = router.query;
-  const { data, isLoading, isError, error } = useProductRetrieve(id as ID);
+  const { data, isError, error, isLoading } = useProductRetrieve(id as ID);
+  const [loading, setLoading] = useState(false);
 
   const wallet = useWallet();
   const { connection } = useConnection();
 
+  const updateCreateOrder = useOrderUpdateCreate();
   const createOrder = useOrderCreate();
 
   const formatDate = useCallback((date: string) => {
@@ -59,75 +65,89 @@ const ProductDetail = () => {
   }, [data?.product.countryCode]);
 
   const deposit = async () => {
+    if (loading) return;
     if (!wallet.publicKey || !data) return;
-
-    const keypair = Keypair.generate();
-
-    console.log(keypair.publicKey.toBase58());
-
-    const buyerPublicKey = wallet.publicKey;
-    const sellerPublicKey = new PublicKey(
-      data.product.listedUser.walletAddress
-    );
-
-    const orderId = new BN(1);
-
-    const [escrowAuthority, bump] = findEscrowAuthorityPDA({
-      escrowPublicKey: keypair.publicKey,
-    });
-    const [solPot, solPotBump] = findEscrowSolPotPDA({
-      escrowPublicKey: keypair.publicKey,
-    });
-
-    const solAmount = new BN(data.product.price * LAMPORTS_PER_SOL);
-    const lockupTs = 5 * 60;
-
-    const accounts = {
-      escrow: keypair.publicKey,
-      escrowAuthority,
-      solPot,
-      buyer: buyerPublicKey,
-      seller: sellerPublicKey,
-    };
-
-    const args = {
-      solPotBump,
-      orderId,
-      solAmount,
-      lockupTs,
-    };
-
-    const signers: Keypair[] = [];
-    signers.push(keypair);
-
-    const depositIx = ekosProgram.createDepositSolInstruction(accounts, args);
-
+    setLoading(true);
     try {
+      const { orderId } = await createOrder.mutateAsync(id as string);
+
+      const keypair = Keypair.generate();
+      console.log(keypair.publicKey.toBase58());
+
+      const buyerPublicKey = wallet.publicKey;
+      const sellerPublicKey = new PublicKey(
+        data.product.listedUser.walletAddress
+      );
+
+      const [escrowAuthority] = findEscrowAuthorityPDA({
+        escrowPublicKey: keypair.publicKey,
+      });
+      const [solPot, solPotBump] = findEscrowSolPotPDA({
+        escrowPublicKey: keypair.publicKey,
+      });
+
+      const solAmount = new BN(data.product.price * LAMPORTS_PER_SOL);
+      const lockupTs = 5 * 60;
+
+      const accounts = {
+        escrow: keypair.publicKey,
+        escrowAuthority,
+        solPot,
+        buyer: buyerPublicKey,
+        seller: sellerPublicKey,
+      };
+
+      const args = {
+        solPotBump,
+        orderId: new BN(orderId),
+        solAmount,
+        lockupTs,
+      };
+
+      const signers: Keypair[] = [];
+      signers.push(keypair);
+
+      const depositIx = ekosProgram.createDepositSolInstruction(accounts, args);
+
       const { txid } = await sendTransactionWithRetry(
         connection,
         wallet,
         [depositIx],
         signers
       );
-      // TODO send txid to server
 
       if (!txid) {
+        setLoading(false);
         return;
       }
 
+      /**
+       * update preorder to newly created
+       * url: /order/update-create
+       * method: put
+       * @param
+       * orderId: ID
+       * txSig: string
+       * escrowPublicKey: string
+       *
+       * @returns
+       * orderId
+       * status
+       */
       // createOrder.mutate({ productId: id as string, txSig: "TEST" + (new Date).getUTCMilliseconds()});
-      createOrder.mutate({ productId: id as string, txSig: txid });
+      await updateCreateOrder.mutateAsync({
+        orderId,
+        escrowPublicKey: keypair.publicKey.toBase58(),
+        txSig: txid,
+      });
       console.log('Signature: ', txid);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
-  useEffect(() => {
-    if (createOrder.isSuccess) {
-      showSuccess('Successfully ordered');
+      showSuccess('Success');
+    } catch (e: any) {
+      showError(e);
     }
-  }, [createOrder.isSuccess]);
+    setLoading(false);
+  };
 
   useEffect(() => {
     if (createOrder.isError) {
@@ -145,7 +165,7 @@ const ProductDetail = () => {
 
   return (
     <div className="product-detail-page bg-main lg:pt-4 flex flex-col items-center justify-center">
-      <PageLoader loading={isLoading} />
+      <PageLoader loading={loading} />
       <div className="w-full max-w-[828px] md:mb-5">
         <div className="product-detail__card w-full bg-main-light py-5 lg:px-5">
           <div className="product-detail__card__header flex flex-col lg:flex-row justify-between gap-x-5 lg:mb-5 px-4 lg:px-0">

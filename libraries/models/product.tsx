@@ -15,8 +15,8 @@ type ProductBaseModel = {
   category: CATEGORY_KEYS;
   condition: ProductCondition;
   hashTags: string[];
-  countryCode?: string,
-  city?: string,
+  countryCode?: string;
+  city?: string;
 };
 
 export type ProductModel = ProductBaseModel & {
@@ -25,7 +25,7 @@ export type ProductModel = ProductBaseModel & {
 
 export type ProductShortModel = ProductBaseModel & {
   id: ID;
-  photos: string[],
+  photos: string[];
 };
 export type ProductDetailModel = ProductBaseModel & {
   id: ID;

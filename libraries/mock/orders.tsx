@@ -1,8 +1,7 @@
-import { OrderModel, OrderStatusEnum } from "../models/order";
-import { CoinTypeEnum } from "../models/product";
-import { MockProducts } from "./products";
-import { MockUsers } from "./users";
-
+import { OrderModel, OrderStatusEnum } from '../models/order';
+import { CoinTypeEnum } from '../models/product';
+import { MockProducts } from './products';
+import { MockUsers } from './users';
 
 export const MockOrders: OrderModel[] = [
   {
@@ -82,5 +81,5 @@ export const MockOrders: OrderModel[] = [
     buyer: MockUsers[1],
     sellerId: MockUsers[1].id,
     seller: MockUsers[1],
-  }
-]
+  },
+];

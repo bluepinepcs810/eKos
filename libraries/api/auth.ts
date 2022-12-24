@@ -15,11 +15,11 @@ const signin = (
 
 const getMe = (): Promise<{ user: UserType }> => {
   return Api.get('/user/me');
-}
+};
 const AuthApi = {
   getNonce,
   signin,
-  getMe
+  getMe,
 };
 
 export default AuthApi;

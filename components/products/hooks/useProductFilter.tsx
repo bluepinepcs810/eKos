@@ -46,7 +46,7 @@ const useProductFilter = () => {
     priceTo: _priceTo,
     condition: _condition,
     countryCode: _countryCode,
-    city: _city
+    city: _city,
   } = router.query;
 
   const [q, setQ] = useState(_q ? (_q as string) : undefined);
@@ -73,8 +73,10 @@ const useProductFilter = () => {
           .map((item) => parseInt(item)) as unknown as ProductCondition[])
       : []
   );
-  const [countryCode, setCountryCode] = useState(_countryCode ? _countryCode as string : undefined);
-  const [city, setCity] = useState(_city ? _city as string : undefined)
+  const [countryCode, setCountryCode] = useState(
+    _countryCode ? (_countryCode as string) : undefined
+  );
+  const [city, setCity] = useState(_city ? (_city as string) : undefined);
 
   const refresh = useCallback(() => {
     setQ(_q ? (_q as string) : undefined);
@@ -94,9 +96,19 @@ const useProductFilter = () => {
             .map((item) => parseInt(item)) as unknown as ProductCondition[])
         : []
     );
-    setCountryCode(_countryCode ? _countryCode as string : undefined);
-    setCity(_city ? _city as string : undefined);
-  }, [_category, _city, _condition, _countryCode, _dir, _priceFrom, _priceTo, _q, _sort]);
+    setCountryCode(_countryCode ? (_countryCode as string) : undefined);
+    setCity(_city ? (_city as string) : undefined);
+  }, [
+    _category,
+    _city,
+    _condition,
+    _countryCode,
+    _dir,
+    _priceFrom,
+    _priceTo,
+    _q,
+    _sort,
+  ]);
 
   const refetchProducts = useCallback(() => {
     queryClient.resetQueries({ queryKey: ['listProduct'] });
@@ -113,7 +125,7 @@ const useProductFilter = () => {
         priceTo,
         condition,
         countryCode,
-        city
+        city,
       };
       if (data) {
         queryData = { ...queryData, ...data };
@@ -123,7 +135,18 @@ const useProductFilter = () => {
       router.push(url);
       // queryClient.resetQueries({ queryKey: ['listProduct'] });
     },
-    [category, city, condition, countryCode, dir, priceFrom, priceTo, q, router, sort]
+    [
+      category,
+      city,
+      condition,
+      countryCode,
+      dir,
+      priceFrom,
+      priceTo,
+      q,
+      router,
+      sort,
+    ]
   );
 
   useEffect(() => {
@@ -139,7 +162,7 @@ const useProductFilter = () => {
       priceTo,
       condition,
       countryCode,
-      city
+      city,
     },
     setQ,
     setSort,
@@ -152,7 +175,7 @@ const useProductFilter = () => {
     refresh,
     handleApply,
     setCountryCode,
-    setCity
+    setCity,
   };
 };
 export default useProductFilter;

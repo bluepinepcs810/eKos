@@ -1,6 +1,6 @@
-import ProfileLeftPane from "../../../components/profile/ProfileLeftPane"
-import PurchasesPane from "../../../components/profile/purchases"
-import { ProfilePane } from "../../../libraries/types/pages/profile"
+import ProfileLeftPane from '../../../components/profile/ProfileLeftPane';
+import PurchasesPane from '../../../components/profile/purchases';
+import { ProfilePane } from '../../../libraries/types/pages/profile';
 
 const Purchases = () => {
   return (
@@ -12,7 +12,6 @@ const Purchases = () => {
         </div>
       </div>
     </div>
-  )
-}
-export default Purchases
-;
+  );
+};
+export default Purchases;

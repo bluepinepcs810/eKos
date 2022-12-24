@@ -14,7 +14,13 @@ type ProductCardProps = {
 const ProductCard: React.FC<ProductCardProps> = ({ data, className }) => {
   const { solanaPrice } = useContext(CoinGeckoContext);
   return (
-    <Link href={'/products/' + data.id} className={"w-1/2 sm:w-1/3 max-w-[275px] px-1 md:px-0 bg-main-light rounded-lg cursor-pointer hover:drop-shadow-lg transition " + (className ?? '')}>
+    <Link
+      href={'/products/' + data.id}
+      className={
+        'w-1/2 sm:w-1/3 max-w-[275px] px-1 md:px-0 bg-main-light rounded-lg cursor-pointer hover:drop-shadow-lg transition ' +
+        (className ?? '')
+      }
+    >
       <div className="product-card p-[5px]">
         <div className="product-card__image lg:max-w-[275px] max-h-[122px] md:max-h-[187px] object-cover overflow-hidden rounded-md">
           <Image

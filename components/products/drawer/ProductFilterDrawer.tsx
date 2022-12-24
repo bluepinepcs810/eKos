@@ -19,8 +19,15 @@ export type ProductFilterPaneType = 'category' | 'price' | 'main';
 
 const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
   const [currentPane, setCurrentPane] = useState<ProductFilterPaneType>('main');
-  const { query, setCategory, setFrom, setTo, setCondition, refresh, handleApply } =
-    useProductFilter();
+  const {
+    query,
+    setCategory,
+    setFrom,
+    setTo,
+    setCondition,
+    refresh,
+    handleApply,
+  } = useProductFilter();
 
   const category = findCategoryItem(query.category);
 
@@ -114,7 +121,8 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
 
                 {/* B Condition selector */}
                 <div className="text-main-weighted pt-5">Category</div>
-                <button className="flex py-5 items-center justify-between border-b border-third-main cursor-pointer w-full"
+                <button
+                  className="flex py-5 items-center justify-between border-b border-third-main cursor-pointer w-full"
                   onClick={() => setCurrentPane('price')}
                 >
                   <div className="text-main-dark pl-8">Any item condition</div>
@@ -144,8 +152,10 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
                 </div>
               </div>
 
-              <div className="lg:mt-4 lg:mb-4 flex justify-end gap-x-2 fixed z-20 bottom-0 left-0 pr-5 py-3 lg:py-0
-                lg:relative w-full border-t border-main-weighted lg:border-none">
+              <div
+                className="lg:mt-4 lg:mb-4 flex justify-end gap-x-2 fixed z-20 bottom-0 left-0 pr-5 py-3 lg:py-0
+                lg:relative w-full border-t border-main-weighted lg:border-none"
+              >
                 <button
                   className="text-main-dark hover:bg-main-strong px-5 py-2 rounded-full transition"
                   onClick={handleCancel}
@@ -191,7 +201,11 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
             exit={{ x: '100%', opacity: 0 }}
             // transition={{ x: { duration: 0 }}}
           >
-            <ProductConditionPane setPane={setCurrentPane} condition={query.condition} setCondition={setCondition} />
+            <ProductConditionPane
+              setPane={setCurrentPane}
+              condition={query.condition}
+              setCondition={setCondition}
+            />
           </motion.div>
         )}
       </AnimatePresence>

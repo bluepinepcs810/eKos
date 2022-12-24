@@ -53,7 +53,7 @@ const ProductSorter = () => {
         </button>
       </div>
       <div className="text-main-weighted items-center">
-        <div className='whitespace-nowrap'>Sort by:</div>
+        <div className="whitespace-nowrap">Sort by:</div>
       </div>
       <div>
         <select

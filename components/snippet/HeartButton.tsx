@@ -4,9 +4,9 @@ import { ID } from '../../libraries/types/common';
 import { useStoreState } from '../../store/types';
 
 type HeartButtonProps = {
-  productId: ID,
-  isLiked: boolean
-}
+  productId: ID;
+  isLiked: boolean;
+};
 
 const HeartButton: React.FC<HeartButtonProps> = ({ productId, isLiked }) => {
   const { signedIn } = useStoreState((state) => state.session);
@@ -14,21 +14,23 @@ const HeartButton: React.FC<HeartButtonProps> = ({ productId, isLiked }) => {
   const { mutate: run, data, isSuccess } = useProductLike(productId);
 
   const [active, setActive] = useState(isLiked);
-  const handleClick = useCallback((e: any) => {
-    if (!signedIn) return;
-    e.stopPropagation();
-    e.nativeEvent.preventDefault();
-    e.nativeEvent.stopImmediatePropagation();
-    setActive((old) => !old);
-    run();
-  }, [run, signedIn]);
+  const handleClick = useCallback(
+    (e: any) => {
+      if (!signedIn) return;
+      e.stopPropagation();
+      e.nativeEvent.preventDefault();
+      e.nativeEvent.stopImmediatePropagation();
+      setActive((old) => !old);
+      run();
+    },
+    [run, signedIn]
+  );
 
   useEffect(() => {
     if (isSuccess) {
       setActive(data.result);
     }
-  }, [data?.result, isSuccess])
-
+  }, [data?.result, isSuccess]);
 
   if (!signedIn) {
     return null;

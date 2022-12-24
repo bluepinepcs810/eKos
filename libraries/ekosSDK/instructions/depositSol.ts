@@ -5,8 +5,8 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
-import * as web3 from '@solana/web3.js'
+import * as beet from '@metaplex-foundation/beet';
+import * as web3 from '@solana/web3.js';
 
 /**
  * @category Instructions
@@ -14,11 +14,11 @@ import * as web3 from '@solana/web3.js'
  * @category generated
  */
 export type DepositSolInstructionArgs = {
-  solPotBump: number
-  orderId: beet.bignum
-  solAmount: beet.bignum
-  lockupTs: beet.bignum
-}
+  solPotBump: number;
+  orderId: beet.bignum;
+  solAmount: beet.bignum;
+  lockupTs: beet.bignum;
+};
 /**
  * @category Instructions
  * @category DepositSol
@@ -26,7 +26,7 @@ export type DepositSolInstructionArgs = {
  */
 export const depositSolStruct = new beet.BeetArgsStruct<
   DepositSolInstructionArgs & {
-    instructionDiscriminator: number[] /* size: 8 */
+    instructionDiscriminator: number[] /* size: 8 */;
   }
 >(
   [
@@ -37,7 +37,7 @@ export const depositSolStruct = new beet.BeetArgsStruct<
     ['lockupTs', beet.u64],
   ],
   'DepositSolInstructionArgs'
-)
+);
 /**
  * Accounts required by the _depositSol_ instruction
  *
@@ -51,18 +51,18 @@ export const depositSolStruct = new beet.BeetArgsStruct<
  * @category generated
  */
 export type DepositSolInstructionAccounts = {
-  escrow: web3.PublicKey
-  escrowAuthority: web3.PublicKey
-  solPot: web3.PublicKey
-  buyer: web3.PublicKey
-  seller: web3.PublicKey
-  systemProgram?: web3.PublicKey
-  anchorRemainingAccounts?: web3.AccountMeta[]
-}
+  escrow: web3.PublicKey;
+  escrowAuthority: web3.PublicKey;
+  solPot: web3.PublicKey;
+  buyer: web3.PublicKey;
+  seller: web3.PublicKey;
+  systemProgram?: web3.PublicKey;
+  anchorRemainingAccounts?: web3.AccountMeta[];
+};
 
 export const depositSolInstructionDiscriminator = [
   108, 81, 78, 117, 125, 155, 56, 200,
-]
+];
 
 /**
  * Creates a _DepositSol_ instruction.
@@ -82,7 +82,7 @@ export function createDepositSolInstruction(
   const [data] = depositSolStruct.serialize({
     instructionDiscriminator: depositSolInstructionDiscriminator,
     ...args,
-  })
+  });
   const keys: web3.AccountMeta[] = [
     {
       pubkey: accounts.escrow,
@@ -114,11 +114,11 @@ export function createDepositSolInstruction(
       isWritable: false,
       isSigner: false,
     },
-  ]
+  ];
 
   if (accounts.anchorRemainingAccounts != null) {
     for (const acc of accounts.anchorRemainingAccounts) {
-      keys.push(acc)
+      keys.push(acc);
     }
   }
 
@@ -126,6 +126,6 @@ export function createDepositSolInstruction(
     programId,
     keys,
     data,
-  })
-  return ix
+  });
+  return ix;
 }

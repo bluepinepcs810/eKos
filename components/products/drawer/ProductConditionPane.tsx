@@ -1,19 +1,27 @@
 import { useState, useCallback } from 'react';
-import { ProductCondition, PRODUCT_CONDITIONS } from "../../../libraries/constants/products";
-import CheckBox from "../../snippet/CheckBox";
-import useProductFilter from "../hooks/useProductFilter";
-import { ProductFilterPaneType } from "./ProductFilterDrawer";
+import {
+  ProductCondition,
+  PRODUCT_CONDITIONS,
+} from '../../../libraries/constants/products';
+import CheckBox from '../../snippet/CheckBox';
+import useProductFilter from '../hooks/useProductFilter';
+import { ProductFilterPaneType } from './ProductFilterDrawer';
 
 type ProductConditionPaneProps = {
   condition: ProductCondition[];
   setPane: (type: ProductFilterPaneType) => void;
   setCondition: (condition: ProductCondition[]) => void;
-}
+};
 
-const ProductConditionPane: React.FC<ProductConditionPaneProps> = ({setPane, condition, setCondition}) => {
-  const handleChange = useCallback((targetCondition: ProductCondition, value: boolean) => {
-    const conditions = [...condition];
-    const index = conditions.findIndex((item) => item === targetCondition);
+const ProductConditionPane: React.FC<ProductConditionPaneProps> = ({
+  setPane,
+  condition,
+  setCondition,
+}) => {
+  const handleChange = useCallback(
+    (targetCondition: ProductCondition, value: boolean) => {
+      const conditions = [...condition];
+      const index = conditions.findIndex((item) => item === targetCondition);
       const existing = index !== -1;
       if (value && existing) {
         return;
@@ -25,7 +33,9 @@ const ProductConditionPane: React.FC<ProductConditionPaneProps> = ({setPane, con
         return;
       }
       setCondition(conditions);
-  }, [condition, setCondition]);
+    },
+    [condition, setCondition]
+  );
 
   return (
     <div className="bg-main-light h-full overflow-y-auto pt-12 px-3 md:pl-32 md:pr-2">
@@ -71,7 +81,7 @@ const ProductConditionPane: React.FC<ProductConditionPaneProps> = ({setPane, con
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ProductConditionPane;

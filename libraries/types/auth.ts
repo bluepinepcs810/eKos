@@ -1,4 +1,4 @@
-import { UserType } from "../models/user";
+import { UserType } from '../models/user';
 
 export type NonceResponseType = {
   nonce: string;
@@ -7,5 +7,5 @@ export type NonceResponseType = {
 export type SignInResponseType = {
   accessToken: string;
   ts: number;
-  user: UserType
+  user: UserType;
 };

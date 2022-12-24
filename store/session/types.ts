@@ -6,7 +6,7 @@ export type SessionModel = {
   session: {
     initial: boolean;
     signedIn: boolean;
-    me?: UserType
+    me?: UserType;
   };
   setSignedIn: Action<StoreModel, void>;
   unsetSignedIn: Action<StoreModel, void>;

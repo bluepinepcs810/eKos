@@ -1,17 +1,18 @@
 import Link from 'next/link';
 import { FC } from 'react';
 import { ProfilePane } from '../../libraries/types/pages/profile';
+import { useStoreState } from '../../store/types';
 import UserTap from '../snippet/UserTap';
 
 type InboxLeftPaneProps = {
   activePane: ProfilePane;
 };
 const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
+  const { me } = useStoreState((state) => state.session);
+
   return (
     <div className="left-pane w-full max-w-[200px] h-full border-r-4 px-1 pt-5 hidden md:block">
-      <div className="py-2 px-3 mb-4">
-        <UserTap data={{ userName: 'Bob S', rating: 3, id: 1, walletAddress: 'test' }} />
-      </div>
+      <div className="py-2 px-3 mb-4">{me && <UserTap data={me} />}</div>
       <div className="flex flex-col gap-y-1.5">
         <Link
           href="/profile/purchases"
@@ -61,7 +62,8 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
           <div className="text-main-dark text-lg font-semibold">Inbox</div>
         </Link>
 
-        <Link href="/profile/products"
+        <Link
+          href="/profile/products"
           className={
             'flex gap-x-3 py-2 px-3 rounded-md hover:bg-main cursor-pointer items-center ' +
             (activePane === ProfilePane.PRODUCTS && 'bg-main')

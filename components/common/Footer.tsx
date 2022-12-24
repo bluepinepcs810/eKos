@@ -7,14 +7,19 @@ const Footer = () => {
   const router = useRouter();
   const [footerVisible, setFooterVisible] = useState(true);
   useEffect(() => {
-    if (router.pathname.startsWith('/profile/inbox/chat'))  {
+    if (router.pathname.startsWith('/profile/inbox/chat')) {
       setFooterVisible(false);
     } else {
       setFooterVisible(true);
     }
-  }, [router.pathname])
+  }, [router.pathname]);
   return (
-    <footer className={"footer justify-center bg-main-gradient " + (footerVisible ? 'flex' : 'hidden md:flex')}>
+    <footer
+      className={
+        'footer justify-center bg-main-gradient ' +
+        (footerVisible ? 'flex' : 'hidden md:flex')
+      }
+    >
       <div className="content-container pt-10 md:pt-5 pb-8 md:pb-8">
         <div className="w-full flex flex-col md:flex-row">
           <div className="footer__section md:w-1/4">
@@ -36,13 +41,17 @@ const Footer = () => {
               Home Page
             </div>
             <Link className="text-main-light mb-1" href="/#home-banner">
-              <div>
-                What are you looking for?
-              </div>
+              <div>What are you looking for?</div>
             </Link>
-            <Link className="text-main-light mb-1" href="/#buy-premium"><div>Buy Premium</div></Link>
-            <Link className="text-main-light mb-1" href="/#find-product"><div>Find a product near me</div></Link>
-            <Link className="text-main-light mb-1" href="/#premium-offerings"><div>Premium offerings</div></Link>
+            <Link className="text-main-light mb-1" href="/#buy-premium">
+              <div>Buy Premium</div>
+            </Link>
+            <Link className="text-main-light mb-1" href="/#find-product">
+              <div>Find a product near me</div>
+            </Link>
+            <Link className="text-main-light mb-1" href="/#premium-offerings">
+              <div>Premium offerings</div>
+            </Link>
           </div>
 
           <div className="footer__section w-1/4 hidden md:flex flex-col justify-center">
@@ -99,7 +108,7 @@ const Footer = () => {
                 className="w-full rounded-full px-3.5 py-3"
                 placeholder="Enter your email address."
               />
-              <button className='border border-main-light rounded-full px-3.5 py-3 text-main-light'>
+              <button className="border border-main-light rounded-full px-3.5 py-3 text-main-light">
                 Subscribe
               </button>
             </div>

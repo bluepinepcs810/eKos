@@ -9,14 +9,27 @@ import * as ekosProgram from '../../../../libraries/ekosSDK';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey } from '@solana/web3.js';
 import { sendTransactionWithRetry } from '../../../../libraries/utils/transaction';
-import { BN } from '@project-serum/anchor';
 import { findEscrowSolPotPDA } from '../../../../libraries/utils/pda';
+import OrderStatusBadge from '../OrderStatusBadge';
+import { OrderStatusEnum } from '../../../../libraries/models/order';
 
 const BuyingPane = () => {
   const { data, isError, error } = useBuyingOrders(1);
 
   const wallet = useWallet();
   const { connection } = useConnection();
+
+  const isConfirmEnabled = useCallback(
+    (orderId: ID) => {
+      const order = data?.find((item) => item.id === orderId);
+      if (!order) return;
+      return (
+        order.status === OrderStatusEnum.NEW ||
+        order.status === OrderStatusEnum.SHIPPED
+      );
+    },
+    [data]
+  );
 
   const confirmOrder = useOrderConfirm();
 
@@ -25,13 +38,11 @@ const BuyingPane = () => {
       if (!wallet.publicKey || !data) return;
       const order = data?.find((item) => item.id === orderId);
       if (!order) return;
-      const productId = order.productId;
-
-      const myOrderId = new BN(1);
       const buyerPublicKey = new PublicKey(order.buyer.walletAddress);
       const sellerPublicKey = new PublicKey(order.seller.walletAddress);
       const escrow = new PublicKey(
-        'Bb1ktHASaKpA3DfsWtGXGcSbJjRRTa9tZUXoujMrkgf4'
+        // 'Bb1ktHASaKpA3DfsWtGXGcSbJjRRTa9tZUXoujMrkgf4'
+        order.escrowPublicKey!
       );
 
       const [solPot, solPotBump] = findEscrowSolPotPDA({
@@ -61,15 +72,14 @@ const BuyingPane = () => {
         if (!txid) {
           return;
         }
+        confirmOrder.mutate({ orderId, txSig: txid });
       } catch (e) {
         console.log(e);
         return;
       }
-
       // TODO add sign instruction
-      confirmOrder.mutate({ orderId });
     },
-    [confirmOrder]
+    [confirmOrder, connection, data, wallet]
   );
 
   useEffect(() => {
@@ -149,15 +159,17 @@ const BuyingPane = () => {
                 </div>
               </td>
               <td className="whitespace-nowrap text-sm text-main-weighted py-2 px-3">
-                {order.status}
+                <OrderStatusBadge data={order} editable={false} />
               </td>
               <td>
-                <button
-                  className="text-main-dark bg-main-strong hover:bg-opacity-80 px-4 py-1 rounded-lg"
-                  onClick={() => handleConfirm(order.id)}
-                >
-                  Confirm
-                </button>
+                {isConfirmEnabled(order.id) && (
+                  <button
+                    className="text-main-dark bg-main-strong hover:bg-opacity-80 px-4 py-1 rounded-lg"
+                    onClick={() => handleConfirm(order.id)}
+                  >
+                    Confirm
+                  </button>
+                )}
               </td>
             </tr>
           ))}

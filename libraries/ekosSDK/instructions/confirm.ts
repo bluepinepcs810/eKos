@@ -5,8 +5,8 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as beet from '@metaplex-foundation/beet'
-import * as web3 from '@solana/web3.js'
+import * as beet from '@metaplex-foundation/beet';
+import * as web3 from '@solana/web3.js';
 
 /**
  * @category Instructions
@@ -14,8 +14,8 @@ import * as web3 from '@solana/web3.js'
  * @category generated
  */
 export type ConfirmInstructionArgs = {
-  solPotBump: number
-}
+  solPotBump: number;
+};
 /**
  * @category Instructions
  * @category Confirm
@@ -23,7 +23,7 @@ export type ConfirmInstructionArgs = {
  */
 export const confirmStruct = new beet.BeetArgsStruct<
   ConfirmInstructionArgs & {
-    instructionDiscriminator: number[] /* size: 8 */
+    instructionDiscriminator: number[] /* size: 8 */;
   }
 >(
   [
@@ -31,7 +31,7 @@ export const confirmStruct = new beet.BeetArgsStruct<
     ['solPotBump', beet.u8],
   ],
   'ConfirmInstructionArgs'
-)
+);
 /**
  * Accounts required by the _confirm_ instruction
  *
@@ -44,15 +44,17 @@ export const confirmStruct = new beet.BeetArgsStruct<
  * @category generated
  */
 export type ConfirmInstructionAccounts = {
-  escrow: web3.PublicKey
-  buyer: web3.PublicKey
-  seller: web3.PublicKey
-  solPot: web3.PublicKey
-  systemProgram?: web3.PublicKey
-  anchorRemainingAccounts?: web3.AccountMeta[]
-}
+  escrow: web3.PublicKey;
+  buyer: web3.PublicKey;
+  seller: web3.PublicKey;
+  solPot: web3.PublicKey;
+  systemProgram?: web3.PublicKey;
+  anchorRemainingAccounts?: web3.AccountMeta[];
+};
 
-export const confirmInstructionDiscriminator = [174, 1, 15, 213, 3, 190, 131, 0]
+export const confirmInstructionDiscriminator = [
+  174, 1, 15, 213, 3, 190, 131, 0,
+];
 
 /**
  * Creates a _Confirm_ instruction.
@@ -72,7 +74,7 @@ export function createConfirmInstruction(
   const [data] = confirmStruct.serialize({
     instructionDiscriminator: confirmInstructionDiscriminator,
     ...args,
-  })
+  });
   const keys: web3.AccountMeta[] = [
     {
       pubkey: accounts.escrow,
@@ -99,11 +101,11 @@ export function createConfirmInstruction(
       isWritable: false,
       isSigner: false,
     },
-  ]
+  ];
 
   if (accounts.anchorRemainingAccounts != null) {
     for (const acc of accounts.anchorRemainingAccounts) {
-      keys.push(acc)
+      keys.push(acc);
     }
   }
 
@@ -111,6 +113,6 @@ export function createConfirmInstruction(
     programId,
     keys,
     data,
-  })
-  return ix
+  });
+  return ix;
 }

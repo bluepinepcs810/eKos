@@ -5,9 +5,9 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-import * as web3 from '@solana/web3.js'
-import * as beet from '@metaplex-foundation/beet'
-import * as beetSolana from '@metaplex-foundation/beet-solana'
+import * as web3 from '@solana/web3.js';
+import * as beet from '@metaplex-foundation/beet';
+import * as beetSolana from '@metaplex-foundation/beet-solana';
 
 /**
  * Arguments used to create {@link Escrow}
@@ -15,18 +15,18 @@ import * as beetSolana from '@metaplex-foundation/beet-solana'
  * @category generated
  */
 export type EscrowArgs = {
-  authority: web3.PublicKey
-  authoritySeed: web3.PublicKey
-  authorityBumpSeed: number[] /* size: 1 */
-  seller: web3.PublicKey
-  buyer: web3.PublicKey
-  orderId: beet.bignum
-  solAmount: beet.bignum
-  createdTs: beet.bignum
-  lockTs: beet.bignum
-}
+  authority: web3.PublicKey;
+  authoritySeed: web3.PublicKey;
+  authorityBumpSeed: number[] /* size: 1 */;
+  seller: web3.PublicKey;
+  buyer: web3.PublicKey;
+  orderId: beet.bignum;
+  solAmount: beet.bignum;
+  createdTs: beet.bignum;
+  lockTs: beet.bignum;
+};
 
-export const escrowDiscriminator = [31, 213, 123, 187, 186, 22, 218, 155]
+export const escrowDiscriminator = [31, 213, 123, 187, 186, 22, 218, 155];
 /**
  * Holds the data for the {@link Escrow} Account and provides de/serialization
  * functionality for that data
@@ -61,7 +61,7 @@ export class Escrow implements EscrowArgs {
       args.solAmount,
       args.createdTs,
       args.lockTs
-    )
+    );
   }
 
   /**
@@ -72,7 +72,7 @@ export class Escrow implements EscrowArgs {
     accountInfo: web3.AccountInfo<Buffer>,
     offset = 0
   ): [Escrow, number] {
-    return Escrow.deserialize(accountInfo.data, offset)
+    return Escrow.deserialize(accountInfo.data, offset);
   }
 
   /**
@@ -89,11 +89,11 @@ export class Escrow implements EscrowArgs {
     const accountInfo = await connection.getAccountInfo(
       address,
       commitmentOrConfig
-    )
+    );
     if (accountInfo == null) {
-      throw new Error(`Unable to find Escrow account at ${address}`)
+      throw new Error(`Unable to find Escrow account at ${address}`);
     }
-    return Escrow.fromAccountInfo(accountInfo, 0)[0]
+    return Escrow.fromAccountInfo(accountInfo, 0)[0];
   }
 
   /**
@@ -107,7 +107,7 @@ export class Escrow implements EscrowArgs {
       '6PzCGqfvD4warUKFqyB2GUgdw3U4QM9dzrK7rkj9ooB9'
     )
   ) {
-    return beetSolana.GpaBuilder.fromStruct(programId, escrowBeet)
+    return beetSolana.GpaBuilder.fromStruct(programId, escrowBeet);
   }
 
   /**
@@ -115,7 +115,7 @@ export class Escrow implements EscrowArgs {
    * @returns a tuple of the account data and the offset up to which the buffer was read to obtain it.
    */
   static deserialize(buf: Buffer, offset = 0): [Escrow, number] {
-    return escrowBeet.deserialize(buf, offset)
+    return escrowBeet.deserialize(buf, offset);
   }
 
   /**
@@ -126,7 +126,7 @@ export class Escrow implements EscrowArgs {
     return escrowBeet.serialize({
       accountDiscriminator: escrowDiscriminator,
       ...this,
-    })
+    });
   }
 
   /**
@@ -134,7 +134,7 @@ export class Escrow implements EscrowArgs {
    * {@link Escrow}
    */
   static get byteSize() {
-    return escrowBeet.byteSize
+    return escrowBeet.byteSize;
   }
 
   /**
@@ -150,7 +150,7 @@ export class Escrow implements EscrowArgs {
     return connection.getMinimumBalanceForRentExemption(
       Escrow.byteSize,
       commitment
-    )
+    );
   }
 
   /**
@@ -158,7 +158,7 @@ export class Escrow implements EscrowArgs {
    * hold {@link Escrow} data.
    */
   static hasCorrectByteSize(buf: Buffer, offset = 0) {
-    return buf.byteLength - offset === Escrow.byteSize
+    return buf.byteLength - offset === Escrow.byteSize;
   }
 
   /**
@@ -173,50 +173,50 @@ export class Escrow implements EscrowArgs {
       seller: this.seller.toBase58(),
       buyer: this.buyer.toBase58(),
       orderId: (() => {
-        const x = <{ toNumber: () => number }>this.orderId
+        const x = <{ toNumber: () => number }>this.orderId;
         if (typeof x.toNumber === 'function') {
           try {
-            return x.toNumber()
+            return x.toNumber();
           } catch (_) {
-            return x
+            return x;
           }
         }
-        return x
+        return x;
       })(),
       solAmount: (() => {
-        const x = <{ toNumber: () => number }>this.solAmount
+        const x = <{ toNumber: () => number }>this.solAmount;
         if (typeof x.toNumber === 'function') {
           try {
-            return x.toNumber()
+            return x.toNumber();
           } catch (_) {
-            return x
+            return x;
           }
         }
-        return x
+        return x;
       })(),
       createdTs: (() => {
-        const x = <{ toNumber: () => number }>this.createdTs
+        const x = <{ toNumber: () => number }>this.createdTs;
         if (typeof x.toNumber === 'function') {
           try {
-            return x.toNumber()
+            return x.toNumber();
           } catch (_) {
-            return x
+            return x;
           }
         }
-        return x
+        return x;
       })(),
       lockTs: (() => {
-        const x = <{ toNumber: () => number }>this.lockTs
+        const x = <{ toNumber: () => number }>this.lockTs;
         if (typeof x.toNumber === 'function') {
           try {
-            return x.toNumber()
+            return x.toNumber();
           } catch (_) {
-            return x
+            return x;
           }
         }
-        return x
+        return x;
       })(),
-    }
+    };
   }
 }
 
@@ -227,7 +227,7 @@ export class Escrow implements EscrowArgs {
 export const escrowBeet = new beet.BeetStruct<
   Escrow,
   EscrowArgs & {
-    accountDiscriminator: number[] /* size: 8 */
+    accountDiscriminator: number[] /* size: 8 */;
   }
 >(
   [
@@ -244,4 +244,4 @@ export const escrowBeet = new beet.BeetStruct<
   ],
   Escrow.fromArgs,
   'Escrow'
-)
+);

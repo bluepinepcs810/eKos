@@ -1,6 +1,6 @@
-import FavoritePane from "../../../components/profile/favorites";
-import ProfileLeftPane from "../../../components/profile/ProfileLeftPane";
-import { ProfilePane } from "../../../libraries/types/pages/profile";
+import FavoritePane from '../../../components/profile/favorites';
+import ProfileLeftPane from '../../../components/profile/ProfileLeftPane';
+import { ProfilePane } from '../../../libraries/types/pages/profile';
 
 const Favorite = () => {
   return (

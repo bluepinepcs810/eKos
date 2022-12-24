@@ -1,5 +1,5 @@
-export * from './Escrow'
+export * from './Escrow';
 
-import { Escrow } from './Escrow'
+import { Escrow } from './Escrow';
 
-export const accountProviders = { Escrow }
+export const accountProviders = { Escrow };

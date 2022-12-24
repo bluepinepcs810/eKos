@@ -26,7 +26,7 @@ const Header = () => {
     <div className="header bg-main flex justify-center h-[70px]">
       <div className="content-container flex justify-between">
         <div className="header__logo flex items-center">
-          <div className='p-4'>
+          <div className="p-4">
             <Link href="/">
               <Image src={Logo} width={100} height={50} alt="logo" />
             </Link>
@@ -58,7 +58,10 @@ const Header = () => {
           <div className="header__action-group hidden lg:flex items-center gap-4">
             {signedIn ? (
               <>
-                <Link href="/profile/favorites" className="flex gap-x-2 text-main-dark hover:text-main-weighted group">
+                <Link
+                  href="/profile/favorites"
+                  className="flex gap-x-2 text-main-dark hover:text-main-weighted group"
+                >
                   <svg
                     width="28"
                     height="24"
@@ -92,10 +95,16 @@ const Header = () => {
                   </svg>
                   <div>Inbox</div>
                 </Link>
-                <div className="flex group">
-                  {me && me.avatar ?
-                    <Image src={me.avatar} width={40} height={40} alt={me.userName} className="rounded-full"/>
-                    :
+                <Link href="/profile/purchases" className="flex group">
+                  {me && me.avatar ? (
+                    <Image
+                      src={me.avatar}
+                      width={40}
+                      height={40}
+                      alt={me.userName}
+                      className="rounded-full"
+                    />
+                  ) : (
                     <svg
                       width="40"
                       height="40"
@@ -117,8 +126,8 @@ const Header = () => {
                         fill="#5E25D9"
                       />
                     </svg>
-                  }
-                </div>
+                  )}
+                </Link>
                 <div className="header__list-product-btn">
                   <Link href={'/products/create'}>
                     <ListProductButton />

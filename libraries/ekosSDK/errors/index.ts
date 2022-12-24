@@ -5,11 +5,11 @@
  * See: https://github.com/metaplex-foundation/solita
  */
 
-type ErrorWithCode = Error & { code: number }
-type MaybeErrorWithCode = ErrorWithCode | null | undefined
+type ErrorWithCode = Error & { code: number };
+type MaybeErrorWithCode = ErrorWithCode | null | undefined;
 
-const createErrorFromCodeLookup: Map<number, () => ErrorWithCode> = new Map()
-const createErrorFromNameLookup: Map<string, () => ErrorWithCode> = new Map()
+const createErrorFromCodeLookup: Map<number, () => ErrorWithCode> = new Map();
+const createErrorFromNameLookup: Map<string, () => ErrorWithCode> = new Map();
 
 /**
  * EscrowAlreadyClaimable: 'Escrow is already claimable'
@@ -18,21 +18,21 @@ const createErrorFromNameLookup: Map<string, () => ErrorWithCode> = new Map()
  * @category generated
  */
 export class EscrowAlreadyClaimableError extends Error {
-  readonly code: number = 0x1770
-  readonly name: string = 'EscrowAlreadyClaimable'
+  readonly code: number = 0x1770;
+  readonly name: string = 'EscrowAlreadyClaimable';
   constructor() {
-    super('Escrow is already claimable')
+    super('Escrow is already claimable');
     if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, EscrowAlreadyClaimableError)
+      Error.captureStackTrace(this, EscrowAlreadyClaimableError);
     }
   }
 }
 
-createErrorFromCodeLookup.set(0x1770, () => new EscrowAlreadyClaimableError())
+createErrorFromCodeLookup.set(0x1770, () => new EscrowAlreadyClaimableError());
 createErrorFromNameLookup.set(
   'EscrowAlreadyClaimable',
   () => new EscrowAlreadyClaimableError()
-)
+);
 
 /**
  * EscrowAlreadyUnclaimable: 'Escrow is already unclaimable'
@@ -41,21 +41,24 @@ createErrorFromNameLookup.set(
  * @category generated
  */
 export class EscrowAlreadyUnclaimableError extends Error {
-  readonly code: number = 0x1771
-  readonly name: string = 'EscrowAlreadyUnclaimable'
+  readonly code: number = 0x1771;
+  readonly name: string = 'EscrowAlreadyUnclaimable';
   constructor() {
-    super('Escrow is already unclaimable')
+    super('Escrow is already unclaimable');
     if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, EscrowAlreadyUnclaimableError)
+      Error.captureStackTrace(this, EscrowAlreadyUnclaimableError);
     }
   }
 }
 
-createErrorFromCodeLookup.set(0x1771, () => new EscrowAlreadyUnclaimableError())
+createErrorFromCodeLookup.set(
+  0x1771,
+  () => new EscrowAlreadyUnclaimableError()
+);
 createErrorFromNameLookup.set(
   'EscrowAlreadyUnclaimable',
   () => new EscrowAlreadyUnclaimableError()
-)
+);
 
 /**
  * EscrowAlreadyWithdrawable: 'Escrow is already withdrawable'
@@ -64,12 +67,12 @@ createErrorFromNameLookup.set(
  * @category generated
  */
 export class EscrowAlreadyWithdrawableError extends Error {
-  readonly code: number = 0x1772
-  readonly name: string = 'EscrowAlreadyWithdrawable'
+  readonly code: number = 0x1772;
+  readonly name: string = 'EscrowAlreadyWithdrawable';
   constructor() {
-    super('Escrow is already withdrawable')
+    super('Escrow is already withdrawable');
     if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, EscrowAlreadyWithdrawableError)
+      Error.captureStackTrace(this, EscrowAlreadyWithdrawableError);
     }
   }
 }
@@ -77,11 +80,11 @@ export class EscrowAlreadyWithdrawableError extends Error {
 createErrorFromCodeLookup.set(
   0x1772,
   () => new EscrowAlreadyWithdrawableError()
-)
+);
 createErrorFromNameLookup.set(
   'EscrowAlreadyWithdrawable',
   () => new EscrowAlreadyWithdrawableError()
-)
+);
 
 /**
  * EscrowAlreadyNonWithdrawable: 'Escrow is already non-withdrawable'
@@ -90,12 +93,12 @@ createErrorFromNameLookup.set(
  * @category generated
  */
 export class EscrowAlreadyNonWithdrawableError extends Error {
-  readonly code: number = 0x1773
-  readonly name: string = 'EscrowAlreadyNonWithdrawable'
+  readonly code: number = 0x1773;
+  readonly name: string = 'EscrowAlreadyNonWithdrawable';
   constructor() {
-    super('Escrow is already non-withdrawable')
+    super('Escrow is already non-withdrawable');
     if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, EscrowAlreadyNonWithdrawableError)
+      Error.captureStackTrace(this, EscrowAlreadyNonWithdrawableError);
     }
   }
 }
@@ -103,11 +106,11 @@ export class EscrowAlreadyNonWithdrawableError extends Error {
 createErrorFromCodeLookup.set(
   0x1773,
   () => new EscrowAlreadyNonWithdrawableError()
-)
+);
 createErrorFromNameLookup.set(
   'EscrowAlreadyNonWithdrawable',
   () => new EscrowAlreadyNonWithdrawableError()
-)
+);
 
 /**
  * EscrowIsNotClaimable: 'Escrow is not able to claim'
@@ -116,21 +119,21 @@ createErrorFromNameLookup.set(
  * @category generated
  */
 export class EscrowIsNotClaimableError extends Error {
-  readonly code: number = 0x1774
-  readonly name: string = 'EscrowIsNotClaimable'
+  readonly code: number = 0x1774;
+  readonly name: string = 'EscrowIsNotClaimable';
   constructor() {
-    super('Escrow is not able to claim')
+    super('Escrow is not able to claim');
     if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, EscrowIsNotClaimableError)
+      Error.captureStackTrace(this, EscrowIsNotClaimableError);
     }
   }
 }
 
-createErrorFromCodeLookup.set(0x1774, () => new EscrowIsNotClaimableError())
+createErrorFromCodeLookup.set(0x1774, () => new EscrowIsNotClaimableError());
 createErrorFromNameLookup.set(
   'EscrowIsNotClaimable',
   () => new EscrowIsNotClaimableError()
-)
+);
 
 /**
  * EscrowIsNotWithdrawable: 'Escrow is not able to withdraw'
@@ -139,21 +142,21 @@ createErrorFromNameLookup.set(
  * @category generated
  */
 export class EscrowIsNotWithdrawableError extends Error {
-  readonly code: number = 0x1775
-  readonly name: string = 'EscrowIsNotWithdrawable'
+  readonly code: number = 0x1775;
+  readonly name: string = 'EscrowIsNotWithdrawable';
   constructor() {
-    super('Escrow is not able to withdraw')
+    super('Escrow is not able to withdraw');
     if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, EscrowIsNotWithdrawableError)
+      Error.captureStackTrace(this, EscrowIsNotWithdrawableError);
     }
   }
 }
 
-createErrorFromCodeLookup.set(0x1775, () => new EscrowIsNotWithdrawableError())
+createErrorFromCodeLookup.set(0x1775, () => new EscrowIsNotWithdrawableError());
 createErrorFromNameLookup.set(
   'EscrowIsNotWithdrawable',
   () => new EscrowIsNotWithdrawableError()
-)
+);
 
 /**
  * NotValidSigner: 'You are not valid signer.'
@@ -162,18 +165,21 @@ createErrorFromNameLookup.set(
  * @category generated
  */
 export class NotValidSignerError extends Error {
-  readonly code: number = 0x1776
-  readonly name: string = 'NotValidSigner'
+  readonly code: number = 0x1776;
+  readonly name: string = 'NotValidSigner';
   constructor() {
-    super('You are not valid signer.')
+    super('You are not valid signer.');
     if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, NotValidSignerError)
+      Error.captureStackTrace(this, NotValidSignerError);
     }
   }
 }
 
-createErrorFromCodeLookup.set(0x1776, () => new NotValidSignerError())
-createErrorFromNameLookup.set('NotValidSigner', () => new NotValidSignerError())
+createErrorFromCodeLookup.set(0x1776, () => new NotValidSignerError());
+createErrorFromNameLookup.set(
+  'NotValidSigner',
+  () => new NotValidSignerError()
+);
 
 /**
  * InvalidTransferDestination: 'Invalid transfer destination'
@@ -182,12 +188,12 @@ createErrorFromNameLookup.set('NotValidSigner', () => new NotValidSignerError())
  * @category generated
  */
 export class InvalidTransferDestinationError extends Error {
-  readonly code: number = 0x1777
-  readonly name: string = 'InvalidTransferDestination'
+  readonly code: number = 0x1777;
+  readonly name: string = 'InvalidTransferDestination';
   constructor() {
-    super('Invalid transfer destination')
+    super('Invalid transfer destination');
     if (typeof Error.captureStackTrace === 'function') {
-      Error.captureStackTrace(this, InvalidTransferDestinationError)
+      Error.captureStackTrace(this, InvalidTransferDestinationError);
     }
   }
 }
@@ -195,11 +201,11 @@ export class InvalidTransferDestinationError extends Error {
 createErrorFromCodeLookup.set(
   0x1777,
   () => new InvalidTransferDestinationError()
-)
+);
 createErrorFromNameLookup.set(
   'InvalidTransferDestination',
   () => new InvalidTransferDestinationError()
-)
+);
 
 /**
  * Attempts to resolve a custom program error from the provided error code.
@@ -207,8 +213,8 @@ createErrorFromNameLookup.set(
  * @category generated
  */
 export function errorFromCode(code: number): MaybeErrorWithCode {
-  const createError = createErrorFromCodeLookup.get(code)
-  return createError != null ? createError() : null
+  const createError = createErrorFromCodeLookup.get(code);
+  return createError != null ? createError() : null;
 }
 
 /**
@@ -217,6 +223,6 @@ export function errorFromCode(code: number): MaybeErrorWithCode {
  * @category generated
  */
 export function errorFromName(name: string): MaybeErrorWithCode {
-  const createError = createErrorFromNameLookup.get(name)
-  return createError != null ? createError() : null
+  const createError = createErrorFromNameLookup.get(name);
+  return createError != null ? createError() : null;
 }

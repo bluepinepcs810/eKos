@@ -6,9 +6,7 @@ import {
   useQueryClient,
   useInfiniteQuery,
 } from 'react-query';
-import {
-  ProductFilterType,
-} from '../components/products/hooks/useProductFilter';
+import { ProductFilterType } from '../components/products/hooks/useProductFilter';
 import AuthApi from '../libraries/api/auth';
 import { ProductApi } from '../libraries/api/product';
 import { ProductModel } from '../libraries/models/product';
@@ -19,7 +17,6 @@ import { useRouter } from 'next/router';
 import { OrderApi } from '../libraries/api/order';
 import { showError, showSuccess } from '../libraries/utils/toast';
 
-
 export const useAuthErrorHandler = () => {
   const queryClient = useQueryClient();
   const setSessionInitial = useStoreActions(
@@ -27,22 +24,24 @@ export const useAuthErrorHandler = () => {
   );
   const unsetSignedIn = useStoreActions((actions) => actions.unsetSignedIn);
   const { disconnect, publicKey } = useWallet();
-  const authError = useCallback((error: any) => {
-    if (error.status === 401) {
-      queryClient.resetQueries({ queryKey: ['getNonce', publicKey]});
-      disconnect();
-      setTimeout(() => {
-        unsetSignedIn();
-        setSessionInitial();
-      }, 500)
-    }
-  }, [disconnect, publicKey, queryClient, setSessionInitial, unsetSignedIn]);
+  const authError = useCallback(
+    (error: any) => {
+      if (error.status === 401) {
+        queryClient.resetQueries({ queryKey: ['getNonce', publicKey] });
+        disconnect();
+        setTimeout(() => {
+          unsetSignedIn();
+          setSessionInitial();
+        }, 500);
+      }
+    },
+    [disconnect, publicKey, queryClient, setSessionInitial, unsetSignedIn]
+  );
 
   return {
-    authError
-  }
-
-}
+    authError,
+  };
+};
 
 export const useGetNonce = (publicKey: PublicKey | null) =>
   useQuery(
@@ -65,7 +64,7 @@ export const useProductCreate = () => {
     },
     onError: (error: any) => {
       authError(error);
-    }
+    },
   });
 };
 
@@ -100,19 +99,19 @@ export const useProductLike = (productId: ID) => {
   const { authError } = useAuthErrorHandler();
   return useMutation(() => ProductApi.likeProduct(productId), {
     onError: (error: any) => {
-      authError(error)
-    }
-  })
-}
+      authError(error);
+    },
+  });
+};
 
 export const useMyFavorites = () =>
   useInfiniteQuery(
     ['getMyFavorites'],
-    async ({ pageParam = 1}) => {
+    async ({ pageParam = 1 }) => {
       return ProductApi.getMyFavorites({
         page: pageParam,
-        size: PRODUCT_PAGE_SIZE
-      })
+        size: PRODUCT_PAGE_SIZE,
+      });
     },
     {
       getNextPageParam: (lastPage, allPages) => {
@@ -121,16 +120,16 @@ export const useMyFavorites = () =>
       },
       retry: 1,
     }
-  )
+  );
 
 export const useMyProducts = () =>
   useInfiniteQuery(
     ['getMyProducts'],
-    async ({ pageParam = 1}) => {
+    async ({ pageParam = 1 }) => {
       return ProductApi.getMyProducts({
         page: pageParam,
-        size: PRODUCT_PAGE_SIZE
-      })
+        size: PRODUCT_PAGE_SIZE,
+      });
     },
     {
       getNextPageParam: (lastPage, allPages) => {
@@ -139,24 +138,41 @@ export const useMyProducts = () =>
       },
       retry: 1,
     }
-  )
+  );
 
 export const useOrderCreate = () => {
-  const queryClient = useQueryClient();
   const { authError } = useAuthErrorHandler();
 
-  return useMutation(({ productId, txSig}: { productId: ID, txSig: string}) =>
-    OrderApi.createOrder(productId, txSig), {
+  return useMutation((productId: ID) => OrderApi.createOrder(productId), {
+    onError: (error: any) => {
+      authError(error);
+    },
+  });
+};
+export const useOrderUpdateCreate = () => {
+  const queryClient = useQueryClient();
+  const { authError } = useAuthErrorHandler();
+  return useMutation(
+    ({
+      orderId,
+      escrowPublicKey,
+      txSig,
+    }: {
+      orderId: ID;
+      escrowPublicKey: string;
+      txSig: string;
+    }) => OrderApi.updateCreateOrder(orderId, escrowPublicKey, txSig),
+    {
       onSuccess: () => {
         queryClient.invalidateQueries(['buyingOrders']);
         queryClient.invalidateQueries(['sellingOrders']);
       },
       onError: (error: any) => {
         authError(error);
-      }
+      },
     }
   );
-}
+};
 export const useSellingOrders = (page: number) =>
   useQuery(
     ['sellingOrders', page],
@@ -168,32 +184,30 @@ export const useSellingOrders = (page: number) =>
       },
       retry: 1,
     }
-  )
-
+  );
 
 export const useBuyingOrders = (page: number) =>
-  useQuery(
-    ['buyingOrders', page],
-    () => OrderApi.getBuyingOrders({ page, size: 1000 })
-  )
-
-
+  useQuery(['buyingOrders', page], () =>
+    OrderApi.getBuyingOrders({ page, size: 1000 })
+  );
 
 export const useOrderConfirm = () => {
-    const queryClient = useQueryClient();
-    const { authError } = useAuthErrorHandler();
+  const queryClient = useQueryClient();
+  const { authError } = useAuthErrorHandler();
 
-    return useMutation(({ orderId }: { orderId: ID}) =>
-      OrderApi.confirmOrder(orderId), {
-        onSuccess: () => {
-          queryClient.invalidateQueries(['buyingOrders']);
-          queryClient.invalidateQueries(['sellingOrders']);
-          showSuccess("Successfully confirmed")
-        },
-        onError: (error: any) => {
-          authError(error);
-          showError(error);
-        }
-      }
-    );
-  }
+  return useMutation(
+    ({ orderId, txSig }: { orderId: ID; txSig: string }) =>
+      OrderApi.confirmOrder(orderId, txSig),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['buyingOrders']);
+        queryClient.invalidateQueries(['sellingOrders']);
+        showSuccess('Successfully confirmed');
+      },
+      onError: (error: any) => {
+        authError(error);
+        showError(error);
+      },
+    }
+  );
+};

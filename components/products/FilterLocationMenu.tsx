@@ -51,10 +51,13 @@ const FilterLocationMenu = () => {
     queryApply();
   }, [dispatch, queryApply]);
 
-  const handleCountryCode = useCallback((value: string | undefined) => {
-    setCountryCode(value);
-    setCity(undefined);
-  }, [setCity, setCountryCode])
+  const handleCountryCode = useCallback(
+    (value: string | undefined) => {
+      setCountryCode(value);
+      setCity(undefined);
+    },
+    [setCity, setCountryCode]
+  );
 
   return (
     <div
@@ -91,13 +94,14 @@ const FilterLocationMenu = () => {
         <div className="text-main-weighted text-lg font-semibold mt-2 mb-3">
           Location
         </div>
-        <div className='mb-3'>
+        <div className="mb-3">
           <div>
             <label className="text-main-weighted">Country</label>
           </div>
           <div>
-            <select className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
-              onChange={e => handleCountryCode(e.target.value)}
+            <select
+              className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
+              onChange={(e) => handleCountryCode(e.target.value)}
             >
               <option>Please select country</option>
               {countries.map((item) => (
@@ -108,13 +112,14 @@ const FilterLocationMenu = () => {
             </select>
           </div>
         </div>
-        <div className=''>
+        <div className="">
           <div>
             <label className="text-main-weighted">City</label>
           </div>
           <div>
-            <select className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
-              onChange={e => setCity(e.target.value)}
+            <select
+              className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
+              onChange={(e) => setCity(e.target.value)}
             >
               <option>Please select city</option>
               {cities.map((item, index) => (

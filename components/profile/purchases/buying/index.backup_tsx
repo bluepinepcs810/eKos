@@ -1,0 +1,89 @@
+import { useMemo } from "react";
+import { Column, useTable } from 'react-table'
+import { useBuyingOrders } from "../../../../hooks/api.hooks";
+import { OrderModel } from "../../../../libraries/models/order";
+
+const BuyingPane = () => {
+  // const data = useMemo(
+  //   () => [
+  //     {
+  //       col1: 'Hello',
+  //       col2: 'World',
+  //     },
+  //     {
+  //       col1: 'react-table',
+  //       col2: 'rocks',
+  //     },
+  //     {
+  //       col1: 'whatever',
+  //       col2: 'you want',
+  //     },
+  //   ],
+  //   []
+  // )
+  const {
+    data,
+    isSuccess,
+    isError,
+    error,
+  } = useBuyingOrders(1);
+
+  const columns = useMemo<Column<OrderModel>[]>(
+    () => [
+      {
+        Header: 'Buyer',
+        accessor: 'id', // accessor is the "key" in the data
+      },
+      {
+        Header: 'Column 2',
+      },
+    ],
+    []
+  )
+  data?.pages
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({
+    data.pages ,
+    columns
+  })
+
+  return (
+    <div>
+      <table {...getTableProps()}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps()} key={column.id}>
+                  {column.render('Header')}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row, index) => {
+            prepareRow(row)
+            return (
+              <tr {...row.getRowProps()} key={row.id}>
+                {row.cells.map((cell, index) => {
+                  return (
+                    <td {...cell.getCellProps()} key={index}>
+                      {cell.render('Cell')}
+                    </td>
+                  )
+                })}
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+export default BuyingPane;

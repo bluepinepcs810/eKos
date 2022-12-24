@@ -10,7 +10,10 @@ import categories from '../../libraries/constants/categories';
 
 const Banner = () => {
   return (
-    <section className="banner bg-main-light min-h-[418px] flex items-center justify-center" id="home-banner">
+    <section
+      className="banner bg-main-light min-h-[418px] flex items-center justify-center"
+      id="home-banner"
+    >
       <div className="content-container flex flex-col items-center justify-center">
         <h1 className="text-[28px] text-main-thick font-semibold mb-7 text-center">
           What are you looking for?
@@ -30,30 +33,30 @@ const Banner = () => {
               {
                 breakpoint: 1280,
                 settings: {
-                  slidesToScroll: 4
-                }
+                  slidesToScroll: 4,
+                },
               },
               {
                 breakpoint: 1024,
                 settings: {
                   slidesToShow: 6,
-                  slidesToScroll: 4
-                }
+                  slidesToScroll: 4,
+                },
               },
               {
                 breakpoint: 768,
                 settings: {
                   slidesToShow: 4,
-                  slidesToScroll: 2
-                }
+                  slidesToScroll: 2,
+                },
               },
               {
                 breakpoint: 640,
                 settings: {
                   slidesToShow: 3,
                   slidesToScroll: 1,
-                  dots: false
-                }
+                  dots: false,
+                },
               },
               {
                 breakpoint: 452,
@@ -61,9 +64,9 @@ const Banner = () => {
                   slidesToShow: 2,
                   slidesToScroll: 1,
                   dots: false,
-                  centerMode: true
-                }
-              }
+                  centerMode: true,
+                },
+              },
             ]}
           >
             {categories.map((category) => (

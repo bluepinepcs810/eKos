@@ -4,7 +4,7 @@
 
 .content-container {
   @apply w-full max-w-[1175px];
-  @apply px-3 xl:px-0
+  @apply px-3 xl:px-0;
 }
 
 // Home page
@@ -64,7 +64,7 @@
 .city-bar {
   @apply gap-6;
   @media screen and (max-width: 400px) {
-    @apply gap-x-2
+    @apply gap-x-2;
   }
 }
 
@@ -79,7 +79,7 @@
 
   &__panel {
     box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.15);
-    @apply fixed w-full h-full top-0 left-0 lg:absolute lg:top-[47px] lg:w-[580px] lg:rounded-lg lg:h-fit overflow-auto
+    @apply fixed w-full h-full top-0 left-0 lg:absolute lg:top-[47px] lg:w-[580px] lg:rounded-lg lg:h-fit overflow-auto;
   }
 }
 
@@ -171,4 +171,7 @@
   &-other {
     background: #8a5fe8;
   }
+}
+.right-pane {
+  @apply overflow-auto;
 }

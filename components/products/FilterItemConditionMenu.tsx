@@ -92,7 +92,9 @@ const FilterItemConditionMenu = () => {
           />
         </svg>
 
-        <div className="filter-category-menu__label pt-0.5 whitespace-nowrap">Item condition</div>
+        <div className="filter-category-menu__label pt-0.5 whitespace-nowrap">
+          Item condition
+        </div>
         <div className="filter-category-menu__drop-icon">
           <ArrowDownIcon />
         </div>
