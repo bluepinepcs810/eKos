@@ -151,6 +151,7 @@ const ProductDetail = () => {
       console.log('Signature: ', txid);
 
       showSuccess('Success');
+      router.push('/profile/purchases/buying')
     } catch (e: any) {
       showError(e);
     }

@@ -112,7 +112,7 @@ const BottomTap = () => {
       </Link>
 
       <Link
-        href="/profile/purchases"
+        href="/profile/purchases/buying"
         className="w-1/5 flex flex-col justify-center items-center gap-y-1 active:bg-main-strong"
       >
         <div>
