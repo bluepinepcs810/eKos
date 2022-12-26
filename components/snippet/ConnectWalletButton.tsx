@@ -24,7 +24,7 @@ const ConnectWalletButton: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
   }, [active]);
 
   return (
-    <div className={'connect-wallet-wrapper relative'}>
+    <div className={'connect-wallet-wrapper relative'} id="connect-button">
       <button
         className={
           'rounded-full h-[40px] border border-main-dark text-main-dark flex items-center justify-center gap-2 transition hover:bg-main-strong px-4 ' +

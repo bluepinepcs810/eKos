@@ -15,7 +15,7 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
       <div className="py-2 px-3 mb-4">{me && <UserTap data={me} />}</div>
       <div className="flex flex-col gap-y-1.5">
         <Link
-          href="/profile/purchases"
+          href="/profile/purchases/buying"
           className={
             'flex gap-x-3 py-2 px-3 rounded-md hover:bg-main cursor-pointer items-center ' +
             (activePane === ProfilePane.PURCHASE && 'bg-main')

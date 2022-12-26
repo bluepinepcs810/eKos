@@ -89,6 +89,7 @@ export const useProductList = (query: ProductFilterType) => {
     {
       getNextPageParam: (lastPage, allPages) => {
         if (!lastPage.productList.length) return undefined;
+        if (lastPage.productList.length < PRODUCT_PAGE_SIZE) return undefined;
         return allPages.length + 1;
       },
       retry: 1,
@@ -117,6 +118,7 @@ export const useMyFavorites = () =>
     {
       getNextPageParam: (lastPage, allPages) => {
         if (!lastPage.length) return undefined;
+        if (lastPage.length < PRODUCT_PAGE_SIZE) return undefined;
         return allPages.length + 1;
       },
       retry: 1,
@@ -135,6 +137,7 @@ export const useMyProducts = () =>
     {
       getNextPageParam: (lastPage, allPages) => {
         if (!lastPage.length) return undefined;
+        if (lastPage.length < PRODUCT_PAGE_SIZE) return undefined;
         return allPages.length + 1;
       },
       retry: 1,
@@ -232,6 +235,7 @@ export const useGetUnreadRooms = () => {
     {
       getNextPageParam: (lastPage, allPages) => {
         if (!lastPage.length) return undefined;
+        if (lastPage.length < DEFAULT_PAGE_SIZE) return undefined;
         return allPages.length + 1;
       },
       retry: 1,
@@ -251,6 +255,7 @@ export const useGetReadRooms = () => {
     {
       getNextPageParam: (lastPage, allPages) => {
         if (!lastPage.length) return undefined;
+        if (lastPage.length < DEFAULT_PAGE_SIZE) return undefined;
         return allPages.length + 1;
       },
       retry: 1,

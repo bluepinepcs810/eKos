@@ -102,8 +102,9 @@ const FilterLocationMenu = () => {
             <select
               className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
               onChange={(e) => handleCountryCode(e.target.value)}
+              value={query.countryCode}
             >
-              <option>Please select country</option>
+              <option value="">Please select country</option>
               {countries.map((item) => (
                 <option key={item.isoCode} value={item.isoCode}>
                   {item.name}
@@ -120,8 +121,9 @@ const FilterLocationMenu = () => {
             <select
               className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
               onChange={(e) => setCity(e.target.value)}
+              value={query.city}
             >
-              <option>Please select city</option>
+              <option value="">Please select city</option>
               {cities.map((item, index) => (
                 <option key={item.name + index} value={item.name}>
                   {item.name}

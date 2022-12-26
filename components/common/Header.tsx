@@ -95,7 +95,7 @@ const Header = () => {
                   </svg>
                   <div>Inbox</div>
                 </Link>
-                <Link href="/profile/purchases" className="flex group">
+                <Link href="/profile/purchases/buying" className="flex group">
                   {me && me.avatar ? (
                     <Image
                       src={me.avatar}

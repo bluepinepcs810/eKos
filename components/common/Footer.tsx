@@ -2,10 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import { useStoreState } from '../../store/types';
 
 const Footer = () => {
   const router = useRouter();
   const [footerVisible, setFooterVisible] = useState(true);
+  const { signedIn, me } = useStoreState(state => state.session);
+
   useEffect(() => {
     if (router.pathname.startsWith('/profile/inbox/chat')) {
       setFooterVisible(false);
@@ -55,8 +58,11 @@ const Footer = () => {
           </div>
 
           <div className="footer__section w-1/4 hidden md:flex flex-col justify-center">
-            <div className="text-main-light mb-1">List a product</div>
-            <div className="text-main-light mb-1">Connect Wallet</div>
+            {signedIn ?
+              <Link className="text-main-light mb-1" href="/products/create">List a product</Link>
+              :
+              <Link className="text-main-light mb-1" href="#connect-button">Connect Wallet</Link>
+            }
           </div>
           <div className="footer__section md:w-1/4">
             <div className="mb-4 mt-10 md:mt-2 md:mb-6 text-main-light text-lg font-semibold">
