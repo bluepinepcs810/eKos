@@ -94,7 +94,7 @@ const FilterPriceMenu = () => {
                 type="number"
                 value={query.priceFrom}
                 onChange={(e) =>
-                  setFrom(e.target.value ? parseInt(e.target.value) : undefined)
+                  setFrom(e.target.value ? parseFloat(e.target.value) : undefined)
                 }
               />
             </div>
@@ -110,7 +110,7 @@ const FilterPriceMenu = () => {
                 type="number"
                 value={query.priceTo}
                 onChange={(e) =>
-                  setTo(e.target.value ? parseInt(e.target.value) : undefined)
+                  setTo(e.target.value ? parseFloat(e.target.value) : undefined)
                 }
               />
             </div>

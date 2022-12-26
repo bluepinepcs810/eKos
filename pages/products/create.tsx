@@ -151,10 +151,12 @@ const ProductCreatePage = () => {
                       type="number"
                       {...register('price', {
                         required: 'Please input price',
-                        min: {
-                          value: 0.001,
-                          message: 'Price should be a positive value',
-                        },
+                        valueAsNumber: true,
+                        validate: (value) => value > 0,
+                        // min: {
+                        //   value: 0.001,
+                        //   message: 'Price should be a positive value',
+                        // },
                       })}
                     />
                     <div>

@@ -299,7 +299,7 @@ const ProductDetail = () => {
               </div>
               <div className="product-detail__card__info--category flex mb-4">
                 {/* B category tag */}
-                <CategoryBadge category={CATEGORY_KEYS.OTHER} />
+                <CategoryBadge category={data.product.category} />
                 {/* E category tag */}
               </div>
               <div className="border-t-2 border-third-main" />

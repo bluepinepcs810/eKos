@@ -53,10 +53,25 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     signMessage,
   ]);
 
+  const signOut = useCallback(() => {
+    console.log("remove token 2");
+    LocalStorage.removeToken();
+    unsetSignedIn();
+    setSessionInitial();
+    setSessionMe(undefined);
+  }, [setSessionInitial, setSessionMe, unsetSignedIn])
+
   const getMe = useCallback(() => {
     AuthApi.getMe()
       .then((response) => {
-        setSessionMe(response.user);
+        const address = publicKey?.toBase58();
+        if (address !== response.user.walletAddress) {
+          console.log({ address }, response.user.walletAddress);
+          signOut();
+        } else {
+          setSignedIn();
+          setSessionMe(response.user);
+        }
       })
       .catch((e) => {
         if (e.status === 401) {
@@ -65,7 +80,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
           window.location.reload();
         }
       });
-  }, [setSessionMe, unsetSignedIn]);
+  }, [publicKey, setSessionMe, setSignedIn, signOut, unsetSignedIn]);
 
   useEffect(() => {
     const path = router.pathname;
@@ -95,28 +110,16 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         unsetSessionInitial();
         const token = LocalStorage.getToken();
         if (!token) {
+          console.log("here");
           signIn();
         } else {
-          setSignedIn();
           getMe();
         }
       }
     } else if (nonceResult.isError) {
       showError((nonceResult.error as any).message);
     }
-  }, [
-    connected,
-    disconnecting,
-    getMe,
-    initial,
-    nonceResult.error,
-    nonceResult.isError,
-    nonceResult.isSuccess,
-    setSignedIn,
-    signIn,
-    signedIn,
-    unsetSessionInitial,
-  ]);
+  }, [connected, disconnecting, getMe, initial, nonceResult.error, nonceResult.isError, nonceResult.isSuccess, setSignedIn, signIn, signedIn, unsetSessionInitial]);
 
   useEffect(() => {
     if (disconnecting) {
@@ -128,10 +131,10 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     const token = LocalStorage.getToken();
-    if (token) {
+    if (token && connected) {
       getMe();
     }
-  }, [getMe]);
+  }, [connected, getMe]);
 
   return <>{children}</>;
 };
