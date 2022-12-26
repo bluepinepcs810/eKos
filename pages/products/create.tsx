@@ -9,7 +9,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { CoinTypeEnum, ProductModel } from '../../libraries/models/product';
 import TagsInput from 'react-tagsinput';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import RDropzone, { RDropzoneData } from '../../components/common/RDropzone';
 import { useProductCreate } from '../../hooks/api.hooks';
 import { showError, showSuccess } from '../../libraries/utils/toast';
@@ -152,7 +152,7 @@ const ProductCreatePage = () => {
                       {...register('price', {
                         required: 'Please input price',
                         min: {
-                          value: 0,
+                          value: 0.001,
                           message: 'Price should be a positive value',
                         },
                       })}
@@ -265,7 +265,7 @@ const ProductCreatePage = () => {
                     className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
                     {...register('countryCode')}
                   >
-                    <option>Please select country</option>
+                    <option value=''>Please select country</option>
                     {countries.map((item) => (
                       <option key={item.isoCode} value={item.isoCode}>
                         {item.name}
@@ -288,7 +288,7 @@ const ProductCreatePage = () => {
                     className="w-full py-4 px-6 border border-main-weighted rounded-md bg-main-light select-box text-main-weighted"
                     {...register('city')}
                   >
-                    <option>Please select city</option>
+                    <option value=''>Please select city</option>
                     {cities.map((item) => (
                       <option
                         key={item.name + item.latitude + item.longitude}

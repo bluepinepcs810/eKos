@@ -33,18 +33,26 @@ import {
 } from '../../libraries/utils/pda';
 import { BN } from '@project-serum/anchor';
 import { sendTransactionWithRetry } from '../../libraries/utils/transaction';
+import { ChatApi } from '../../libraries/api/chat';
+import { useStoreState } from '../../store/types';
 
 const ProductDetail = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data, isError, error, isLoading } = useProductRetrieve(id as ID);
   const [loading, setLoading] = useState(false);
+  const { me } = useStoreState(state => state.session);
 
   const wallet = useWallet();
   const { connection } = useConnection();
 
   const updateCreateOrder = useOrderUpdateCreate();
   const createOrder = useOrderCreate();
+
+  const isMine = useMemo(() => {
+    if (!me) return false;
+    return me.id === data?.product.listedUser.id;
+  }, [data?.product.listedUser.id, me])
 
   const formatDate = useCallback((date: string) => {
     return moment(date).format('D-MMM-YYYY');
@@ -149,6 +157,21 @@ const ProductDetail = () => {
     setLoading(false);
   };
 
+  const goToChat = useCallback(() => {
+    if (!data?.product.listedUser.id) return;
+    setLoading(true);
+    ChatApi.createRoom(data.product.listedUser.id)
+    .then(response => {
+      router.push('/profile/inbox/chat/' + response.roomId);
+    })
+    .catch(e => {
+      setLoading(false);
+      showError(e);
+    })
+
+  }, [data?.product.listedUser.id, router]);
+
+
   useEffect(() => {
     if (createOrder.isError) {
       showError(createOrder.error);
@@ -180,17 +203,23 @@ const ProductDetail = () => {
                   <span className="text-sm">Reviews</span>
                 </div>
               </div>
-              <div className="flex items-center">
-                <HeartButton
-                  productId={id as string}
-                  isLiked={data.product.isLiked}
-                />
+              <div className="flex items-center min-w-[28px]">
+                {me && !isMine &&
+                  <HeartButton
+                    productId={id as string}
+                    isLiked={data.product.isLiked}
+                  />
+                }
               </div>
             </div>
-            <div className="product-detail__card__header--chat-btn flex justify-center items-center mt-3 lg:mt-0 w-full lg:w-fit">
-              <button className="rounded-full border border-main-dark py-1.5 px-6 text-main-dark outlined-button w-full">
+            <div className="product-detail__card__header--chat-btn flex justify-center items-center mt-3 lg:mt-0 w-full lg:w-fit min-w-[88px]">
+            {me && !isMine &&
+              <button className="rounded-full border border-main-dark py-1.5 px-6 text-main-dark outlined-button w-full"
+                onClick={goToChat}
+              >
                 Chat
               </button>
+            }
             </div>
           </div>
           <div className="w-full border-t lg:hidden border-third-main mt-2 mb-5 px-4 lg:px-0"></div>
@@ -217,7 +246,7 @@ const ProductDetail = () => {
               >
                 {data.product.photos.map((item) => (
                   <div key={item} className="rounded-lg">
-                    <div className="h-[350px] overflow-hidden relative">
+                    <div className="h-[350px] overflow-hidden relative rounded-md">
                       <Image
                         className="rounded-md w-full object-cover"
                         src={item}
@@ -375,7 +404,7 @@ const ProductDetail = () => {
       <div className="product-buy-actionbar bg-main-light w-full flex justify-center py-2 items-center px-4 lg:px-0">
         <div className="w-full max-w-[828px] flex justify-between">
           <div className="flex flex-col justify-center items-start">
-            <div className="text-main-dark">Your product name</div>
+            <div className="text-main-dark">{data.product.name}</div>
             <div className="flex items-center gap-x-1">
               <svg
                 width="14"
@@ -397,17 +426,19 @@ const ProductDetail = () => {
                   fill="#4703A6"
                 />
               </svg>
-              <div className="text-main-thick font-semibold text-lg">0.15</div>
+              <div className="text-main-thick font-semibold text-lg">{data.product.price}</div>
             </div>
           </div>
-          <div className="flex items-center">
-            <button
-              className="rounded-full bg-main-gradient px-7 py-2 text-main-light border border-main-dark filled-button"
-              onClick={deposit}
-            >
-              Buy
-            </button>
-          </div>
+          {me && !isMine &&
+            <div className="flex items-center">
+              <button
+                className="rounded-full bg-main-gradient px-7 py-2 text-main-light border border-main-dark filled-button"
+                onClick={deposit}
+              >
+                Buy
+              </button>
+            </div>
+          }
         </div>
       </div>
     </div>

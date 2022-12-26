@@ -1,14 +1,17 @@
 import { FC, useMemo } from 'react';
-import { MessageItemType } from '../../../libraries/types/chat';
-import { convertMessageTime } from '../../../libraries/utils/helpers/date';
+import { MessageItemModel } from '../../../../libraries/types/chat';
+import { convertMessageTime } from '../../../../libraries/utils/helpers/date';
+import { useRoom } from './RoomContext';
 
 type MessageItemProps = {
-  data: MessageItemType;
+  data: MessageItemModel;
 };
 
 const currentUserId = 'me';
 const MessageItem: FC<MessageItemProps> = ({ data }) => {
-  const isMe = useMemo(() => currentUserId === data.senderId, [data.senderId]);
+  const { isMe: checkMe } = useRoom();
+
+  const isMe = useMemo(() => checkMe(data.senderId), [checkMe, data.senderId])
 
   return (
     <div className={'flex w-full ' + (isMe ? 'justify-end' : 'justify-start')}>

@@ -16,6 +16,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { useRouter } from 'next/router';
 import { OrderApi } from '../libraries/api/order';
 import { showError, showSuccess } from '../libraries/utils/toast';
+import { ChatApi } from '../libraries/api/chat';
 
 export const useAuthErrorHandler = () => {
   const queryClient = useQueryClient();
@@ -208,6 +209,51 @@ export const useOrderConfirm = () => {
         authError(error);
         showError(error);
       },
+    }
+  );
+};
+
+
+export const useGetChatRoom = (roomId: ID) =>
+  useQuery(['getRoom', roomId], () =>
+    ChatApi.getRoom(roomId)
+  )
+
+const DEFAULT_PAGE_SIZE = 1000;
+export const useGetUnreadRooms = () => {
+  return useInfiniteQuery(
+    ['getUnreadRooms'],
+    async ({ pageParam = 1 }) => {
+      return ChatApi.getUnreadRooms({
+        page: pageParam,
+        size: DEFAULT_PAGE_SIZE,
+      });
+    },
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        if (!lastPage.length) return undefined;
+        return allPages.length + 1;
+      },
+      retry: 1,
+    }
+  );
+};
+
+export const useGetReadRooms = () => {
+  return useInfiniteQuery(
+    ['getReadRooms'],
+    async ({ pageParam = 1 }) => {
+      return ChatApi.getReadRooms({
+        page: pageParam,
+        size: DEFAULT_PAGE_SIZE,
+      });
+    },
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        if (!lastPage.length) return undefined;
+        return allPages.length + 1;
+      },
+      retry: 1,
     }
   );
 };

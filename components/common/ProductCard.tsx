@@ -21,7 +21,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data, className }) => {
         (className ?? '')
       }
     >
-      <div className="product-card p-[5px]">
+      <div className="product-card p-[5px] flex flex-col justify-between h-full">
         <div className="product-card__image lg:max-w-[275px] max-h-[122px] md:max-h-[187px] object-cover overflow-hidden rounded-md">
           <Image
             className="rounded-md"

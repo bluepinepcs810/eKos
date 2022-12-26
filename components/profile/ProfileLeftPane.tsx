@@ -62,8 +62,8 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
           <div className="text-main-dark text-lg font-semibold">Inbox</div>
         </Link>
 
-        <Link
-          href="/profile/products"
+        <div
+          // href="/profile/products"
           className={
             'flex gap-x-3 py-2 px-3 rounded-md hover:bg-main cursor-pointer items-center ' +
             (activePane === ProfilePane.PRODUCTS && 'bg-main')
@@ -96,7 +96,7 @@ const ProfileLeftPane: FC<InboxLeftPaneProps> = ({ activePane }) => {
             </svg>
           </div>
           <div className="text-main-dark text-lg font-semibold">Products</div>
-        </Link>
+        </div>
 
         <Link
           href="/profile/favorites"
