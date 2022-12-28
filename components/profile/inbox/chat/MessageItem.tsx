@@ -11,7 +11,7 @@ const currentUserId = 'me';
 const MessageItem: FC<MessageItemProps> = ({ data }) => {
   const { isMe: checkMe } = useRoom();
 
-  const isMe = useMemo(() => checkMe(data.senderId), [checkMe, data.senderId])
+  const isMe = useMemo(() => checkMe(data.senderId), [checkMe, data.senderId]);
 
   return (
     <div className={'flex w-full ' + (isMe ? 'justify-end' : 'justify-start')}>

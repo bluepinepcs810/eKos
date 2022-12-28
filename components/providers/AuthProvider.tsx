@@ -54,12 +54,12 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   ]);
 
   const signOut = useCallback(() => {
-    console.log("remove token 2");
+    console.log('remove token 2');
     LocalStorage.removeToken();
     unsetSignedIn();
     setSessionInitial();
     setSessionMe(undefined);
-  }, [setSessionInitial, setSessionMe, unsetSignedIn])
+  }, [setSessionInitial, setSessionMe, unsetSignedIn]);
 
   const getMe = useCallback(() => {
     AuthApi.getMe()
@@ -110,7 +110,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         unsetSessionInitial();
         const token = LocalStorage.getToken();
         if (!token) {
-          console.log("here");
+          console.log('here');
           signIn();
         } else {
           getMe();
@@ -119,7 +119,19 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     } else if (nonceResult.isError) {
       showError((nonceResult.error as any).message);
     }
-  }, [connected, disconnecting, getMe, initial, nonceResult.error, nonceResult.isError, nonceResult.isSuccess, setSignedIn, signIn, signedIn, unsetSessionInitial]);
+  }, [
+    connected,
+    disconnecting,
+    getMe,
+    initial,
+    nonceResult.error,
+    nonceResult.isError,
+    nonceResult.isSuccess,
+    setSignedIn,
+    signIn,
+    signedIn,
+    unsetSessionInitial,
+  ]);
 
   useEffect(() => {
     if (disconnecting) {

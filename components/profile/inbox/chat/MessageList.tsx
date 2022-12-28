@@ -3,7 +3,10 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { ClipLoader } from 'react-spinners';
 import { io } from 'socket.io-client';
 import { ChatApi } from '../../../../libraries/api/chat';
-import { CHAT_EVENTS, MessageItemModel } from '../../../../libraries/types/chat';
+import {
+  CHAT_EVENTS,
+  MessageItemModel,
+} from '../../../../libraries/types/chat';
 import LocalStorage from '../../../../libraries/utils/helpers/local-storage';
 import { showError } from '../../../../libraries/utils/toast';
 import MessageItem from './MessageItem';
@@ -26,15 +29,18 @@ const MessageList = () => {
     if (loading) return;
     setLoading(true);
     try {
-      const msgs = await ChatApi.getMessages(room.id, {page, size: MESSAGE_SIZE});
-      msgs.forEach(item => {
-        if (messages.find(message => message.id === item.id)) return;
+      const msgs = await ChatApi.getMessages(room.id, {
+        page,
+        size: MESSAGE_SIZE,
+      });
+      msgs.forEach((item) => {
+        if (messages.find((message) => message.id === item.id)) return;
         messages.push(item);
       });
-      setMessages(orderBy(messages,'id', 'desc'));
+      setMessages(orderBy(messages, 'id', 'desc'));
       setHasMore(msgs.length > 0);
       setPage(page + 1);
-    } catch(e: any) {
+    } catch (e: any) {
       showError(e);
     }
     setLoading(false);
@@ -49,24 +55,25 @@ const MessageList = () => {
 
   useEffect(() => {
     const token = LocalStorage.getToken();
-    const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL!, { auth: { token }});
+    const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL!, { auth: { token } });
     socket.on(CHAT_EVENTS.NEW_MESSAGE + '_' + room.id, (data) => {
       const newMessage = data.msg as MessageItemModel;
-      setMessages(messages => {
-        const existing = messages.find(item => item.id === newMessage.id);
+      setMessages((messages) => {
+        const existing = messages.find((item) => item.id === newMessage.id);
         if (existing) return messages;
         messages.push(newMessage);
         return orderBy(messages, ['id'], ['desc']);
-      })
+      });
     });
     return () => {
       socket.off(CHAT_EVENTS.NEW_MESSAGE + '_' + room.id);
       socket.close();
-    }
-  }, [])
+    };
+  }, []);
 
   return (
-    <div className="p-2.5 h-full flex flex-col-reverse overflow-auto"
+    <div
+      className="p-2.5 h-full flex flex-col-reverse overflow-auto"
       id="message-list"
     >
       <InfiniteScroll
@@ -79,17 +86,15 @@ const MessageList = () => {
         inverse={true}
         hasMore={initial || hasMore}
         loader={
-          <div className='flex justify-center p-5'>
+          <div className="flex justify-center p-5">
             <ClipLoader size={30} color="#D2B6F7" />
           </div>
         }
         scrollableTarget="message-list"
       >
-        {
-          messages.map(item =>
-              <MessageItem data={item} key={item.id} />
-            )
-        }
+        {messages.map((item) => (
+          <MessageItem data={item} key={item.id} />
+        ))}
       </InfiniteScroll>
     </div>
   );

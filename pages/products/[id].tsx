@@ -41,7 +41,7 @@ const ProductDetail = () => {
   const { id } = router.query;
   const { data, isError, error, isLoading } = useProductRetrieve(id as ID);
   const [loading, setLoading] = useState(false);
-  const { me } = useStoreState(state => state.session);
+  const { me } = useStoreState((state) => state.session);
 
   const wallet = useWallet();
   const { connection } = useConnection();
@@ -52,7 +52,7 @@ const ProductDetail = () => {
   const isMine = useMemo(() => {
     if (!me) return false;
     return me.id === data?.product.listedUser.id;
-  }, [data?.product.listedUser.id, me])
+  }, [data?.product.listedUser.id, me]);
 
   const formatDate = useCallback((date: string) => {
     return moment(date).format('D-MMM-YYYY');
@@ -151,7 +151,7 @@ const ProductDetail = () => {
       console.log('Signature: ', txid);
 
       showSuccess('Success');
-      router.push('/profile/purchases/buying')
+      router.push('/profile/purchases/buying');
     } catch (e: any) {
       showError(e);
     }
@@ -162,16 +162,14 @@ const ProductDetail = () => {
     if (!data?.product.listedUser.id) return;
     setLoading(true);
     ChatApi.createRoom(data.product.listedUser.id)
-    .then(response => {
-      router.push('/profile/inbox/chat/' + response.roomId);
-    })
-    .catch(e => {
-      setLoading(false);
-      showError(e);
-    })
-
+      .then((response) => {
+        router.push('/profile/inbox/chat/' + response.roomId);
+      })
+      .catch((e) => {
+        setLoading(false);
+        showError(e);
+      });
   }, [data?.product.listedUser.id, router]);
-
 
   useEffect(() => {
     if (createOrder.isError) {
@@ -205,22 +203,23 @@ const ProductDetail = () => {
                 </div>
               </div>
               <div className="flex items-center min-w-[28px]">
-                {me && !isMine &&
+                {me && !isMine && (
                   <HeartButton
                     productId={id as string}
                     isLiked={data.product.isLiked}
                   />
-                }
+                )}
               </div>
             </div>
             <div className="product-detail__card__header--chat-btn flex justify-center items-center mt-3 lg:mt-0 w-full lg:w-fit min-w-[88px]">
-            {me && !isMine &&
-              <button className="rounded-full border border-main-dark py-1.5 px-6 text-main-dark outlined-button w-full"
-                onClick={goToChat}
-              >
-                Chat
-              </button>
-            }
+              {me && !isMine && (
+                <button
+                  className="rounded-full border border-main-dark py-1.5 px-6 text-main-dark outlined-button w-full"
+                  onClick={goToChat}
+                >
+                  Chat
+                </button>
+              )}
             </div>
           </div>
           <div className="w-full border-t lg:hidden border-third-main mt-2 mb-5 px-4 lg:px-0"></div>
@@ -427,10 +426,12 @@ const ProductDetail = () => {
                   fill="#4703A6"
                 />
               </svg>
-              <div className="text-main-thick font-semibold text-lg">{data.product.price}</div>
+              <div className="text-main-thick font-semibold text-lg">
+                {data.product.price}
+              </div>
             </div>
           </div>
-          {me && !isMine &&
+          {me && !isMine && (
             <div className="flex items-center">
               <button
                 className="rounded-full bg-main-gradient px-7 py-2 text-main-light border border-main-dark filled-button"
@@ -439,7 +440,7 @@ const ProductDetail = () => {
                 Buy
               </button>
             </div>
-          }
+          )}
         </div>
       </div>
     </div>

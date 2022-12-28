@@ -25,6 +25,7 @@ const ProductList = () => {
     refetch,
     isError,
     error,
+    isLoading
   } = useProductList(query);
 
   useEffect(() => {
@@ -49,6 +50,12 @@ const ProductList = () => {
         }
       ></div>
       <div className="content-container">
+        {!isLoading && (!data?.pages.length || !data.pages[0].productList.length) &&
+          <div className='flex justify-center text-main-weighted font-bold text-xl py-5'>
+            No Products
+          </div>
+
+        }
         <div className="product-list__body flex flex-wrap gap-x-0 md:gap-x-6 gap-y-9">
           {isSuccess &&
             data.pages.map((page) =>

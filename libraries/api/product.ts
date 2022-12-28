@@ -51,10 +51,7 @@ const getMyFavorites = async (query: Pager): Promise<ProductDetailModel[]> => {
   return Api.get('/user/liked-products', query);
 };
 const getMyProducts = async (query: Pager): Promise<ProductDetailModel[]> => {
-  /**
-   * TODO integrate api
-   */
-  return MockProducts;
+  return Api.get('/user/listed-products', query);
 };
 
 export const ProductApi = {

@@ -216,11 +216,8 @@ export const useOrderConfirm = () => {
   );
 };
 
-
 export const useGetChatRoom = (roomId: ID) =>
-  useQuery(['getRoom', roomId], () =>
-    ChatApi.getRoom(roomId)
-  )
+  useQuery(['getRoom', roomId], () => ChatApi.getRoom(roomId));
 
 const DEFAULT_PAGE_SIZE = 1000;
 export const useGetUnreadRooms = () => {
