@@ -55,6 +55,9 @@ const Header = () => {
             </div>
             {/* ----- E Search box ------*/}
           </div>
+          <div className='flex lg:hidden items-center ml-2'>
+            {!signedIn && <ConnectWalletButton />}
+          </div>
           <div className="header__action-group hidden lg:flex items-center gap-4">
             {signedIn ? (
               <>

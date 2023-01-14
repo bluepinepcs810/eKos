@@ -48,12 +48,21 @@ const ConnectWalletButton: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
         disabled={connected}
       >
         <ConnectWalletIcon />
-        {connected ? 'Signing ...' : 'Connect Wallet'}
+        {connected ? 'Signing ...' :
+          <>
+            <div className='hidden lg:flex'>
+              Connect Wallet
+            </div>
+            <div className='flex lg:hidden'>
+              Wallet
+            </div>
+          </>
+        }
       </button>
       <AnimatePresence>
         {active && (
           <motion.div
-            className="connect-wallet-panel absolute right-0 w-[450px] pt-6 pb-11 top-12 rounded-md bg-main z-50"
+            className="connect-wallet-panel fixed lg:absolute right-0 w-full lg:w-[450px] pt-6 pb-11 top-12 rounded-md bg-main z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
