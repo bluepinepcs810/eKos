@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { useCallback, useContext } from 'react';
 import ArrowDownIcon from '../../assets/icon/arrow-down.svg';
 import CATEGORIES, {
   findCategoryItem,
@@ -35,7 +35,7 @@ const FilterCategoryMenu = () => {
   return (
     <div
       className={
-        'filter-category-menu relative group ' +
+        'filter-menu filter-category-menu relative group ' +
         (activeFilterSection === ProductFilterSections.CATEGORY ? 'active' : '')
       }
     >

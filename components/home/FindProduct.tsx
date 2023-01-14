@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import MagnifierWhiteIcon from '../../assets/icon/magnifier-white.svg';
 import CityItem from './snippet/CityItem';
 
@@ -14,7 +13,7 @@ const FindProduct = () => {
         </h2>
         <div className="search-city flex justify-center items-center gap-x-1 mb-7">
           <input
-            className="search-city-input w-[300px] py-2 px-5 rounded-full border border-main-thick"
+            className="bg-white text-black search-city-input w-[300px] py-2 px-5 rounded-full border border-main-thick"
             placeholder="Find your city"
           />
           <button className="rounded-full w-[40px] h-[40px] bg-main-thick flex justify-center items-center">

@@ -62,7 +62,7 @@ const FilterLocationMenu = () => {
   return (
     <div
       className={
-        'filter-category-menu relative group ' +
+        'filter-menu filter-category-menu relative group ' +
         (activeFilterSection === ProductFilterSections.LOCATION ? 'active' : '')
       }
     >

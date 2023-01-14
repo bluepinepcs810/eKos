@@ -119,7 +119,7 @@ const Footer = () => {
           <div className="footer__subscribe w-full md:w-1/4">
             <div className="footer__subscribe__email flex gap-x-2">
               <input
-                className="w-full rounded-full px-3.5 py-3"
+                className="w-full bg-white text-black rounded-full px-3.5 py-3"
                 placeholder="Enter your email address."
               />
               <button className="border border-main-light rounded-full px-3.5 py-3 text-main-light">

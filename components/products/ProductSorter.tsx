@@ -1,9 +1,10 @@
-import { useCallback } from 'react';
-import { ProductSorterEnum } from './context/filter-context';
+import { useCallback, useEffect, useState } from 'react';
+import { ProductSorterEnum, productSorterToString } from './context/filter-context';
 import useProductFilter from './hooks/useProductFilter';
 
 const ProductSorter = () => {
   const { query, handleApply } = useProductFilter();
+  const [active, setActive] = useState(false);
 
   const handleAscClick = useCallback(() => {
     handleApply({ dir: 'asc' });
@@ -16,12 +17,28 @@ const ProductSorter = () => {
   const handleSortChange = useCallback(
     (value: ProductSorterEnum) => {
       handleApply({ sort: value });
+      setActive(false);
     },
     [handleApply]
   );
 
+
+  useEffect(() => {
+    const outsideClick = (e: any) => {
+      const sorterWrapper = e.target.closest('.sorter-wrapper');
+      if (sorterWrapper) return;
+      setActive(false);
+    };
+    document.addEventListener('touchend', outsideClick);
+    document.addEventListener('click', outsideClick);
+    return () => {
+      document.removeEventListener('touchend', outsideClick);
+      document.removeEventListener('click', outsideClick);
+    }
+  }, [])
+
   return (
-    <div className="flex gap-x-2 flex-nowrap">
+    <div className="flex gap-x-2 flex-nowrap items-center">
       <div className="flex flex-col gap-y-1">
         <button className="" onClick={handleAscClick}>
           <svg
@@ -55,21 +72,33 @@ const ProductSorter = () => {
       <div className="text-main-weighted items-center">
         <div className="whitespace-nowrap">Sort by:</div>
       </div>
-      <div>
-        <select
-          name="product_sort"
-          className="rounded-md bg-main text-main-dark appearance-none"
-          onChange={(e) =>
-            handleSortChange(e.target.value as ProductSorterEnum)
-          }
-          value={query.sort}
-        >
-          <option value={ProductSorterEnum.PRICE}>Price</option>
-          <option value={ProductSorterEnum.CREATED_AT}>Date</option>
-          <option value={ProductSorterEnum.NAME}>Name</option>
-          <option value={ProductSorterEnum.CATEGORY}>Category</option>
-          <option value={ProductSorterEnum.CONDITION}>Condition</option>
-        </select>
+      <div className={'sorter-wrapper group relative ' + (active ? 'active' : '')}>
+        <div className='bg-main text-main-dark p-2 cursor-pointer' onClick={() => setActive(old => !old)}>
+          {productSorterToString(query.sort || ProductSorterEnum.PRICE)}
+        </div>
+        <div className='product-sorter-panel hidden group-[.active]:block fixed left-3 lg:absolute lg:right-0 bg-main-light rounded-lg z-10 min-w-[300px]'>
+          <div className='p-4 text-main-weighted border-b-2 border-third-main'>
+            Sort by
+          </div>
+          <div className='px-4 py-2.5 border-b-2 border-third-main text-main-dark cursor-pointer hover:bg-main' onClick={() => handleSortChange(ProductSorterEnum.PRICE)}>
+            {productSorterToString(ProductSorterEnum.PRICE)}
+          </div>
+          <div className='px-4 py-2.5 border-b-2 border-third-main text-main-dark cursor-pointer hover:bg-main' onClick={() => handleSortChange(ProductSorterEnum.CONDITION)}>
+            {productSorterToString(ProductSorterEnum.CONDITION)}
+          </div>
+          <div className='px-4 py-2.5 border-b-2 border-third-main text-main-dark cursor-pointer hover:bg-main' onClick={() => handleSortChange(ProductSorterEnum.CATEGORY)}>
+            {productSorterToString(ProductSorterEnum.CATEGORY)}
+          </div>
+          <div className='px-4 py-2.5 border-b-2 border-third-main text-main-dark cursor-pointer hover:bg-main' onClick={() => handleSortChange(ProductSorterEnum.NAME)}>
+            {productSorterToString(ProductSorterEnum.NAME)}
+          </div>
+          <div className='px-4 py-2.5 border-b-2 border-third-main text-main-dark cursor-pointer hover:bg-main' onClick={() => handleSortChange(ProductSorterEnum.CREATED_AT)}>
+            {productSorterToString(ProductSorterEnum.CREATED_AT)}
+          </div>
+          <div className='p-4 flex justify-end text-main-dark'>
+            <button className='px-4 py-2 hover:bg-main rounded-lg' onClick={() => setActive(false)}>Cancel</button>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -69,7 +69,7 @@ const FilterItemConditionMenu = () => {
   return (
     <div
       className={
-        'filter-item-condition-menu relative group ' +
+        'filter-menu filter-item-condition-menu relative group ' +
         (activeFilterSection === ProductFilterSections.ITEM_CONDITION
           ? 'active'
           : '')

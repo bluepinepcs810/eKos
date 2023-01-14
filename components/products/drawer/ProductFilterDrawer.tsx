@@ -82,7 +82,7 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
                     </div>
                     <div>
                       <input
-                        className="w-full border border-third-main py-2 px-2.5"
+                        className="bg-white text-black w-full border border-third-main py-2 px-2.5"
                         placeholder="0"
                         type="number"
                         value={query.priceFrom}
@@ -102,7 +102,7 @@ const ProductFilterDrawer: FC<ProductFilterDrawerProps> = ({ onClose }) => {
                     </div>
                     <div>
                       <input
-                        className="w-full border border-third-main py-2 px-2.5"
+                        className="bg-white text-black w-full border border-third-main py-2 px-2.5"
                         placeholder="No limit"
                         type="number"
                         value={query.priceTo}

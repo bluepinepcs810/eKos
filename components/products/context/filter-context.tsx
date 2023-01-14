@@ -25,7 +25,20 @@ export enum ProductSorterEnum {
   NAME = 'name',
   CREATED_AT = 'createdAt',
 }
-
+export const productSorterToString = (value: ProductSorterEnum) => {
+  switch (value) {
+    case ProductSorterEnum.PRICE:
+      return 'Price';
+    case ProductSorterEnum.CONDITION:
+      return 'Condition';
+    case ProductSorterEnum.CATEGORY:
+      return 'Category';
+    case ProductSorterEnum.NAME:
+      return 'Name';
+    case ProductSorterEnum.CREATED_AT:
+      return 'Latest';
+  }
+}
 export type ProductSorterType = {
   sort?: ProductSorterEnum;
   dir?: 'asc' | 'desc';

@@ -94,7 +94,7 @@ const ChatBox = () => {
               </div>
               <div className="flex-grow flex items-end mr-1">
                 <input
-                  className="w-full bg-main-light"
+                  className="text-black w-full bg-main-light"
                   placeholder="Write a message..."
                   // rows={1}
                   value={msg}

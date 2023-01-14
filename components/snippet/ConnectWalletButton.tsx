@@ -23,6 +23,19 @@ const ConnectWalletButton: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
     }
   }, [active]);
 
+  useEffect(() => {
+    const outsideHandler = (e: any) => {
+      const connectBtn = e.target.closest('#connect-button');
+      if (!connectBtn) {
+        setActive(false);
+      }
+    }
+    document.addEventListener('click', outsideHandler);
+    return () => {
+      document.removeEventListener('click', outsideHandler);
+    }
+  }, [])
+
   return (
     <div className={'connect-wallet-wrapper relative'} id="connect-button">
       <button
@@ -40,7 +53,7 @@ const ConnectWalletButton: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (
       <AnimatePresence>
         {active && (
           <motion.div
-            className="connect-wallet-panel absolute w-[450px] pt-6 pb-11 top-12 rounded-md bg-main z-50"
+            className="connect-wallet-panel absolute right-0 w-[450px] pt-6 pb-11 top-12 rounded-md bg-main z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
