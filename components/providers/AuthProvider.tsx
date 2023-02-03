@@ -1,4 +1,4 @@
-import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useGetNonce, useSignIn } from '../../hooks/api.hooks';
 import LocalStorage from '../../libraries/utils/helpers/local-storage';
@@ -6,6 +6,7 @@ import { useStoreActions, useStoreState } from '../../store/types';
 import { showError, showSuccess } from '../../libraries/utils/toast';
 import AuthApi from '../../libraries/api/auth';
 import { useRouter } from 'next/router';
+import WalletInitiator from '../home/WalletInitiator';
 
 const GUARDED = ['/products/create', '/profile/'];
 
@@ -148,7 +149,12 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }
   }, [connected, getMe]);
 
-  return <>{children}</>;
+  return (
+    <>
+      {!signedIn && <WalletInitiator />}
+      {signedIn && children}
+    </>
+  );
 };
 
 export default AuthProvider;

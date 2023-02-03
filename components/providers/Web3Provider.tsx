@@ -16,6 +16,7 @@ import { clusterApiUrl } from '@solana/web3.js';
 import { getAdapterNetwork } from '../../libraries/utils/helpers/wallet';
 
 import { PropsWithChildren, useMemo } from 'react';
+import WalletInitiator from '../home/WalletInitiator';
 
 const Web3Provider: React.FC<PropsWithChildren> = ({ children }) => {
   const network = useMemo(() => getAdapterNetwork(), []);
