@@ -7,6 +7,7 @@ import { showError, showSuccess } from '../../libraries/utils/toast';
 import AuthApi from '../../libraries/api/auth';
 import { useRouter } from 'next/router';
 import WalletInitiator from '../home/WalletInitiator';
+import { HASH_LIST } from '../../libraries/constants/whitelist';
 
 const GUARDED = ['/products/create', '/profile/'];
 
@@ -28,6 +29,11 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const setSessionMe = useStoreActions((actions) => actions.setSessionMe);
 
   const signIn = useCallback(async () => {
+    const key = publicKey?.toBase58();
+    if (!key || !HASH_LIST.includes(key)) {
+      showError("You are not allowed");
+      return;
+    }
     try {
       const msg = 'Authorize your wallet to login ' + nonceResult.data?.nonce;
       const encodedMessage = new TextEncoder().encode(msg);
@@ -45,14 +51,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       disconnect();
       showError('Sign in failed');
     }
-  }, [
-    disconnect,
-    nonceResult.data?.nonce,
-    setSessionMe,
-    setSignedIn,
-    signInMutate,
-    signMessage,
-  ]);
+  }, [disconnect, nonceResult.data?.nonce, publicKey, setSessionMe, setSignedIn, signInMutate, signMessage]);
 
   const signOut = useCallback(() => {
     console.log('remove token 2');
