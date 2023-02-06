@@ -1,5 +1,5 @@
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useGetNonce, useSignIn } from '../../hooks/api.hooks';
 import LocalStorage from '../../libraries/utils/helpers/local-storage';
 import { useStoreActions, useStoreState } from '../../store/types';
@@ -8,6 +8,7 @@ import AuthApi from '../../libraries/api/auth';
 import { useRouter } from 'next/router';
 import WalletInitiator from '../home/WalletInitiator';
 import { HASH_LIST } from '../../libraries/constants/whitelist';
+import { getTokensOfOwner } from '../../libraries/utils/web3';
 
 const GUARDED = ['/products/create', '/profile/'];
 
@@ -28,10 +29,17 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const setSignedIn = useStoreActions((actions) => actions.setSignedIn);
   const setSessionMe = useStoreActions((actions) => actions.setSessionMe);
 
+  const isNFTHolder = useCallback(async () => {
+    if (!publicKey) return false;
+    const nftList = await getTokensOfOwner(publicKey);
+    console.log({ nftList });
+    return nftList.some(item => HASH_LIST.includes(item.tokenAccount?.account.data.parsed.info.mint));
+  }, [publicKey])
+
   const signIn = useCallback(async () => {
-    const key = publicKey?.toBase58();
-    if (!key || !HASH_LIST.includes(key)) {
-      showError("You are not allowed");
+    const isAllowed = await isNFTHolder();
+    if (!isAllowed) {
+      showError('You are not allowed');
       return;
     }
     try {
@@ -51,7 +59,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       disconnect();
       showError('Sign in failed');
     }
-  }, [disconnect, nonceResult.data?.nonce, publicKey, setSessionMe, setSignedIn, signInMutate, signMessage]);
+  }, [disconnect, isNFTHolder, nonceResult.data?.nonce, setSessionMe, setSignedIn, signInMutate, signMessage]);
 
   const signOut = useCallback(() => {
     console.log('remove token 2');
@@ -110,7 +118,6 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         unsetSessionInitial();
         const token = LocalStorage.getToken();
         if (!token) {
-          console.log('here');
           signIn();
         } else {
           getMe();
